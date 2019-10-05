@@ -9,17 +9,14 @@ class DailyQuota extends React.Component {
   renderTable = () => {
     return this.state.data.map((eachEmployee, key) => {
       return (
-        <tr key={key}> 
-          <th scope="row">{key + 7}h-{key + 8}h </th>
+        <tr key={key}>
+          <th scope="row">
+            {key + 7}h-{key + 8}h{" "}
+          </th>
           <td>{eachEmployee.funcionario}</td>
           <td>{eachEmployee.metaDiaria}</td>
-          <td>{eachEmployee.setor}</td>
+          <td>{eachEmployee.setor}</td> 
         </tr>
-        // <ul key={key}>
-        //   <li>Funcionario:{eachEmployee.funcionario}</li>
-        //   <li>Meta Diaria:{eachEmployee.metaDiaria}</li>
-        //   <li>Setor:{eachEmployee.setor}</li>
-        // </ul>
       );
     });
   };
