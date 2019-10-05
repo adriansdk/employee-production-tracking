@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Bootstrap from 'bootstrap'
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-import './App.css';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Performance from './components/Performance';
 import EmployeesList from './components/EmployeesList';
 import Navbar from './components/Navbar';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 class App extends React.Component {
   state = {
@@ -17,8 +17,9 @@ class App extends React.Component {
       <div className="App">
         <Navbar />
         <Switch>
-          <Route exact path="/">ayy</Route>
-          <Route exact path="/whatever">ayy2</Route>
+          <Route exact path="/"></Route>
+          <Route exact path="/employee-list" component={EmployeesList}></Route>
+          <Route exact path="/performance" component={Performance}></Route>
         </Switch>
       </div>
     );

@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { Router, Switch } from "react-router";
 import * as serviceWorker from './serviceWorker';
-import EmployeesList from './components/EmployeesList';
+import { BrowserRouter } from "react-router-dom";
+
 
 ReactDOM.render(
-    <Router path="/" component={EmployeesList}>
+    <BrowserRouter>
         <App />
-    </Router>
+    </BrowserRouter>
     , document.getElementById('root')
 );
 

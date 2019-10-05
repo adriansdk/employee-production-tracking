@@ -1,0 +1,34 @@
+[
+  {
+    "funcionario": "Allex",
+    "metaDiaria": 400,
+    "setor": "Produção",
+    "tipo": "Peças",
+    "horaEmHora": 0,
+    "totalDiario": 0
+  },
+  {
+    "funcionario": "Adrian",
+    "metaDiaria": 400,
+    "setor": "Recebimento",
+    "tipo": "Peças",
+    "horaEmHora": 0,
+    "totalDiario": 0
+  },
+  {
+    "funcionario": "Junior",
+    "metaDiaria": 400,
+    "setor": "Entrega",
+    "tipo": "Calçados",
+    "horaEmHora": 0,
+    "totalDiario": 0
+  },
+  {
+    "funcionario": "Marcela",
+    "metaDiaria": 400,
+    "setor": "Recebimento",
+    "tipo": "Blusas",
+    "horaEmHora": 0,
+    "totalDiario": 0
+  }
+]
