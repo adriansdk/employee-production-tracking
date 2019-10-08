@@ -25,7 +25,6 @@ class DailyQuota extends React.Component {
     return (
       <div className="daily-quota-tracker">
         <div className="container">
-          deploy
           <table className="table">
             <thead>
               <th scope="col">Funcionario</th>
