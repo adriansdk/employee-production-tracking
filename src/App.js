@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Performance from './components/Performance';
-import EmployeesList from './components/EmployeesList';
+import Performance from './components/pages/Performance';
+import EmployeesList from './components/pages/EmployeesList';
 import Navbar from './components/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';

@@ -15,7 +15,7 @@ class DailyQuota extends React.Component {
           </th>
           <td>{eachEmployee.funcionario}</td>
           <td>{eachEmployee.metaDiaria}</td>
-          <td>{eachEmployee.setor}</td> 
+          <td>{eachEmployee.setor}</td>
         </tr>
       );
     });
@@ -25,7 +25,7 @@ class DailyQuota extends React.Component {
     return (
       <div className="daily-quota-tracker">
         <div className="container">
-            deploy
+          deploy
           <table className="table">
             <thead>
               <th scope="col">Funcionario</th>

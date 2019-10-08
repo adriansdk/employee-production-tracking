@@ -1,15 +1,56 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import "@trendmicro/react-sidenav/dist/react-sidenav.css";
+import SideNav, {
+  Toggle,
+  Nav,
+  NavItem,
+  NavIcon,
+  NavText
+} from "@trendmicro/react-sidenav";
 
 class Navbar extends React.Component {
   state = {
-    someKey: "",
+    someKey: ""
   };
 
   render() {
     return (
       <div className="navbar-container">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <SideNav
+          onSelect={selected => {
+            // Add your code here
+          }}
+        >
+          <SideNav.Toggle />
+          <SideNav.Nav defaultSelected="home">
+            <NavItem eventKey="home">
+              <NavIcon>
+                <i
+                  className="fa fa-fw fa-home"
+                  style={{ fontSize: "1.75em" }}
+                />
+              </NavIcon>
+              <NavText>Home</NavText>
+            </NavItem>
+            <NavItem eventKey="charts">
+              <NavIcon>
+                <i
+                  className="fa fa-fw fa-line-chart"
+                  style={{ fontSize: "1.75em" }}
+                />
+              </NavIcon>
+              <NavText>Charts</NavText>
+              <NavItem eventKey="charts/linechart">
+                <NavText>Line Chart</NavText>
+              </NavItem>
+              <NavItem eventKey="charts/barchart">
+                <NavText>Bar Chart</NavText>
+              </NavItem>
+            </NavItem>
+          </SideNav.Nav>
+        </SideNav>
+        {/* <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Link className="navbar-brand" to="/">
             Home
           </Link>
@@ -34,7 +75,7 @@ class Navbar extends React.Component {
               </Link>
             </ul>
           </div>
-        </nav>
+        </nav> */}
       </div>
     );
   }
