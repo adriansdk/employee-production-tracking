@@ -1,5 +1,13 @@
 [
   {
+    "funcionario": "Qiwei",
+    "metaDiaria": 400,
+    "setor": "Recebimento",
+    "tipo": "Blusas",
+    "horas": [20, 22, 35, 65, 56, 70, 30, 22, 11, 24],
+    "totalDiario": 0
+  },
+  {
     "funcionario": "Allex",
     "metaDiaria": 400,
     "setor": "Produção",

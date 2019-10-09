@@ -74,28 +74,29 @@ class DailyQuota extends React.Component {
         <tr key={key}>
           <th>{eachEmployee.funcionario}</th>
           {this.renderHourlyTotal(key)}
-          <td>Total</td>
-          <td>Média</td>
+          <td>{this.calculateTotal(key)}</td>
+          <td>Media</td>
         </tr>
       );
     });
   };
 
-  renderHourlyTotal = (index) => {
+  renderHourlyTotal = index => {
     let hours = this.state.seed[index].horas;
     return hours.map((eachHour, key) => {
       index++;
-      return <td key={key}>{eachHour}</td>
+      return <td key={key}>{eachHour}</td>;
     });
   };
 
-  calculateTotal = () => {
-    return this.state.seed.map(eachEmployee => {
-      for (var i = 0; i < eachEmployee.horas.length; i++) {
-        let num1 = eachEmployee.horas[i];
-        let num2 = eachEmployee;
-      }
-    });
+  reducer = (total, num) => {
+    return total + num;
+  };
+
+  calculateTotal = index => {
+    let hours = this.state.seed[index].horas;
+    let total = hours.reduce(this.reducer);
+    return total;
   };
 
   render() {
