@@ -1,6 +1,7 @@
+//DEPENDENCIES
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
+
 //PAGES COMPONENT
 import Performance from './components/pages/Performance';
 import EmployeesList from './components/pages/EmployeesList';

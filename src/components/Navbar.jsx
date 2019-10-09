@@ -1,10 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 
 import SideNav, {
-  Toggle,
-  Nav,
   NavItem,
   NavIcon,
   NavText

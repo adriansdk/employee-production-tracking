@@ -56,9 +56,12 @@ class DailyQuota extends React.Component {
   };
 
   renderHours = () => {
-    return this.state.seed.map((eachEmployee, key) => {
+    let index = 0;
+    let hours = this.state.seed[index].horas;
+    return hours.map((eachHour, key) => {
+      index++;
       return (
-        <th scope="row">
+        <th key={key}>
           {key + 7}h-{key + 8}h{" "}
         </th>
       );
@@ -69,22 +72,26 @@ class DailyQuota extends React.Component {
     return this.state.seed.map((eachEmployee, key) => {
       return (
         <tr key={key}>
-          <th scope="row">
-            {key + 7}h-{key + 8}h{" "}
-          </th>
           <td>{eachEmployee.funcionario}</td>
           <td>{eachEmployee.horas.oito}</td>
           <td>{eachEmployee.metaDiaria}</td>
-          <td>{eachEmployee.setor}</td>
         </tr>
       );
     });
   };
 
+  renderHourlyTotal = () => {
+    let index = 0;
+    let hours = this.state.seed[index].horas;
+    // return hours.map((eachHour, key) => {
+    // index++;
+    // });
+  };
+
   calculateTotal = () => {
     return this.state.seed.map(eachEmployee => {
       for (var i = 0; i < eachEmployee.horas.length; i++) {
-        let num1 = eachEmployee;
+        let num1 = eachEmployee.horas[i];
         let num2 = eachEmployee;
       }
     });
@@ -96,10 +103,15 @@ class DailyQuota extends React.Component {
         <div className="container">
           <table style={{ textAlign: "center" }} className="table">
             <thead>
-              <th scope="col">Funcionario</th>
-              <th scope="col"></th>
+              <tr>
+                <th scope="col">Funcionario</th>
+                {this.renderHours()}
+              </tr>
             </thead>
-            {this.renderTable()}
+            <tbody>
+              {this.renderTable()}
+              {/* {this.renderHourlyTotal()} */}
+            </tbody>
             <tfoot>
               <tr>
                 <td></td>
