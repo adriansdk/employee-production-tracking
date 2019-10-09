@@ -26,7 +26,7 @@ class Navbar extends React.Component {
             backgroundColor: "black"
           }}
         >
-          <SideNav.Toggle />
+          <SideNav.Toggle onClick={this.props.width}/>
           <SideNav.Nav defaultSelected="home">
             <NavItem eventKey="home">
               <NavIcon>
