@@ -16,7 +16,7 @@
 
 ### Projeto desenvolvido para A2B BR.
 
-**Project was developed was developed for A2B BR, it aims to facilitate the visualization of company sectors and individual employees productivity, presenting data in an efficient and interactive way. **
+**Project was developed was developed for A2B BR, it aims to facilitate the visualization of company sectors and individual employees productivity, presenting data in an efficient and interactive way.**
 
 **Developer**: Adrian Visnieski.
 
