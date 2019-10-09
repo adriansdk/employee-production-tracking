@@ -7,7 +7,7 @@ class Performance extends React.Component {
   render() {
     return (
       <div className="performance">
-        <DailyQuota />
+        <DailyQuota/>
       </div>
     );
   }
