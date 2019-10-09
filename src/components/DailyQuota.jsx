@@ -4,9 +4,18 @@ var BarChart = require("react-chartjs").Bar;
 
 class DailyQuota extends React.Component {
   state = {
+    total: undefined,
     seed: Data,
     data: {
-      labels: ["Adrian", "Marcelly", "Julie", "Allex", "Nissandro", "Ronaldinho Gaúcho", "Josue"],
+      labels: [
+        "Adrian",
+        "Marcelly",
+        "Julie",
+        "Allex",
+        "Nissandro",
+        "Ronaldinho Gaúcho",
+        "Josue"
+      ],
       datasets: [
         {
           label: "# of Votes",
@@ -43,7 +52,17 @@ class DailyQuota extends React.Component {
           }
         ]
       }
-    },
+    }
+  };
+
+  renderHours = () => {
+    return this.state.seed.map((eachEmployee, key) => {
+      return (
+        <th scope="row">
+          {key + 7}h-{key + 8}h{" "}
+        </th>
+      );
+    });
   };
 
   renderTable = () => {
@@ -54,6 +73,7 @@ class DailyQuota extends React.Component {
             {key + 7}h-{key + 8}h{" "}
           </th>
           <td>{eachEmployee.funcionario}</td>
+          <td>{eachEmployee.horas.oito}</td>
           <td>{eachEmployee.metaDiaria}</td>
           <td>{eachEmployee.setor}</td>
         </tr>
@@ -61,18 +81,33 @@ class DailyQuota extends React.Component {
     });
   };
 
+  calculateTotal = () => {
+    return this.state.seed.map(eachEmployee => {
+      for (var i = 0; i < eachEmployee.horas.length; i++) {
+        let num1 = eachEmployee;
+        let num2 = eachEmployee;
+      }
+    });
+  };
+
   render() {
     return (
       <div className="daily-quota-tracker">
         <div className="container">
-          <table className="table">
+          <table style={{ textAlign: "center" }} className="table">
             <thead>
               <th scope="col">Funcionario</th>
               <th scope="col"></th>
-              <th scope="col">Meta Diaria</th>
-              <th scope="col">Setor</th>
             </thead>
             {this.renderTable()}
+            <tfoot>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{this.state.total}</td>
+              </tr>
+            </tfoot>
           </table>
           <BarChart
             data={this.state.data}
