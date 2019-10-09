@@ -20,7 +20,7 @@
     "metaDiaria": 400,
     "setor": "Entrega",
     "tipo": "Calçados",
-    "horas": [56, 67, 30, 65, 56, 30, 65, 22, 30, 65],
+    "horas": [10, 30, 20, 43, 80, 12, 23, 27, 40, 33],
     "totalDiario": 0
   },
   {
@@ -28,7 +28,15 @@
     "metaDiaria": 400,
     "setor": "Recebimento",
     "tipo": "Blusas",
-    "horas": [56, 67, 30, 65, 56, 30, 65, 22, 30, 65],
+    "horas": [20, 22, 35, 65, 56, 70, 30, 22, 11, 24],
+    "totalDiario": 0
+  },
+  {
+    "funcionario": "Chris",
+    "metaDiaria": 400,
+    "setor": "Recebimento",
+    "tipo": "Blusas",
+    "horas": [20, 22, 35, 65, 56, 70, 30, 22, 11, 24],
     "totalDiario": 0
   }
 ]
