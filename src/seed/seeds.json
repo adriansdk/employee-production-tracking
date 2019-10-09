@@ -1,22 +1,26 @@
 [
   {
+    "funcionario": "Junior",
+    "metaDiaria": 400,
+    "setor": "Entrega",
+    "tipo": "Calçados",
+    "horas": [10, 30, 20, 43, 80, 12, 23, 27, 40, 33],
+    "totalDiario": 0
+  },
+  {
+    "funcionario": "Qiwei",
+    "metaDiaria": 400,
+    "setor": "Recebimento",
+    "tipo": "Blusas",
+    "horas": [20, 22, 35, 65, 56, 70, 30, 22, 11, 24],
+    "totalDiario": 0
+  },
+  {
     "funcionario": "Allex",
     "metaDiaria": 400,
     "setor": "Produção",
     "tipo": "Peças",
-    "horas": [{
-      "8": 0,
-      "9": 0,
-      "10": 0,
-      "11": 0,
-      "12": 0,
-      "13": 0,
-      "14": 0,
-      "15": 0,
-      "16": 0,
-      "17": 0,
-      "18": 0
-    }],
+    "horas": [70, 96, 25, 17, 70, 25, 17, 4, 25, 17],
     "totalDiario": 0
   },
   {
@@ -24,39 +28,7 @@
     "metaDiaria": 400,
     "setor": "Recebimento",
     "tipo": "Peças",
-    "horas": [{
-      "8": 0,
-      "9": 0,
-      "10": 0,
-      "11": 0,
-      "12": 0,
-      "13": 0,
-      "14": 0,
-      "15": 0,
-      "16": 0,
-      "17": 0,
-      "18": 0
-    }],
-    "totalDiario": 0
-  },
-  {
-    "funcionario": "Junior",
-    "metaDiaria": 400,
-    "setor": "Entrega",
-    "tipo": "Calçados",
-    "horas": [{
-      "8": 0,
-      "9": 0,
-      "10": 0,
-      "11": 0,
-      "12": 0,
-      "13": 0,
-      "14": 0,
-      "15": 0,
-      "16": 0,
-      "17": 0,
-      "18": 0
-    }],
+    "horas": [56, 67, 30, 65, 56, 30, 65, 22, 30, 65],
     "totalDiario": 0
   },
   {
@@ -64,19 +36,31 @@
     "metaDiaria": 400,
     "setor": "Recebimento",
     "tipo": "Blusas",
-    "horas": [{
-      "8": 0,
-      "9": 0,
-      "10": 0,
-      "11": 0,
-      "12": 0,
-      "13": 0,
-      "14": 0,
-      "15": 0,
-      "16": 0,
-      "17": 0,
-      "18": 0
-    }],
+    "horas": [20, 22, 35, 65, 56, 70, 30, 22, 11, 24],
+    "totalDiario": 0
+  },
+  {
+    "funcionario": "Chris",
+    "metaDiaria": 400,
+    "setor": "Recebimento",
+    "tipo": "Blusas",
+    "horas": [20, 22, 35, 65, 56, 70, 30, 22, 11, 24],
+    "totalDiario": 0
+  },
+  {
+    "funcionario": "Alejandro",
+    "metaDiaria": 400,
+    "setor": "Recebimento",
+    "tipo": "Blusas",
+    "horas": [20, 222, 75, 65, 56, 70, 30, 22, 11, 24],
+    "totalDiario": 0
+  },
+  {
+    "funcionario": "allex",
+    "metaDiaria": 400,
+    "setor": "Recebimento",
+    "tipo": "Blusas",
+    "horas": [20, 123, 75, 124, 56, 32, 30, 22, 11, 24],
     "totalDiario": 0
   }
 ]

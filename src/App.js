@@ -1,6 +1,7 @@
+//DEPENDENCIES
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
+
 //PAGES COMPONENT
 import Performance from './components/pages/Performance';
 import EmployeesList from './components/pages/EmployeesList';
@@ -14,17 +15,30 @@ import './App.scss';
 
 
 
-
 class App extends React.Component {
   state = {
+    containerWidth: "95%",
+    activated: false,
+  }
 
+  setContainerWidth = () => {
+    if(!this.state.activated){
+      this.setState({
+        containerWidth: "85%", activated: !this.state.activated
+      })
+    }
+    if(this.state.activated){
+      this.setState({
+        containerWidth: "95%", activated: !this.state.activated
+      })
+    }
   }
 
   render() {
     return (
       <div className="App">
-        <Navbar className="col-1"/>
-        <div className="container-fluid col" style={{width:"95%", float:"right"}}>
+        <Navbar className="col-1" width={this.setContainerWidth}/>
+        <div className="container-fluid col" style={{ width: this.state.containerWidth, float: "right" }}>
           <Switch>
             <Route exact path="/" component={Home}></Route>
             <Route exact path="/employee-list" component={EmployeesList}></Route>

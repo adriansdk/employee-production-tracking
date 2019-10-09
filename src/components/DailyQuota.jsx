@@ -1,12 +1,22 @@
 import React from "react";
 import Data from "../seed/seeds.json";
+import './styles/DailyQuota.scss'
 var BarChart = require("react-chartjs").Bar;
 
 class DailyQuota extends React.Component {
   state = {
+    total: undefined,
     seed: Data,
     data: {
-      labels: ["Adrian", "Marcelly", "Julie", "Allex", "Nissandro", "Ronaldinho Gaúcho", "Josue"],
+      labels: [
+        "Adrian",
+        "Marcelly",
+        "Julie",
+        "Allex",
+        "Nissandro",
+        "Ronaldinho Gaúcho",
+        "Josue"
+      ],
       datasets: [
         {
           label: "# of Votes",
@@ -43,21 +53,73 @@ class DailyQuota extends React.Component {
           }
         ]
       }
-    },
+    }
+  };
+
+
+  showStuff = (stuff, ee) =>{
+    console.log(stuff, ee)
+  }
+
+  renderHours = () => {
+    let index = 0;
+    let hours = this.state.seed[index].horas;
+    return hours.map((eachHour, key) => {
+      index++;
+      return (
+        <th key={key}>
+          {key + 7}h-{key + 8}h{" "}
+        </th>
+      );
+    });
   };
 
   renderTable = () => {
     return this.state.seed.map((eachEmployee, key) => {
       return (
-        <tr key={key}>
-          <th scope="row">
-            {key + 7}h-{key + 8}h{" "}
-          </th>
-          <td>{eachEmployee.funcionario}</td>
-          <td>{eachEmployee.metaDiaria}</td>
-          <td>{eachEmployee.setor}</td>
+        <tr key={key} >
+          <th>{eachEmployee.funcionario}</th>
+          {this.renderHourlyTotal(key, eachEmployee)}
+          <td>{this.calculateTotal(key)}</td>
+          <td>{this.calculateAverage(key)}</td>
+          <td>{this.getTeamTotal(key)}</td>
         </tr>
       );
+    });
+  };
+
+  renderHourlyTotal = (index, eachEmployee) => {
+    let hours = this.state.seed[index].horas;
+    console.log(this.state)
+    return hours.map((eachHour, key) => {
+      index++;
+      return <td key={key} onMouseOver={(e)=>this.showStuff(eachHour, eachEmployee)}>{eachHour}</td>;
+    });
+  };
+
+  reducer = (total, num) => {
+    return total + num;
+  };
+
+  calculateAverage = index => {
+    let hourlyProduction = this.state.seed[index].horas;
+    let total = hourlyProduction.reduce(this.reducer);
+    let average = total / hourlyProduction.length;
+    return average;
+  };
+
+  calculateTotal = index => {
+    let hourlyProduction = this.state.seed[index].horas;
+    let total = hourlyProduction.reduce(this.reducer);
+    return total;
+  };
+
+  getTeamTotal = index => {
+    let production = this.state.seed[index].horas;
+    let firstValue;
+    production.map((test, i) => {
+      let first = test;
+      console.log(first);
     });
   };
 
@@ -65,14 +127,25 @@ class DailyQuota extends React.Component {
     return (
       <div className="daily-quota-tracker">
         <div className="container">
-          <table className="table">
+          <table style={{ textAlign: "center" }} className="table">
             <thead>
-              <th scope="col">Funcionario</th>
-              <th scope="col"></th>
-              <th scope="col">Meta Diaria</th>
-              <th scope="col">Setor</th>
+              <tr>
+                <th scope="col">Funcionario</th>
+                {this.renderHours()}
+                <th>Total:</th>
+                <th>Média Hora:</th>
+              </tr>
             </thead>
-            {this.renderTable()}
+            <tbody>
+              {this.renderTable()}
+              {/* {this.renderHourlyTotal()} */}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>Total</th>
+                {/* {this.getTeamTotal()} */}
+              </tr>
+            </tfoot>
           </table>
           <BarChart
             data={this.state.data}

@@ -1,10 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 
 import SideNav, {
-  Toggle,
-  Nav,
   NavItem,
   NavIcon,
   NavText
@@ -28,7 +26,7 @@ class Navbar extends React.Component {
             backgroundColor: "black"
           }}
         >
-          <SideNav.Toggle />
+          <SideNav.Toggle onClick={this.props.width}/>
           <SideNav.Nav defaultSelected="home">
             <NavItem eventKey="home">
               <NavIcon>
