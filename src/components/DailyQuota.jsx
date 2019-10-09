@@ -75,7 +75,8 @@ class DailyQuota extends React.Component {
           <th>{eachEmployee.funcionario}</th>
           {this.renderHourlyTotal(key)}
           <td>{this.calculateTotal(key)}</td>
-          <td>Media</td>
+          <td>{this.calculateAverage(key)}</td>
+          <td>{this.getTeamTotal(key)}</td>
         </tr>
       );
     });
@@ -93,10 +94,26 @@ class DailyQuota extends React.Component {
     return total + num;
   };
 
+  calculateAverage = index => {
+    let hourlyProduction = this.state.seed[index].horas;
+    let total = hourlyProduction.reduce(this.reducer);
+    let average = total / hourlyProduction.length;
+    return average;
+  };
+
   calculateTotal = index => {
-    let hours = this.state.seed[index].horas;
-    let total = hours.reduce(this.reducer);
+    let hourlyProduction = this.state.seed[index].horas;
+    let total = hourlyProduction.reduce(this.reducer);
     return total;
+  };
+
+  getTeamTotal = index => {
+    let production = this.state.seed[index].horas;
+    let firstValue;
+    production.map((test, i) => {
+      let first = test;
+      console.log(first);
+    });
   };
 
   render() {
@@ -118,10 +135,8 @@ class DailyQuota extends React.Component {
             </tbody>
             <tfoot>
               <tr>
-                <th>dqw</th>
-                <th> kaopsgk</th>
-                <th>asd</th>
-                <th>{this.state.total}</th>
+                <th>Total</th>
+                {/* {this.getTeamTotal()} */}
               </tr>
             </tfoot>
           </table>
