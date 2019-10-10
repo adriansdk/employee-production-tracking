@@ -123,8 +123,6 @@ class DailyQuota extends React.Component {
 
   //RENDER TEAM TOTAL RUNS TWICE
   renderTeamTotal = () => {
-    count++;
-    console.log(count);
     return this.state.seed[0].horas.map((eachHour, key) => {
       let currentTotal = this.getTeamTotal(key);
       {
@@ -149,7 +147,9 @@ class DailyQuota extends React.Component {
     }
   };
 
-  newFunction = () => {};
+  getAverage = () => {
+    return this.state.total
+  };
 
   componentDidMount() {}
 
@@ -165,7 +165,6 @@ class DailyQuota extends React.Component {
                     <th scope="col">Funcionario</th>
                     {this.renderHours()}
                     <th>Total:</th>
-                    {/* {this.renderTotals()} */}
                     <th>Média Hora:</th>
                   </tr>
                 </thead>
@@ -174,8 +173,7 @@ class DailyQuota extends React.Component {
                   <tr>
                     <th>Total</th>
                     {this.renderTeamTotal()}
-                    <th>{this.state.total / 2}</th>
-                    {this.newFunction()}
+                    <th>{this.state.total /2}</th>
                   </tr>
                 </tfoot>
               </table>

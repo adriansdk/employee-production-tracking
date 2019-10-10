@@ -6,7 +6,7 @@ class ProductionTotal extends React.Component {
   render() {
     return (
       <div className="total-box mx-auto">
-          <h3>Produção:</h3>
+        <h3>Produção:</h3>
         <h1>{this.props.total}</h1>
       </div>
     );
