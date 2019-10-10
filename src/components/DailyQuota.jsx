@@ -1,6 +1,7 @@
 import React from "react";
 import Data from "../seed/seeds.json";
 import "./styles/DailyQuota.scss";
+import ProductionTotal from "./ProductionTotal.jsx";
 var BarChart = require("react-chartjs").Bar;
 
 let count = 0;
@@ -148,9 +149,7 @@ class DailyQuota extends React.Component {
     }
   };
 
-  newFunction = () => {
-    
-  };
+  newFunction = () => {};
 
   componentDidMount() {}
 
@@ -158,26 +157,33 @@ class DailyQuota extends React.Component {
     return (
       <div className="daily-quota-tracker">
         <div className="container">
-          <table style={{ textAlign: "center" }} className="table">
-            <thead>
-              <tr>
-                <th scope="col">Funcionario</th>
-                {this.renderHours()}
-                <th>Total:</th>
-                {/* {this.renderTotals()} */}
-                <th>Média Hora:</th>
-              </tr>
-            </thead>
-            <tbody>{this.renderTable()}</tbody>
-            <tfoot>
-              <tr>
-                <th>Total</th>
-                {this.renderTeamTotal()}
-                <th>{this.state.total / 2}</th>
-                {this.newFunction()}
-              </tr>
-            </tfoot>
-          </table>
+          <div className="row">
+            <div className="col-10">
+              <table style={{ textAlign: "center" }} className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Funcionario</th>
+                    {this.renderHours()}
+                    <th>Total:</th>
+                    {/* {this.renderTotals()} */}
+                    <th>Média Hora:</th>
+                  </tr>
+                </thead>
+                <tbody>{this.renderTable()}</tbody>
+                <tfoot>
+                  <tr>
+                    <th>Total</th>
+                    {this.renderTeamTotal()}
+                    <th>{this.state.total / 2}</th>
+                    {this.newFunction()}
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <div className="col">
+              <ProductionTotal total={this.state.total / 2} />
+            </div>
+          </div>
           <BarChart
             data={this.state.data}
             options={this.state.options}
