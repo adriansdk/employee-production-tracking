@@ -118,10 +118,8 @@ class DailyQuota extends React.Component {
   };
 
   renderTeamTotal = () => {
-    return this.state.seed.map((eachEmployee, key) => {
+    return this.state.seed[0].horas.map((eachHour, key) => {
       let currentTotal = this.getTeamTotal(key);
-
-      console.log(currentTotal);
       return <td>{currentTotal}</td>;
     });
   };
