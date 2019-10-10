@@ -1,6 +1,6 @@
 import React from "react";
 import Data from "../seed/seeds.json";
-import './styles/DailyQuota.scss'
+import "./styles/DailyQuota.scss";
 var BarChart = require("react-chartjs").Bar;
 
 class DailyQuota extends React.Component {
@@ -56,10 +56,9 @@ class DailyQuota extends React.Component {
     }
   };
 
-
-  showStuff = (stuff, ee) =>{
-    console.log(stuff, ee)
-  }
+  showStuff = (stuff, ee) => {
+    // console.log(stuff, ee)
+  };
 
   renderHours = () => {
     let index = 0;
@@ -77,12 +76,12 @@ class DailyQuota extends React.Component {
   renderTable = () => {
     return this.state.seed.map((eachEmployee, key) => {
       return (
-        <tr key={key} >
+        <tr key={key}>
           <th>{eachEmployee.funcionario}</th>
           {this.renderHourlyTotal(key, eachEmployee)}
           <td>{this.calculateTotal(key)}</td>
           <td>{this.calculateAverage(key)}</td>
-          <td>{this.getTeamTotal(key)}</td>
+          {/* <td>{this.getTeamTotal(key)}</td> */}
         </tr>
       );
     });
@@ -90,10 +89,14 @@ class DailyQuota extends React.Component {
 
   renderHourlyTotal = (index, eachEmployee) => {
     let hours = this.state.seed[index].horas;
-    console.log(this.state)
+    // console.log(this.state)
     return hours.map((eachHour, key) => {
       index++;
-      return <td key={key} onMouseOver={(e)=>this.showStuff(eachHour, eachEmployee)}>{eachHour}</td>;
+      return (
+        <td key={key} onMouseOver={e => this.showStuff(eachHour, eachEmployee)}>
+          {eachHour}
+        </td>
+      );
     });
   };
 
@@ -114,13 +117,17 @@ class DailyQuota extends React.Component {
     return total;
   };
 
-  getTeamTotal = index => {
-    let production = this.state.seed[index].horas;
-    let firstValue;
-    production.map((test, i) => {
-      let first = test;
-      console.log(first);
-    });
+  getTeamTotal = () => {
+    // for(let x = 0; x < this.state.seed)
+    // return this.state.seed[0].horas[0];
+    // console.log(index)
+    // for (let x = 0; x < index; x++) {
+      // let sum = production++
+      // for (index; index < production.length; index++) {
+      // console.log(production[index])
+      // console.log(production.reduce(this.reducer))
+      // }
+    // }
   };
 
   render() {
@@ -143,7 +150,7 @@ class DailyQuota extends React.Component {
             <tfoot>
               <tr>
                 <th>Total</th>
-                {/* {this.getTeamTotal()} */}
+                {this.getTeamTotal()}
               </tr>
             </tfoot>
           </table>
