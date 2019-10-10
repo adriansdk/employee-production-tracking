@@ -3,11 +3,15 @@ import Data from "../seed/seeds.json";
 import "./styles/DailyQuota.scss";
 var BarChart = require("react-chartjs").Bar;
 
+let count = 0;
+
 class DailyQuota extends React.Component {
   state = {
     total: undefined,
     seed: Data,
     current: [],
+    dailyTotal: [],
+    total: 0,
     data: {
       labels: [
         "Adrian",
@@ -89,7 +93,6 @@ class DailyQuota extends React.Component {
 
   renderHourlyTotal = (index, eachEmployee) => {
     let hours = this.state.seed[index].horas;
-    // console.log(this.state)
     return hours.map((eachHour, key) => {
       index++;
       return (
@@ -117,10 +120,16 @@ class DailyQuota extends React.Component {
     return total;
   };
 
+  //RENDER TEAM TOTAL RUNS TWICE
   renderTeamTotal = () => {
+    count++;
+    console.log(count);
     return this.state.seed[0].horas.map((eachHour, key) => {
       let currentTotal = this.getTeamTotal(key);
-      return <td>{currentTotal}</td>;
+      {
+        this.getTeamDailyTotal(currentTotal);
+      }
+      return <th>{currentTotal}</th>;
     });
   };
 
@@ -131,6 +140,16 @@ class DailyQuota extends React.Component {
       teamTotal.push(this.state.seed[x].horas[specificHour]);
     }
     return teamTotal.reduce(this.reducer);
+  };
+
+  getTeamDailyTotal = currentTotal => {
+    if (this.state.dailyTotal.length < this.state.seed.length && this) {
+      this.state.total += currentTotal;
+    }
+  };
+
+  newFunction = () => {
+    
   };
 
   componentDidMount() {}
@@ -154,6 +173,8 @@ class DailyQuota extends React.Component {
               <tr>
                 <th>Total</th>
                 {this.renderTeamTotal()}
+                <th>{this.state.total / 2}</th>
+                {this.newFunction()}
               </tr>
             </tfoot>
           </table>
@@ -166,10 +187,6 @@ class DailyQuota extends React.Component {
         </div>
       </div>
     );
-  }
-
-  componentDidMount() {
-    this.setState({ someKey: "otherValue" });
   }
 }
 
