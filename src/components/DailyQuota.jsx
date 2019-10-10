@@ -3,9 +3,6 @@ import Data from "../seed/seeds.json";
 import "./styles/DailyQuota.scss";
 var BarChart = require("react-chartjs").Bar;
 
-let count = 0;
-let values = [];
-
 class DailyQuota extends React.Component {
   state = {
     total: undefined,
@@ -120,19 +117,20 @@ class DailyQuota extends React.Component {
     return total;
   };
 
-  renderTeamTotal = index => {
-    let currentTotal = this.getTeamTotal(index);
-    console.log(currentTotal);
-    return currentTotal;
+  renderTeamTotal = () => {
+    return this.state.seed.map((eachEmployee, key) => {
+      let currentTotal = this.getTeamTotal(key);
+
+      console.log(currentTotal);
+      return <td>{currentTotal}</td>;
+    });
   };
 
   getTeamTotal = index => {
     let teamTotal = [];
     let specificHour = index;
-    
     for (let x = 0; x < this.state.seed.length; x++) {
       teamTotal.push(this.state.seed[x].horas[specificHour]);
-      for (let i = 0; i < this.state.seed[x].horas[specificHour]; i++) {}
     }
     return teamTotal.reduce(this.reducer);
   };
@@ -149,18 +147,15 @@ class DailyQuota extends React.Component {
                 <th scope="col">Funcionario</th>
                 {this.renderHours()}
                 <th>Total:</th>
-                {this.renderTotals()}
+                {/* {this.renderTotals()} */}
                 <th>Média Hora:</th>
               </tr>
             </thead>
-            <tbody>
-              {this.renderTable()}
-              {/* {this.renderHourlyTotal()} */}
-            </tbody>
+            <tbody>{this.renderTable()}</tbody>
             <tfoot>
               <tr>
                 <th>Total</th>
-                {/* <td>{this.renderTeamTotal()}</td> */}
+                {this.renderTeamTotal()}
               </tr>
             </tfoot>
           </table>
