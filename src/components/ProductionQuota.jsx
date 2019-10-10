@@ -19,7 +19,6 @@ class Quota extends React.Component {
         </tr>
       );
     });
-    console.log(this.sums);
 
     rows.push(
       <tr>
@@ -44,12 +43,15 @@ class Quota extends React.Component {
   };
 
   showSums = () => {
-    let total = 0;
+    let teamDailyTotal = 0;
     let lastRow = this.sums.map(eachSum => {
-      total += eachSum;
+      teamDailyTotal += eachSum;
       return <td>{eachSum}</td>;
     });
-    lastRow.push(<td>{total}</td>, <td>{total / this.sums.length}</td>);
+    lastRow.push(
+      <th>{teamDailyTotal}</th>,
+      <th>{teamDailyTotal / this.sums.length}</th>
+    );
     return lastRow;
   };
 
@@ -68,7 +70,6 @@ class Quota extends React.Component {
 
   render() {
     this.sums = [];
-    console.log(this.state.blah);
     return (
       <div className="daily-quota-tracker">
         <div className="container">
@@ -90,7 +91,7 @@ class Quota extends React.Component {
               </table>
             </div>
             <div className="col">
-              <ProductionTotal />
+              <ProductionTotal total={this.sums}/>
             </div>
           </div>
         </div>
