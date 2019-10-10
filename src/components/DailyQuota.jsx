@@ -81,7 +81,7 @@ class DailyQuota extends React.Component {
           {this.renderHourlyTotal(key, eachEmployee)}
           <td>{this.calculateTotal(key)}</td>
           <td>{this.calculateAverage(key)}</td>
-          {/* <td>{this.getTeamTotal(key)}</td> */}
+          <td>{this.getTeamTotal(key)}</td>
         </tr>
       );
     });
@@ -117,17 +117,10 @@ class DailyQuota extends React.Component {
     return total;
   };
 
-  getTeamTotal = () => {
-    // for(let x = 0; x < this.state.seed)
-    // return this.state.seed[0].horas[0];
-    // console.log(index)
-    // for (let x = 0; x < index; x++) {
-      // let sum = production++
-      // for (index; index < production.length; index++) {
-      // console.log(production[index])
-      // console.log(production.reduce(this.reducer))
-      // }
-    // }
+  getTeamTotal = (index) => {
+    console.log([index])
+    console.log(this.state.seed[index].horas[index])
+    
   };
 
   render() {
