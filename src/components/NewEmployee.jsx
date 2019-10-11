@@ -1,23 +1,14 @@
 import React from "react";
-import { ETIME } from "constants";
 
 class NewEmployee extends React.Component {
   constructor() {
     super();
-    this.state = { 
-        funcionario: {
-            name: "",  
-        } 
-    };
+    this.state = {};
   }
 
-  formSubmit = (event) => {
-      event.preventDefault()
-  }
-
-  nameHandler = (event) => {
-      this.setState({ funcionario:{name: event.target.value}  })
-  }
+  formSubmit = event => {
+    event.preventDefault();
+  };
 
   render() {
     return (
@@ -26,7 +17,12 @@ class NewEmployee extends React.Component {
           <div className="row">
             <div className="col">
               <p>Nome do funcionário:</p>
-              <input type="text" placeholder="Nome do novo funcionário" value={this.state.funcionario.name} onChange={this.nameHandler}/>
+              <input
+                type="text"
+                placeholder="Nome do novo funcionário"
+                value={this.props.newEmployee.nome}
+                onChange={this.props.nameHandler}
+              />
             </div>
           </div>
           <div className="row">

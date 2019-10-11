@@ -11,19 +11,15 @@ class Quota extends React.Component {
     this.state = {
       seed: Data,
       funcionario: {
-        name: "",
+        nome: "Novo Usuário",
         setor: "",
         tipo: "",
-        horas: [],
+        horas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
         metaDiaria: 0,
         totalDiario: 0
       }
     };
   }
-
-  nameHandler = event => {
-    this.setState({ funcionario: { name: event.target.value } });
-  };
 
   renderTable = () => {
     let rows = this.state.seed.map((eachEmployee, key) => {
@@ -83,13 +79,43 @@ class Quota extends React.Component {
     return columns;
   };
 
+  newEmployeeRow = () => {
+    let newEmployee = this.state.funcionario;
+    let total = 0;
+    return (
+      <tr>
+        <th>{newEmployee.nome}</th>
+        {newEmployee.horas.map(eachHour => {
+          total += eachHour;
+          return <td>{eachHour}</td>;
+        })}
+        <td>{total}</td>
+        <td>{total/newEmployee.horas.length}</td>
+      </tr>
+    );
+  };
+
+  nameHandler = event => {
+    this.setState({
+      funcionario: {
+        nome: event.target.value,
+        setor: this.state.funcionario.setor,
+        tipo: this.state.funcionario.tipo,
+        tipo: this.state.funcionario.tipo,
+        horas: this.state.funcionario.horas,
+        metaDiaria: this.state.funcionario.metaDiaria,
+        totalDiario: this.state.funcionario.totalDiario,
+      }
+    });
+  };
+
   render() {
     this.sums = [];
     return (
       <div className="daily-quota-tracker">
-        <div className="container">
+        <div className="container-fluid">
           <div className="row">
-            <div className="col-10">
+            <div className="col-9">
               <table style={{ textAlign: "center" }} className="table">
                 <thead>
                   <tr>
@@ -98,6 +124,7 @@ class Quota extends React.Component {
                     <th>Total:</th>
                     <th>Média Hora:</th>
                   </tr>
+                  {this.newEmployeeRow()}
                 </thead>
                 <tbody>{this.renderTable()}</tbody>
                 <tfoot>
@@ -110,7 +137,10 @@ class Quota extends React.Component {
                 <ProductionTotal total={this.sums} />
               </div>
               <div className="row">
-                <NewEmployee />
+                <NewEmployee
+                  nameHandler={this.nameHandler}
+                  newEmployee={this.state.funcionario}
+                />
               </div>
             </div>
           </div>

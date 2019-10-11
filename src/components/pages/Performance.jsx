@@ -9,9 +9,7 @@ class Performance extends React.Component {
   render() {
     return (
       <div className="performance">
-        <div className="row">
-            <ProductionQuota />
-        </div>
+        <ProductionQuota />
       </div>
     );
   }
