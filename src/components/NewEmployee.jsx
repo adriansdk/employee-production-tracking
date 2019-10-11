@@ -1,25 +1,38 @@
 import React from "react";
+import { ETIME } from "constants";
 
 class NewEmployee extends React.Component {
   constructor() {
     super();
-    this.state = { someKey: "someValue" };
+    this.state = { 
+        funcionario: {
+            name: "",  
+        } 
+    };
+  }
+
+  formSubmit = (event) => {
+      event.preventDefault()
+  }
+
+  nameHandler = (event) => {
+      this.setState({ funcionario:{name: event.target.value}  })
   }
 
   render() {
     return (
       <div className="new-employee">
-        <form action="/new-employee" method="POST">
+        <form action="/new-employee" method="POST" onSubmit={this.formSubmit}>
           <div className="row">
             <div className="col">
               <p>Nome do funcionário:</p>
-              <input type="text" placeholder="Nome do novo funcionário" />
+              <input type="text" placeholder="Nome do novo funcionário" value={this.state.funcionario.name} onChange={this.nameHandler}/>
             </div>
           </div>
           <div className="row">
             <div className="col">
               <p>Começo do expediente:</p>
-              <input type="time"/>
+              <input type="time" />
             </div>
             <div className="col">
               <p>Fim do expediente:</p>

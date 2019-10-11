@@ -8,8 +8,22 @@ class Quota extends React.Component {
   constructor() {
     super();
     this.sums = [];
-    this.state = { seed: Data };
+    this.state = {
+      seed: Data,
+      funcionario: {
+        name: "",
+        setor: "",
+        tipo: "",
+        horas: [],
+        metaDiaria: 0,
+        totalDiario: 0
+      }
+    };
   }
+
+  nameHandler = event => {
+    this.setState({ funcionario: { name: event.target.value } });
+  };
 
   renderTable = () => {
     let rows = this.state.seed.map((eachEmployee, key) => {
@@ -96,7 +110,7 @@ class Quota extends React.Component {
                 <ProductionTotal total={this.sums} />
               </div>
               <div className="row">
-                <NewEmployee/>
+                <NewEmployee />
               </div>
             </div>
           </div>
