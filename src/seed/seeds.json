@@ -1,10 +1,10 @@
 [
   {
-    "funcionario": "Elba",
+    "funcionario": "Julie",
     "metaDiaria": 400,
     "setor": "Entrega",
     "tipo": "Calçados",
-    "horas": [30, 100, 20, 43, 12, 12, 23, 27, 40, 33],
+    "horas": [330, 1002, 206, 43, 12, 12, 23, 27, 40, 33],
     "totalDiario": 0
   },
   {

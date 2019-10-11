@@ -2,6 +2,7 @@ import React from "react";
 import Data from "../seed/seeds.json";
 import ProductionTotal from "./ProductionTotal";
 import "./styles/Quota.scss";
+import NewEmployee from "./NewEmployee.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -91,7 +92,12 @@ class Quota extends React.Component {
               </table>
             </div>
             <div className="col">
-              <ProductionTotal total={this.sums}/>
+              <div className="row">
+                <ProductionTotal total={this.sums} />
+              </div>
+              <div className="row">
+                <NewEmployee/>
+              </div>
             </div>
           </div>
         </div>
