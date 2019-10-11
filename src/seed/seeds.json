@@ -1,5 +1,29 @@
 [
   {
+    "funcionario": "Julie",
+    "metaDiaria": 400,
+    "setor": "Entrega",
+    "tipo": "Calçados",
+    "horas": [330, 1002, 206, 43, 12, 12, 23, 27, 40, 33],
+    "totalDiario": 0
+  },
+  {
+    "funcionario": "Adrian",
+    "metaDiaria": 400,
+    "setor": "Entrega",
+    "tipo": "Calçados",
+    "horas": [30, 100, 20, 43, 12, 12, 23, 27, 40, 33],
+    "totalDiario": 0
+  },
+  {
+    "funcionario": "Nick",
+    "metaDiaria": 400,
+    "setor": "Entrega",
+    "tipo": "Calçados",
+    "horas": [100, 150, 20, 43, 35, 12, 23, 27, 40, 33],
+    "totalDiario": 0
+  },
+  {
     "funcionario": "Junior",
     "metaDiaria": 400,
     "setor": "Entrega",
