@@ -2,15 +2,40 @@
   {
     "funcionario": "Julie",
     "metaDiaria": 400,
-    "setor": "Entrega",
-    "tipo": "Calçados",
+    "setor": [
+      {
+        "Entrega": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      },
+      {
+        "Recebimento": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      }
+    ],
     "horas": [330, 1002, 206, 43, 12, 12, 23, 27, 40, 33],
     "totalDiario": 0
   },
   {
     "funcionario": "Adrian",
     "metaDiaria": 400,
-    "setor": "Entrega",
+    "setor": [
+      {
+        "Entrega": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      },
+      {
+        "Recebimento": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      }
+    ],
     "tipo": "Calçados",
     "horas": [30, 100, 20, 43, 12, 12, 23, 27, 40, 33],
     "totalDiario": 0
@@ -18,15 +43,41 @@
   {
     "funcionario": "Nick",
     "metaDiaria": 400,
-    "setor": "Entrega",
+    "setor": [
+      {
+        "Entrega": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      },
+      {
+        "Recebimento": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      }
+    ],
     "tipo": "Calçados",
-    "horas": [100, 150, 20, 43, 35, 12, 23, 27, 40, 33],
+    "horas": [100, 19, 20, 43, 35, 12, 23, 27, 40, 33],
     "totalDiario": 0
   },
   {
     "funcionario": "Junior",
     "metaDiaria": 400,
-    "setor": "Entrega",
+    "setor": [
+      {
+        "Entrega": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      },
+      {
+        "Recebimento": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      }
+    ],
     "tipo": "Calçados",
     "horas": [10, 30, 20, 43, 80, 12, 23, 27, 40, 33],
     "totalDiario": 0
@@ -34,7 +85,20 @@
   {
     "funcionario": "Qiwei",
     "metaDiaria": 400,
-    "setor": "Recebimento",
+    "setor": [
+      {
+        "Entrega": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      },
+      {
+        "Recebimento": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      }
+    ],
     "tipo": "Blusas",
     "horas": [20, 22, 35, 65, 56, 70, 30, 22, 11, 24],
     "totalDiario": 0
@@ -50,7 +114,20 @@
   {
     "funcionario": "Adrian",
     "metaDiaria": 400,
-    "setor": "Recebimento",
+    "setor": [
+      {
+        "Entrega": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      },
+      {
+        "Recebimento": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      }
+    ],
     "tipo": "Peças",
     "horas": [56, 67, 30, 65, 56, 30, 65, 22, 30, 65],
     "totalDiario": 0
@@ -58,7 +135,20 @@
   {
     "funcionario": "Marcela",
     "metaDiaria": 400,
-    "setor": "Recebimento",
+    "setor": [
+      {
+        "Entrega": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      },
+      {
+        "Recebimento": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      }
+    ],
     "tipo": "Blusas",
     "horas": [20, 22, 35, 65, 56, 70, 30, 22, 11, 24],
     "totalDiario": 0
@@ -66,7 +156,20 @@
   {
     "funcionario": "Chris",
     "metaDiaria": 400,
-    "setor": "Recebimento",
+    "setor": [
+      {
+        "Entrega": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      },
+      {
+        "Recebimento": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      }
+    ],
     "tipo": "Blusas",
     "horas": [20, 22, 35, 65, 56, 70, 30, 22, 11, 24],
     "totalDiario": 0
@@ -74,7 +177,20 @@
   {
     "funcionario": "Alejandro",
     "metaDiaria": 400,
-    "setor": "Recebimento",
+    "setor": [
+      {
+        "Entrega": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      },
+      {
+        "Recebimento": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      }
+    ],
     "tipo": "Blusas",
     "horas": [20, 222, 75, 65, 56, 70, 30, 22, 11, 24],
     "totalDiario": 0
@@ -82,7 +198,20 @@
   {
     "funcionario": "allex",
     "metaDiaria": 400,
-    "setor": "Recebimento",
+    "setor": [
+      {
+        "Entrega": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      },
+      {
+        "Recebimento": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      }
+    ],
     "tipo": "Blusas",
     "horas": [20, 123, 75, 124, 56, 32, 30, 22, 11, 24],
     "totalDiario": 0

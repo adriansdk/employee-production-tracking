@@ -9,12 +9,14 @@ class Quota extends React.Component {
     super();
     this.sums = [];
     this.state = {
+      filters:["setor", "tipo"],
       seed: Data,
+      isCreating: false,
       funcionario: {
-        nome: "Novo Usuário",
+        nome: "",
         setor: "",
         tipo: "",
-        horas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
+        horas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         metaDiaria: 0,
         totalDiario: 0
       }
@@ -79,20 +81,84 @@ class Quota extends React.Component {
     return columns;
   };
 
+  isCreating = () => {
+    if (!this.state.isCreating) {
+      this.setState({
+        isCreating: true
+      });
+    }
+  };
+
+  cancelCreation = () => {
+    if (this.state.isCreating) {
+      this.setState({
+        isCreating: false
+      });
+    }
+  };
+
+  renderCancelCreation = () => {
+    if (this.state.isCreating) {
+      return (
+        <div className="col-2">
+          <p>Cancelar</p>
+          <input type="submit" onClick={this.cancelCreation} />
+        </div>
+      );
+    }
+  };
+
   newEmployeeRow = () => {
-    let newEmployee = this.state.funcionario;
-    let total = 0;
-    return (
-      <tr>
-        <th>{newEmployee.nome}</th>
-        {newEmployee.horas.map(eachHour => {
-          total += eachHour;
-          return <td>{eachHour}</td>;
-        })}
-        <td>{total}</td>
-        <td>{total/newEmployee.horas.length}</td>
-      </tr>
-    );
+    if (this.state.isCreating) {
+      let newEmployee = this.state.funcionario;
+      let total = 0;
+      if (newEmployee.nome.length > 0) {
+        return (
+          <tr style={{backgroundColor:"rgba(33,33,33, 0.2)", boxShadow:"2px 2px 2px 2px black"}}>
+            <th>{newEmployee.nome}</th>
+            {newEmployee.horas.map(eachHour => {
+              total += eachHour;
+              return <td>{eachHour}</td>;
+            })}
+            <td>{total}</td>
+            <td>{total / newEmployee.horas.length}</td>
+          </tr>
+        );
+      } else
+        return (
+          <tr style={{backgroundColor:"rgba(33,33,33, 0.2)"}}>
+            <th>Nome</th>
+            {newEmployee.horas.map(eachHour => {
+              total += eachHour;
+              return <td>{eachHour}</td>;
+            })}
+            <td>{total}</td>
+            <td>{total / newEmployee.horas.length}</td>
+          </tr>
+        );
+    }
+  };
+
+  editableCell = () => {
+
+  }
+
+  newEmployeeForm = () => {
+    if (this.state.isCreating) {
+      return (
+        <NewEmployee
+          nameHandler={this.nameHandler}
+          newEmployee={this.state.funcionario}
+        />
+      );
+    }
+  };
+  createButton = () => {
+    if (this.state.isCreating) {
+      return <p>Criando novo usuário</p>;
+    } else if (!this.state.isCreating) {
+      return <p>Crie novo usuário</p>;
+    }
   };
 
   nameHandler = event => {
@@ -104,10 +170,12 @@ class Quota extends React.Component {
         tipo: this.state.funcionario.tipo,
         horas: this.state.funcionario.horas,
         metaDiaria: this.state.funcionario.metaDiaria,
-        totalDiario: this.state.funcionario.totalDiario,
+        totalDiario: this.state.funcionario.totalDiario
       }
     });
   };
+
+  hoursHandler = () => {};
 
   render() {
     this.sums = [];
@@ -116,6 +184,13 @@ class Quota extends React.Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-9">
+              <div className="row">
+                <div className="col-2">
+                  <p>{this.createButton()}</p>
+                  <input type="submit" onClick={this.isCreating} />
+                </div>
+                {this.renderCancelCreation()}
+              </div>
               <table style={{ textAlign: "center" }} className="table">
                 <thead>
                   <tr>
@@ -136,12 +211,7 @@ class Quota extends React.Component {
               <div className="row">
                 <ProductionTotal total={this.sums} />
               </div>
-              <div className="row">
-                <NewEmployee
-                  nameHandler={this.nameHandler}
-                  newEmployee={this.state.funcionario}
-                />
-              </div>
+              <div className="row">{this.newEmployeeForm()}</div>
             </div>
           </div>
         </div>
