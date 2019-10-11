@@ -9,7 +9,7 @@ class Quota extends React.Component {
     super();
     this.sums = [];
     this.state = {
-      filters:["setor", "tipo"],
+      filters: ["setor", "tipo"],
       seed: Data,
       isCreating: false,
       funcionario: {
@@ -57,9 +57,9 @@ class Quota extends React.Component {
 
   showSums = () => {
     let teamDailyTotal = 0;
-    let lastRow = this.sums.map(eachSum => {
+    let lastRow = this.sums.map((eachSum, key) => {
       teamDailyTotal += eachSum;
-      return <td>{eachSum}</td>;
+      return <td key={key}>{eachSum}</td>;
     });
     lastRow.push(
       <th>{teamDailyTotal}</th>,
@@ -114,11 +114,16 @@ class Quota extends React.Component {
       let total = 0;
       if (newEmployee.nome.length > 0) {
         return (
-          <tr style={{backgroundColor:"rgba(33,33,33, 0.2)", boxShadow:"2px 2px 2px 2px black"}}>
+          <tr
+            style={{
+              backgroundColor: "rgba(33,33,33, 0.2)",
+              boxShadow: "2px 2px 2px 2px black"
+            }}
+          >
             <th>{newEmployee.nome}</th>
-            {newEmployee.horas.map(eachHour => {
+            {newEmployee.horas.map((eachHour, key) => {
               total += eachHour;
-              return <td>{eachHour}</td>;
+              return this.editableCell(eachHour, key);
             })}
             <td>{total}</td>
             <td>{total / newEmployee.horas.length}</td>
@@ -126,11 +131,11 @@ class Quota extends React.Component {
         );
       } else
         return (
-          <tr style={{backgroundColor:"rgba(33,33,33, 0.2)"}}>
+          <tr style={{ backgroundColor: "rgba(33,33,33, 0.2)" }}>
             <th>Nome</th>
-            {newEmployee.horas.map(eachHour => {
+            {newEmployee.horas.map((eachHour, key) => {
               total += eachHour;
-              return <td>{eachHour}</td>;
+              return this.editableCell(eachHour, key);
             })}
             <td>{total}</td>
             <td>{total / newEmployee.horas.length}</td>
@@ -139,9 +144,36 @@ class Quota extends React.Component {
     }
   };
 
-  editableCell = () => {
+  editableCell = (tableCellContent, key) => {
+    return (
+      <td key={key} onClick={this.editCell}>
+        <p>{tableCellContent}</p>
+        <input
+        style={{width: "60%", display:"inline"}}
+          type="text"
+          onChange={(e) => this.editCell(e, key)}
+          value={this.state.funcionario.horas[key]}
+        ></input>
+      </td>
+    );
+  };
 
-  }
+  editCell = (e, index) => {
+    let newArray = this.state.funcionario.horas
+    newArray[index] = e.target.value
+    console.log(newArray)
+    this.setState({
+      funcionario: {
+        nome: this.state.funcionario.nome,
+        setor: this.state.funcionario.setor,
+        tipo: this.state.funcionario.tipo,
+        tipo: this.state.funcionario.tipo,
+        horas: newArray,
+        metaDiaria: this.state.funcionario.metaDiaria,
+        totalDiario: this.state.funcionario.totalDiario
+      }
+    })
+  };
 
   newEmployeeForm = () => {
     if (this.state.isCreating) {
