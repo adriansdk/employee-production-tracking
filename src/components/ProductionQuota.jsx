@@ -3,6 +3,7 @@ import Data from "../seed/seeds.json";
 import ProductionTotal from "./ProductionTotal";
 import "./styles/Quota.scss";
 import NewEmployee from "./NewEmployee.jsx";
+import ProductionAverage from "./ProductionAverage.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -149,9 +150,9 @@ class Quota extends React.Component {
       <td key={key} onClick={this.editCell}>
         <p>{tableCellContent}</p>
         <input
-        style={{width: "60%", display:"inline"}}
+          style={{ width: "60%", display: "inline" }}
           type="text"
-          onChange={(e) => this.editCell(e, key)}
+          onChange={e => this.editCell(e, key)}
           value={this.state.funcionario.horas[key]}
         ></input>
       </td>
@@ -159,20 +160,19 @@ class Quota extends React.Component {
   };
 
   editCell = (e, index) => {
-    let newArray = this.state.funcionario.horas
-    newArray[index] = e.target.value
-    console.log(newArray)
+    let newArray = this.state.funcionario.horas;
+    newArray[index] = e.target.value;
+    console.log(newArray);
     this.setState({
       funcionario: {
         nome: this.state.funcionario.nome,
         setor: this.state.funcionario.setor,
         tipo: this.state.funcionario.tipo,
-        tipo: this.state.funcionario.tipo,
         horas: newArray,
         metaDiaria: this.state.funcionario.metaDiaria,
         totalDiario: this.state.funcionario.totalDiario
       }
-    })
+    });
   };
 
   newEmployeeForm = () => {
@@ -198,7 +198,6 @@ class Quota extends React.Component {
       funcionario: {
         nome: event.target.value,
         setor: this.state.funcionario.setor,
-        tipo: this.state.funcionario.tipo,
         tipo: this.state.funcionario.tipo,
         horas: this.state.funcionario.horas,
         metaDiaria: this.state.funcionario.metaDiaria,
@@ -241,9 +240,14 @@ class Quota extends React.Component {
             </div>
             <div className="col">
               <div className="row">
-                <ProductionTotal total={this.sums} />
+                <div className="col">
+                  <ProductionTotal total={this.sums} />
+                </div>
+                <div className="col">
+                  <ProductionAverage média={this.sums} />
+                </div>
+                <div className="row">{this.newEmployeeForm()}</div>
               </div>
-              <div className="row">{this.newEmployeeForm()}</div>
             </div>
           </div>
         </div>

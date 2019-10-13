@@ -5,20 +5,17 @@ class ProductionTotal extends React.Component {
 
   showSums = () => {
     let teamDailyTotal = 0;
-    let lastRow = this.props.total.map(eachSum => {
-      // teamDailyTotal += eachSum;
-      console.log(eachSum)
+    this.props.total.map(eachSum => {
+      teamDailyTotal += eachSum;
     });
-    lastRow.push({ teamDailyTotal });
-    console.log(lastRow)
-    return lastRow;
+    return teamDailyTotal;
   };
 
   render() {
     return (
       <div className="total-box mx-auto">
         <h3>Produção:</h3>
-        {/* <h1>{this.showSums()}</h1> */}
+        <h1>{this.showSums()}</h1>
       </div>
     );
   }
