@@ -37,12 +37,17 @@ class Quota extends React.Component {
       <tr>
         <th>Total:</th>
         {this.showSums()}
+      </tr>,
+      <tr>
+        <th>Média</th>
+        {this.renderTeamAverage()}
+      </tr>,
+      <tr>
+        <th>Desvio:</th>
+        {this.renderDeviation()}
       </tr>
     );
-    rows.push(<tr>
-      <th>Média</th>
-      {this.renderTeamAverage()}
-    </tr>)
+
     return rows;
   };
 
@@ -55,7 +60,7 @@ class Quota extends React.Component {
       sums[key] ? (sums[key] += eachHour) : (sums[key] = eachHour);
       return <td key={key}>{eachHour}</td>;
     });
-    columns.push(<td>{total}</td>, <td>{total / hours.length}</td>);
+    columns.push(<td>{Math.floor(total)}</td>, <td>{Math.floor(total / hours.length)}</td>);
     return columns;
   };
 
@@ -66,8 +71,8 @@ class Quota extends React.Component {
       return <td key={key}>{eachSum}</td>;
     });
     teamTotalRow.push(
-      <th>{teamDailyTotal}</th>,
-      <th>{teamDailyTotal / this.sums.length}</th>
+      <th>{Math.floor(teamDailyTotal)}</th>,
+      <th>{Math.floor(teamDailyTotal / this.sums.length)}</th>
     );
     return teamTotalRow;
   };
@@ -76,15 +81,26 @@ class Quota extends React.Component {
     let teamDailyTotal = 0;
     let averages = this.sums.map((eachSum, key) => {
       teamDailyTotal += eachSum;
-      return <td>{Math.floor(eachSum/this.state.seed.length)}</td>
-    })
-    let teamDailyAverage = teamDailyTotal/this.state.seed.length
+      return <td>{Math.floor(eachSum / this.state.seed.length)}</td>;
+    });
+    let teamDailyAverage = teamDailyTotal / this.state.seed.length;
     averages.push(
       <td>{Math.floor(teamDailyAverage)}</td>,
-      <td>{Math.floor(teamDailyAverage/this.sums.length)}</td>
-    )
-    return averages
-  }
+      <td>{Math.floor(teamDailyAverage / this.sums.length)}</td>
+    );
+    return averages;
+  };
+
+  renderDeviation = () => {
+    let total = 0
+    let sums = this.sums.map(eachSum => {
+      let average = eachSum/this.state.seed.length;
+      let diference = Math.sqrt(eachSum - average)
+      total += Math.floor(diference) 
+    });
+    let standardDeviation = Math.sqrt(total/this.state.seed.length)
+    console.log(standardDeviation);
+  };
 
   renderHours = () => {
     let index = 0;
@@ -236,9 +252,9 @@ class Quota extends React.Component {
               <div className="row">
                 <div className="col-2">
                   {/* <p>{this.createButton()}</p> */}
-                  <input type="submit" onClick={this.isCreating} />
+                  {/* <input type="submit" onClick={this.isCreating} /> */}
                 </div>
-                {this.renderCancelCreation()}
+                {/* {this.renderCancelCreation()} */}
               </div>
               <table style={{ textAlign: "center" }} className="table">
                 <thead>

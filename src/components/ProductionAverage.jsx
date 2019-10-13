@@ -11,7 +11,7 @@ class ProductionAverage extends React.Component {
       teamDailyAverage += eachSum;
     });
     
-    return teamDailyAverage/this.props.total.length;
+    return Math.floor(teamDailyAverage/this.props.total.length);
   };
 
   render() {

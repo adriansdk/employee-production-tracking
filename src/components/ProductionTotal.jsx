@@ -8,7 +8,7 @@ class ProductionTotal extends React.Component {
     this.props.total.map(eachSum => {
       teamDailyTotal += eachSum;
     });
-    return teamDailyTotal;
+    return Math.floor(teamDailyTotal);
   };
 
   render() {
