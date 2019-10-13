@@ -244,7 +244,7 @@ class Quota extends React.Component {
                   <ProductionTotal total={this.sums} />
                 </div>
                 <div className="col">
-                  <ProductionAverage média={this.sums} />
+                  <ProductionAverage total={this.sums} />
                 </div>
                 <div className="row">{this.newEmployeeForm()}</div>
               </div>
