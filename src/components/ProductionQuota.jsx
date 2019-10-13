@@ -33,40 +33,17 @@ class Quota extends React.Component {
         </tr>
       );
     });
-
     rows.push(
       <tr>
         <th>Total:</th>
         {this.showSums()}
       </tr>
     );
+    rows.push(<tr>
+      <th>Média</th>
+      {this.renderTeamAverage()}
+    </tr>)
     return rows;
-  };
-
-  renderHours = () => {
-    let index = 0;
-    let hours = this.state.seed[index].horas;
-    return hours.map((eachHour, key) => {
-      index++;
-      return (
-        <th key={key}>
-          {key + 7}h-{key + 8}h{" "}
-        </th>
-      );
-    });
-  };
-
-  showSums = () => {
-    let teamDailyTotal = 0;
-    let lastRow = this.sums.map((eachSum, key) => {
-      teamDailyTotal += eachSum;
-      return <td key={key}>{eachSum}</td>;
-    });
-    lastRow.push(
-      <th>{teamDailyTotal}</th>,
-      <th>{teamDailyTotal / this.sums.length}</th>
-    );
-    return lastRow;
   };
 
   renderHourlyTotal = eachEmployee => {
@@ -80,6 +57,46 @@ class Quota extends React.Component {
     });
     columns.push(<td>{total}</td>, <td>{total / hours.length}</td>);
     return columns;
+  };
+
+  showSums = () => {
+    let teamDailyTotal = 0;
+    let teamTotalRow = this.sums.map((eachSum, key) => {
+      teamDailyTotal += eachSum;
+      return <td key={key}>{eachSum}</td>;
+    });
+    teamTotalRow.push(
+      <th>{teamDailyTotal}</th>,
+      <th>{teamDailyTotal / this.sums.length}</th>
+    );
+    return teamTotalRow;
+  };
+
+  renderTeamAverage = () => {
+    let teamDailyTotal = 0;
+    let averages = this.sums.map((eachSum, key) => {
+      teamDailyTotal += eachSum;
+      return <td>{Math.floor(eachSum/this.state.seed.length)}</td>
+    })
+    let teamDailyAverage = teamDailyTotal/this.state.seed.length
+    averages.push(
+      <td>{Math.floor(teamDailyAverage)}</td>,
+      <td>{Math.floor(teamDailyAverage/this.sums.length)}</td>
+    )
+    return averages
+  }
+
+  renderHours = () => {
+    let index = 0;
+    let hours = this.state.seed[index].horas;
+    return hours.map((eachHour, key) => {
+      index++;
+      return (
+        <th key={key}>
+          {key + 7}h-{key + 8}h{" "}
+        </th>
+      );
+    });
   };
 
   isCreating = () => {
@@ -185,6 +202,7 @@ class Quota extends React.Component {
       );
     }
   };
+
   createButton = () => {
     if (this.state.isCreating) {
       return <p>Criando novo usuário</p>;
@@ -217,7 +235,7 @@ class Quota extends React.Component {
             <div className="col-9">
               <div className="row">
                 <div className="col-2">
-                  <p>{this.createButton()}</p>
+                  {/* <p>{this.createButton()}</p> */}
                   <input type="submit" onClick={this.isCreating} />
                 </div>
                 {this.renderCancelCreation()}
