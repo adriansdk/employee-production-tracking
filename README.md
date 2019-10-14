@@ -1,11 +1,25 @@
-## Available Scripts
+**PS:** Portuguese and English description available.
 
-In the project directory, you can run:
+# Portuguese:
 
-### `npm start`
+### Projeto desenvolvido para A2B BR.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Esse projeto busca facilitar a visualização da produtividade de funcionários e setores da companhia, apresentando dados de maneira eficaz e interativa.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+**Desenvolvedor**: Adrian Visnieski.
+
+**Contato**:adrianivsdk@gmail.com
+
+**LinkedIn**: [Adrian](https://www.linkedin.com/in/adrian-visnieski/).
+
+# English
+
+### Developed for A2B BR.
+
+Project was developed was developed for A2B BR, it aims to facilitate the visualization of company sectors and individual employees productivity, presenting data in an efficient and interactive way.
+
+**Developer**: Adrian Visnieski.
+
+**Contact**:adrianivsdk@gmail.com
+
+**LinkedIn**: [Adrian](https://www.linkedin.com/in/adrian-visnieski/).
