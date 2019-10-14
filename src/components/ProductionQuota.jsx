@@ -32,6 +32,11 @@ class Quota extends React.Component {
   renderTable = () => {
     let rows = this.state.seed.map((eachEmployee, key) => {
       this.horasArray.push(eachEmployee.horas);
+      this.rowAverages.push(
+        Math.round(
+          eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
+        )
+      );
       return (
         <tr key={key}>
           <th>{eachEmployee.funcionario}</th>
@@ -88,8 +93,8 @@ class Quota extends React.Component {
       return <td key={key}>{eachHour}</td>;
     });
     columns.push(
-      <td>{Math.floor(total)}</td>,
-      <td>{Math.floor(total / hours.length)}</td>
+      <td>{Math.round(total)}</td>,
+      <td>{Math.round(total / hours.length)}</td>
     );
     return columns;
   };
@@ -100,11 +105,11 @@ class Quota extends React.Component {
       teamDailyTotal += eachSum;
       return <td key={key}>{eachSum}</td>;
     });
-    console.log(teamDailyTotal)
-    console.log(teamTotalRow)
+    console.log(teamDailyTotal);
+    console.log(teamTotalRow);
     teamTotalRow.push(
-      <th>{Math.floor(teamDailyTotal)}</th>,
-      <th>{Math.floor(teamDailyTotal / this.colTotals.length)}</th>
+      <th>{Math.round(teamDailyTotal)}</th>,
+      <th>{Math.round(teamDailyTotal / this.colTotals.length)}</th>
     );
     return teamTotalRow;
   };
@@ -113,16 +118,15 @@ class Quota extends React.Component {
     let teamDailyTotal = 0;
     let averages = this.colTotals.map((eachSum, key) => {
       teamDailyTotal += eachSum;
-      return <td>{Math.floor(eachSum / this.state.seed.length)}</td>;
+      return <td>{Math.round(eachSum / this.state.seed.length)}</td>;
     });
     let teamDailyAverage = teamDailyTotal / this.state.seed.length;
     averages.push(
-      <td>{Math.floor(teamDailyAverage)}</td>,
-      <td>{Math.floor(teamDailyAverage / this.colTotals.length)}</td>
+      <td>{Math.round(teamDailyAverage)}</td>,
+      <td>{Math.round(teamDailyAverage / this.colTotals.length)}</td>
     );
     return averages;
   };
-
 
   renderDeviation = index => {
     let teamTotal = [];
@@ -136,7 +140,7 @@ class Quota extends React.Component {
       teamTotal.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
     );
     this.colDeviation.push(Math.round(s));
-    return <td>{Math.floor(s)}</td>;
+    return <td>{Math.round(s)}</td>;
   };
 
   renderDailyDeviation = () => {
@@ -148,7 +152,15 @@ class Quota extends React.Component {
     return <td>{Math.round(s)}</td>;
   };
 
-  renderDailyAverageDeviation = () => {};
+  renderDailyAverageDeviation = () => {
+    const n = this.rowAverages.length;
+    const mean = this.rowAverages.reduce((a, b) => a + b) / n;
+    const s = Math.sqrt(
+      this.rowAverages.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) /
+        n
+    );
+    return <td>{Math.round(s)}</td>;
+  };
 
   reducer = (total, num) => {
     return total + num;
@@ -156,15 +168,15 @@ class Quota extends React.Component {
 
   renderMax = index => {
     let teamTotal = this.colTotals[index];
-    this.colAverages.push(Math.floor(teamTotal / this.state.seed.length));
+    this.colAverages.push(Math.round(teamTotal / this.state.seed.length));
     return (
-      <td>{Math.floor(this.colDeviation[index] + this.colAverages[index])}</td>
+      <td>{Math.round(this.colDeviation[index] + this.colAverages[index])}</td>
     );
   };
 
   renderMin = index => {
     return (
-      <td>{Math.floor(this.colAverages[index] - this.colDeviation[index])}</td>
+      <td>{Math.round(this.colAverages[index] - this.colDeviation[index])}</td>
     );
   };
 

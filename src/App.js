@@ -12,7 +12,6 @@ import Home from './components/pages/Home';
 //GENERAL STYLING 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
-//do i see this???
 
 class App extends React.Component {
   state = {
