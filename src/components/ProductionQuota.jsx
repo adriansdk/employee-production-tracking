@@ -84,19 +84,19 @@ class Quota extends React.Component {
         <th>Desvio</th>
         {deviationRow}
         {this.renderDailyDeviation()}
-        {this.renderDailyAverageDeviation()}
+        <td>{this.renderDailyAverageDeviation()}</td>
       </tr>,
       <tr>
         <th>Máximo:</th>
         {maximumRow}
-        {this.renderTotalDeviationMax()}
-        {this.renderAverageDeviationMax()}
+        <td>{this.renderTotalDeviationMax()}</td>
+        <td>{this.renderAverageDeviationMax()}</td>
       </tr>,
       <tr>
         <th>Mínimo:</th>
         {minimumRow}
-        {this.renderTotalDeviationMin()}
-        {this.renderAverageDeviationMin()}
+        <td>{this.renderTotalDeviationMin()}</td>
+        <td>{this.renderAverageDeviationMin()}</td>
         <td></td>
       </tr>
     );
@@ -113,39 +113,31 @@ class Quota extends React.Component {
       sums[key] ? (sums[key] += eachHour) : (sums[key] = eachHour);
       return <td key={key}>{eachHour}</td>;
     });
-    console.log(this.state.totalDeviationMax);
-    console.log(this.state.totalDeviationMin);
-    console.log(total / hours.length);
-    // if (total / hours.length > this.state.totalDeviationMax) {
-    //   columns.push(
-    //     <td style={{ backgroundColor: "blue" }}>{Math.round(total)}</td>
-    //   );
-    // } else if (total / hours.length < this.state.totalDeviationMin) {
-    //   columns.push(
-    //     <td style={{ backgroundColor: "red" }}>{Math.round(total)}</td>
-    //   );
-    // } else {
-    //   columns.push(<td>{Math.round(total)}</td>);
-    // }
+    if (total > this.state.totalDeviationMax) {
+      columns.push(
+        <td style={{ backgroundColor: "blue" }}>{Math.round(total)}</td>
+      );
+    } else if (total < this.state.totalDeviationMin) {
+      columns.push(
+        <td style={{ backgroundColor: "red" }}>{Math.round(total)}</td>
+      );
+    } else {
+      columns.push(<td>{Math.round(total)}</td>);
+    }
     if (total / hours.length > this.state.hourlyAverageMaximum) {
       columns.push(
-        <td>{Math.round(total)}</td>,
         <td style={{ backgroundColor: "blue" }}>
           {Math.round(total / hours.length)}
         </td>
       );
     } else if (total / hours.length < this.state.averageDeviationMin) {
       columns.push(
-        <td>{Math.round(total)}</td>,
         <td style={{ backgroundColor: "red" }}>
           {Math.round(total / hours.length)}
         </td>
       );
     } else {
-      columns.push(
-        <td>{Math.round(total)}</td>,
-        <td>{Math.round(total / hours.length)}</td>
-      );
+      columns.push(<td>{Math.round(total / hours.length)}</td>);
     }
     return columns;
   };
