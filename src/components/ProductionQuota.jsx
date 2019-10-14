@@ -137,17 +137,19 @@ class Quota extends React.Component {
     );
     return <td>{Math.round(s)}</td>;
   };
-  renderDailyAverageDeviation = () => {
-    let employees = this.state.seed.map((eachEmployee) =>{
-      return eachEmployee
-    })
 
-    const n = employees.length;
-    const mean = employees.reduce((a, b) => a + b) / n;
-    const s = Math.sqrt(
-      employees.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
-    );
-    return <td>{Math.round(s)}</td>;
+
+  renderDailyAverageDeviation = () => {
+    // let employees = this.state.seed.map((eachEmployee) =>{
+    //   return eachEmployee
+    // })
+
+    // const n = employees.length;
+    // const mean = employees.reduce((a, b) => a + b) / n;
+    // const s = Math.sqrt(
+    //   employees.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+    // );
+    // return <td>{Math.round(s)}</td>;
   };
 
   renderMax = index => {
