@@ -39,6 +39,7 @@ class Quota extends React.Component {
           eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
         )
       );
+      this.rowTotals.push(eachEmployee.horas.reduce(this.reducer));
       return (
         <tr key={key}>
           <th>{eachEmployee.funcionario}</th>
@@ -73,11 +74,13 @@ class Quota extends React.Component {
       <tr>
         <th>Máximo:</th>
         {maximumRow}
+        {this.renderTotalDeviationMax()}
         {/* {this.renderDailyMax()} */}
       </tr>,
       <tr>
         <th>Mínimo:</th>
         {minimumRow}
+        {this.renderTotalDeviationMin()}
         <td></td>
       </tr>
     );
@@ -151,6 +154,7 @@ class Quota extends React.Component {
     const s = Math.sqrt(
       this.colTotals.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
     );
+    this.totalDeviation = Math.round(s);
     return <td>{Math.round(s)}</td>;
   };
 
@@ -177,8 +181,16 @@ class Quota extends React.Component {
   };
 
   renderTotalDeviationMax = () => {
-    // this.rowTotals
-  }
+    return (
+      <td>{this.totalDeviation + this.colAverages.reduce(this.reducer)}</td>
+    );
+  };
+
+  renderTotalDeviationMin = () => {
+    return (
+      <td>{this.colAverages.reduce(this.reducer) - this.totalDeviation}</td>
+    );
+  };
 
   renderMin = index => {
     return (
