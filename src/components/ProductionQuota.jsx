@@ -60,7 +60,10 @@ class Quota extends React.Component {
       sums[key] ? (sums[key] += eachHour) : (sums[key] = eachHour);
       return <td key={key}>{eachHour}</td>;
     });
-    columns.push(<td>{Math.floor(total)}</td>, <td>{Math.floor(total / hours.length)}</td>);
+    columns.push(
+      <td>{Math.floor(total)}</td>,
+      <td>{Math.floor(total / hours.length)}</td>
+    );
     return columns;
   };
 
@@ -92,14 +95,25 @@ class Quota extends React.Component {
   };
 
   renderDeviation = () => {
-    let total = 0
-    let sums = this.sums.map(eachSum => {
-      let average = eachSum/this.state.seed.length;
-      let diference = Math.sqrt(eachSum - average)
-      total += Math.floor(diference) 
+    let hours = [];
+    let total = 0;
+    this.state.seed.map(eachEmployee => {
+      hours.push(eachEmployee.horas);
     });
-    let standardDeviation = Math.sqrt(total/this.state.seed.length)
-    console.log(standardDeviation);
+    hours.map(eachHour => {
+      console.log(eachHour)
+      const n = eachHour.length;
+      const mean = eachHour.reduce((a, b) => a + b) / n;
+      const s = Math.sqrt(
+        eachHour.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+      );
+      // console.log(s)
+    });
+    // let sums = hours.map(eachSum => {
+    //   let average = eachSum / this.state.seed.length;
+    //   let diference = Math.sqrt(eachSum - average);
+    //   total += Math.floor(diference);
+    // });
   };
 
   renderHours = () => {
