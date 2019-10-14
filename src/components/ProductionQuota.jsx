@@ -8,9 +8,7 @@ import ProductionAverage from "./ProductionAverage.jsx";
 class Quota extends React.Component {
   constructor() {
     super();
-    this.columnValues = [];
     this.sums = [];
-    this.deviations = [];
     this.state = {
       filters: ["setor", "tipo"],
       seed: Data,
@@ -47,7 +45,7 @@ class Quota extends React.Component {
     rows.push(
       <tr>
         <th>Total:</th>
-        {this.showSums()}
+        {this.renderSums()}
       </tr>,
       <tr>
         <th>Média</th>
@@ -57,6 +55,7 @@ class Quota extends React.Component {
         <th>Desvio</th>
         {deviationRow}
         {this.renderDailyDeviation()}
+        {this.renderDailyAverageDeviation()}
       </tr>,
       <tr>
         <th>Máximo:</th>
@@ -89,7 +88,7 @@ class Quota extends React.Component {
     return columns;
   };
 
-  showSums = () => {
+  renderSums = () => {
     let teamDailyTotal = 0;
     let teamTotalRow = this.sums.map((eachSum, key) => {
       teamDailyTotal += eachSum;
@@ -127,8 +126,6 @@ class Quota extends React.Component {
     const s = Math.sqrt(
       teamTotal.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
     );
-    this.deviations.push(Math.floor(s));
-
     return <td>{Math.floor(s)}</td>;
   };
 
@@ -137,6 +134,18 @@ class Quota extends React.Component {
     const mean = this.sums.reduce((a, b) => a + b) / n;
     const s = Math.sqrt(
       this.sums.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+    );
+    return <td>{Math.round(s)}</td>;
+  };
+  renderDailyAverageDeviation = () => {
+    let employees = this.state.seed.map((eachEmployee) =>{
+      return eachEmployee
+    })
+
+    const n = employees.length;
+    const mean = employees.reduce((a, b) => a + b) / n;
+    const s = Math.sqrt(
+      employees.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
     );
     return <td>{Math.round(s)}</td>;
   };
@@ -155,7 +164,6 @@ class Quota extends React.Component {
 
     return <td>{Math.floor(s + this.sums[index] / this.state.seed.length)}</td>;
   };
-
 
   renderMin = index => {
     let teamTotal = [];
@@ -313,8 +321,6 @@ class Quota extends React.Component {
   hoursHandler = () => {};
 
   render() {
-    this.columnValues = [];
-    this.deviations = [];
     this.sums = [];
     return (
       <div className="daily-quota-tracker">
