@@ -12,6 +12,7 @@ class Quota extends React.Component {
     this.averageDeviation = undefined;
     this.totalColAverage = undefined;
     this.averageArrayAverage = undefined;
+    this.hourlyAverageMaximum = undefined;
 
     this.colDeviationArray = [];
     this.averagesColArray = [];
@@ -102,10 +103,22 @@ class Quota extends React.Component {
       sums[key] ? (sums[key] += eachHour) : (sums[key] = eachHour);
       return <td key={key}>{eachHour}</td>;
     });
-    columns.push(
-      <td>{Math.round(total)}</td>,
-      <td>{Math.round(total / hours.length)}</td>
-    );
+    console.log(total/hours.length)
+    console.log(this.hourlyAverageMaximum)
+    if (total/hours.length > this.hourlyAverageMaximum) {
+      console.log("heohpak")
+      columns.push(
+        <td>{Math.round(total)}</td>,
+        <td style={{ backgroundColor: "blue" }}>
+          {Math.round(total / hours.length)}
+        </td>
+      );
+    } else {
+      columns.push(
+        <td>{Math.round(total)}</td>,
+        <td>{Math.round(total / hours.length)}</td>
+      );
+    }
     return columns;
   };
 
@@ -205,6 +218,7 @@ class Quota extends React.Component {
   };
 
   renderAverageDeviationMax = () => {
+    this.hourlyAverageMaximum = this.averageArrayAverage + this.averageDeviation;
     return <td>{this.averageArrayAverage + this.averageDeviation}</td>;
   };
 
@@ -384,6 +398,7 @@ class Quota extends React.Component {
     this.averageDeviation = undefined;
     this.totalColAverage = undefined;
     this.averageArrayAverage = undefined;
+    this.hourlyAverageMaximum = undefined;
 
     this.colDeviationArray = [];
     this.averagesColArray = [];
