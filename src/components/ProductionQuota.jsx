@@ -8,14 +8,9 @@ import ProductionAverage from "./ProductionAverage.jsx";
 class Quota extends React.Component {
   constructor() {
     super();
-    this.totalDeviation = undefined;
     this.totalColAverage = undefined;
     this.averageArrayAverage = undefined;
     this.hourlyAverageMaximum = undefined;
-
-    this.averageDeviation = undefined;
-    this.averageDeviationMin = undefined;
-    this.averageDeviationMax = undefined;
 
     this.colDeviationArray = [];
     this.averagesColArray = [];
@@ -234,8 +229,6 @@ class Quota extends React.Component {
   };
 
   renderAverageDeviationMax = () => {
-    this.hourlyAverageMaximum =
-      this.averageArrayAverage + this.averageDeviation;
     return this.averageArrayAverage + this.averageDeviation;
   };
 
@@ -424,14 +417,9 @@ class Quota extends React.Component {
     // console.log(this.colTotalsArray)
     // console.log(this.employeeHours)
 
-    this.totalDeviation = undefined;
     this.totalColAverage = undefined;
     this.averageArrayAverage = undefined;
     this.hourlyAverageMaximum = undefined;
-
-    this.averageDeviation = undefined;
-    this.averageDeviationMin = undefined;
-    this.averageDeviationMax = undefined;
 
     this.colDeviationArray = [];
     this.averagesColArray = [];
