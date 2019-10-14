@@ -8,9 +8,12 @@ import ProductionAverage from "./ProductionAverage.jsx";
 class Quota extends React.Component {
   constructor() {
     super();
-    this.colDeviation = []
-    this.sums = [];
-    this.horasArray = []
+    this.rowAverages = [];
+    this.rowTotals = [];
+    this.colAverages = [];
+    this.colDeviation = [];
+    this.colTotals = [];
+    this.horasArray = [];
     this.state = {
       filters: ["setor", "tipo"],
       seed: Data,
@@ -28,7 +31,7 @@ class Quota extends React.Component {
 
   renderTable = () => {
     let rows = this.state.seed.map((eachEmployee, key) => {
-      this.horasArray.push(eachEmployee.horas)
+      this.horasArray.push(eachEmployee.horas);
       return (
         <tr key={key}>
           <th>{eachEmployee.funcionario}</th>
@@ -78,7 +81,7 @@ class Quota extends React.Component {
   renderHourlyTotal = eachEmployee => {
     let hours = eachEmployee.horas;
     let total = 0;
-    let sums = this.sums;
+    let sums = this.colTotals;
     let columns = hours.map((eachHour, key) => {
       total += eachHour;
       sums[key] ? (sums[key] += eachHour) : (sums[key] = eachHour);
@@ -93,33 +96,36 @@ class Quota extends React.Component {
 
   renderSums = () => {
     let teamDailyTotal = 0;
-    let teamTotalRow = this.sums.map((eachSum, key) => {
+    let teamTotalRow = this.colTotals.map((eachSum, key) => {
       teamDailyTotal += eachSum;
       return <td key={key}>{eachSum}</td>;
     });
+    console.log(teamDailyTotal)
+    console.log(teamTotalRow)
     teamTotalRow.push(
       <th>{Math.floor(teamDailyTotal)}</th>,
-      <th>{Math.floor(teamDailyTotal / this.sums.length)}</th>
+      <th>{Math.floor(teamDailyTotal / this.colTotals.length)}</th>
     );
     return teamTotalRow;
   };
 
   renderTeamAverage = () => {
     let teamDailyTotal = 0;
-    let averages = this.sums.map((eachSum, key) => {
+    let averages = this.colTotals.map((eachSum, key) => {
       teamDailyTotal += eachSum;
       return <td>{Math.floor(eachSum / this.state.seed.length)}</td>;
     });
     let teamDailyAverage = teamDailyTotal / this.state.seed.length;
     averages.push(
       <td>{Math.floor(teamDailyAverage)}</td>,
-      <td>{Math.floor(teamDailyAverage / this.sums.length)}</td>
+      <td>{Math.floor(teamDailyAverage / this.colTotals.length)}</td>
     );
     return averages;
   };
 
+
   renderDeviation = index => {
-    let teamTotal = []
+    let teamTotal = [];
     let specificHour = index;
     for (let x = 0; x < this.state.seed.length; x++) {
       teamTotal.push(this.state.seed[x].horas[specificHour]);
@@ -129,54 +135,37 @@ class Quota extends React.Component {
     const s = Math.sqrt(
       teamTotal.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
     );
-    this.colDeviation.push(Math.round(s))
+    this.colDeviation.push(Math.round(s));
     return <td>{Math.floor(s)}</td>;
   };
 
   renderDailyDeviation = () => {
-    const n = this.sums.length;
-    const mean = this.sums.reduce((a, b) => a + b) / n;
+    const n = this.colTotals.length;
+    const mean = this.colTotals.reduce((a, b) => a + b) / n;
     const s = Math.sqrt(
-      this.sums.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+      this.colTotals.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
     );
     return <td>{Math.round(s)}</td>;
   };
 
+  renderDailyAverageDeviation = () => {};
 
-  renderDailyAverageDeviation = () => {
-    // let employees = this.state.seed.map((eachEmployee) =>{
-    //   return eachEmployee
-    // })
-
-    // const n = employees.length;
-    // const mean = employees.reduce((a, b) => a + b) / n;
-    // const s = Math.sqrt(
-    //   employees.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
-    // );
-    // return <td>{Math.round(s)}</td>;
+  reducer = (total, num) => {
+    return total + num;
   };
 
-  getColAverages = () => {
-    
-  }
-
   renderMax = index => {
-    let teamTotal = [];
-    let specificHour = index;
-    for (let x = 0; x < this.state.seed.length; x++) {
-      teamTotal.push(this.state.seed[x].horas[specificHour]);
-    }
-    console.log(teamTotal)
-    return <td>{Math.floor(this.colDeviation[index] + this.sums[index] / this.state.seed.length)}</td>;
+    let teamTotal = this.colTotals[index];
+    this.colAverages.push(Math.floor(teamTotal / this.state.seed.length));
+    return (
+      <td>{Math.floor(this.colDeviation[index] + this.colAverages[index])}</td>
+    );
   };
 
   renderMin = index => {
-    let teamTotal = [];
-    let specificHour = index;
-    for (let x = 0; x < this.state.seed.length; x++) {
-      teamTotal.push(this.state.seed[x].horas[specificHour]);
-    }
-    return <td>{Math.floor(this.sums[index] / this.state.seed.length - this.colDeviation[index])}</td>;
+    return (
+      <td>{Math.floor(this.colAverages[index] - this.colDeviation[index])}</td>
+    );
   };
 
   renderHours = () => {
@@ -320,9 +309,15 @@ class Quota extends React.Component {
   hoursHandler = () => {};
 
   render() {
-    this.colDeviation = []
-    this.horasArray = []
-    this.sums = [];
+    console.log(this.horasArray);
+    console.log(this.rowTotals);
+    console.log(this.rowAverages);
+    this.rowAverages = [];
+    this.rowTotal = [];
+    this.colAverages = [];
+    this.colDeviation = [];
+    this.colTotals = [];
+    this.horasArray = [];
     return (
       <div className="daily-quota-tracker">
         <div className="container-fluid">
@@ -354,10 +349,10 @@ class Quota extends React.Component {
             <div className="col">
               <div className="row">
                 <div className="col">
-                  <ProductionTotal total={this.sums} />
+                  <ProductionTotal total={this.colTotals} />
                 </div>
                 <div className="col">
-                  <ProductionAverage total={this.sums} />
+                  <ProductionAverage total={this.colTotals} />
                 </div>
                 <div className="row">{this.newEmployeeForm()}</div>
               </div>
