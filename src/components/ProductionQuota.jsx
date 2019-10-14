@@ -56,14 +56,17 @@ class Quota extends React.Component {
       <tr>
         <th>Desvio</th>
         {deviationRow}
+        {this.renderDailyDeviation()}
       </tr>,
       <tr>
         <th>Máximo:</th>
         {maximumRow}
+        {/* {this.renderDailyMax()} */}
       </tr>,
       <tr>
         <th>Mínimo:</th>
         {minimumRow}
+        <td></td>
       </tr>
     );
 
@@ -129,6 +132,15 @@ class Quota extends React.Component {
     return <td>{Math.floor(s)}</td>;
   };
 
+  renderDailyDeviation = () => {
+    const n = this.sums.length;
+    const mean = this.sums.reduce((a, b) => a + b) / n;
+    const s = Math.sqrt(
+      this.sums.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+    );
+    return <td>{Math.round(s)}</td>;
+  };
+
   renderMax = index => {
     let teamTotal = [];
     let specificHour = index;
@@ -143,6 +155,7 @@ class Quota extends React.Component {
 
     return <td>{Math.floor(s + this.sums[index] / this.state.seed.length)}</td>;
   };
+
 
   renderMin = index => {
     let teamTotal = [];
