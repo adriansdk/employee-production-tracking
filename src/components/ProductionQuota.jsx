@@ -9,6 +9,7 @@ class Quota extends React.Component {
   constructor() {
     super();
     this.sums = [];
+    this.deviations = [];
     this.state = {
       filters: ["setor", "tipo"],
       seed: Data,
@@ -48,6 +49,10 @@ class Quota extends React.Component {
       <tr>
         <th>Desvio</th>
         {deviationRow}
+      </tr>,
+      <tr>
+        <th>Máximo:</th>
+        <td>12</td>
       </tr>
     );
 
@@ -108,6 +113,8 @@ class Quota extends React.Component {
     const s = Math.sqrt(
       teamTotal.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
     );
+    this.deviations.push(Math.floor(s));
+    console.log(this.deviations);
     return Math.floor(s);
   };
 
@@ -252,6 +259,7 @@ class Quota extends React.Component {
   hoursHandler = () => {};
 
   render() {
+    this.deviations = [];
     this.sums = [];
     return (
       <div className="daily-quota-tracker">
