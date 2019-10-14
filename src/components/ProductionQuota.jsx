@@ -10,10 +10,12 @@ class Quota extends React.Component {
     super();
     this.rowAverages = [];
     this.rowTotals = [];
+    this.totalDeviation = undefined;
+    this.averageDeviation = undefined;
     this.colAverages = [];
     this.colDeviation = [];
     this.colTotals = [];
-    this.horasArray = [];
+    this.employeeHours = [];
     this.state = {
       filters: ["setor", "tipo"],
       seed: Data,
@@ -31,7 +33,7 @@ class Quota extends React.Component {
 
   renderTable = () => {
     let rows = this.state.seed.map((eachEmployee, key) => {
-      this.horasArray.push(eachEmployee.horas);
+      this.employeeHours.push(eachEmployee.horas);
       this.rowAverages.push(
         Math.round(
           eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
@@ -173,6 +175,10 @@ class Quota extends React.Component {
       <td>{Math.round(this.colDeviation[index] + this.colAverages[index])}</td>
     );
   };
+
+  renderTotalDeviationMax = () => {
+    // this.rowTotals
+  }
 
   renderMin = index => {
     return (
@@ -321,15 +327,14 @@ class Quota extends React.Component {
   hoursHandler = () => {};
 
   render() {
-    console.log(this.horasArray);
-    console.log(this.rowTotals);
-    console.log(this.rowAverages);
+    this.employeeHours = [];
     this.rowAverages = [];
-    this.rowTotal = [];
+    this.rowTotals = [];
     this.colAverages = [];
-    this.colDeviation = [];
     this.colTotals = [];
-    this.horasArray = [];
+    this.colDeviation = [];
+    this.totalDeviation = undefined;
+    this.averageDeviation = undefined;
     return (
       <div className="daily-quota-tracker">
         <div className="container-fluid">
