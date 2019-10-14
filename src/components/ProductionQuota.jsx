@@ -33,6 +33,9 @@ class Quota extends React.Component {
         </tr>
       );
     });
+    let deviationRow = this.state.seed[0].horas.map((eachHour, key) => {
+      return <td>{this.renderDeviation(key)}</td>;
+    });
     rows.push(
       <tr>
         <th>Total:</th>
@@ -43,8 +46,8 @@ class Quota extends React.Component {
         {this.renderTeamAverage()}
       </tr>,
       <tr>
-        <th>Desvio:</th>
-        {this.renderDeviation()}
+        <th>Desvio</th>
+        {deviationRow}
       </tr>
     );
 
@@ -94,31 +97,18 @@ class Quota extends React.Component {
     return averages;
   };
 
-  renderDeviation = () => {
-    
-    let index = 0
-    let total = 0;
-    let hours = [];
-    let whatever = []
-    this.state.seed.map(eachEmployee => {
-      hours.push(eachEmployee.horas);
-    });
-
-    hours.map(eachHour => {
-      whatever.push(eachHour[index])
-      const n = whatever.length;
-      const mean = whatever.reduce((a, b) => a + b) / n;
-      const s = Math.sqrt(
-        whatever.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
-      );
-      console.log(s)
-    });
-    console.log(whatever)
-    // let sums = hours.map(eachSum => {
-    //   let average = eachSum / this.state.seed.length;
-    //   let diference = Math.sqrt(eachSum - average);
-    //   total += Math.floor(diference);
-    // });
+  renderDeviation = index => {
+    let teamTotal = [];
+    let specificHour = index;
+    for (let x = 0; x < this.state.seed.length; x++) {
+      teamTotal.push(this.state.seed[x].horas[specificHour]);
+    }
+    const n = teamTotal.length;
+    const mean = teamTotal.reduce((a, b) => a + b) / n;
+    const s = Math.sqrt(
+      teamTotal.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+    );
+    return Math.floor(s);
   };
 
   renderHours = () => {
