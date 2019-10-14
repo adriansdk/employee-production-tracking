@@ -95,20 +95,25 @@ class Quota extends React.Component {
   };
 
   renderDeviation = () => {
-    let hours = [];
+    
+    let index = 0
     let total = 0;
+    let hours = [];
+    let whatever = []
     this.state.seed.map(eachEmployee => {
       hours.push(eachEmployee.horas);
     });
+
     hours.map(eachHour => {
-      console.log(eachHour)
-      const n = eachHour.length;
-      const mean = eachHour.reduce((a, b) => a + b) / n;
+      whatever.push(eachHour[index])
+      const n = whatever.length;
+      const mean = whatever.reduce((a, b) => a + b) / n;
       const s = Math.sqrt(
-        eachHour.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+        whatever.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
       );
-      // console.log(s)
+      console.log(s)
     });
+    console.log(whatever)
     // let sums = hours.map(eachSum => {
     //   let average = eachSum / this.state.seed.length;
     //   let diference = Math.sqrt(eachSum - average);
