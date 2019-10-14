@@ -8,6 +8,7 @@ import ProductionAverage from "./ProductionAverage.jsx";
 class Quota extends React.Component {
   constructor() {
     super();
+    this.columnValues = [];
     this.sums = [];
     this.deviations = [];
     this.state = {
@@ -35,7 +36,13 @@ class Quota extends React.Component {
       );
     });
     let deviationRow = this.state.seed[0].horas.map((eachHour, key) => {
-      return <td>{this.renderDeviation(key)}</td>;
+      return this.renderDeviation(key);
+    });
+    let maximumRow = this.state.seed[0].horas.map((eachHour, key) => {
+      return this.renderMax(key);
+    });
+    let minimumRow = this.state.seed[0].horas.map((eachHour, key) => {
+      return this.renderMin(key);
     });
     rows.push(
       <tr>
@@ -52,7 +59,11 @@ class Quota extends React.Component {
       </tr>,
       <tr>
         <th>Máximo:</th>
-        <td>12</td>
+        {maximumRow}
+      </tr>,
+      <tr>
+        <th>Mínimo:</th>
+        {minimumRow}
       </tr>
     );
 
@@ -114,8 +125,38 @@ class Quota extends React.Component {
       teamTotal.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
     );
     this.deviations.push(Math.floor(s));
-    console.log(this.deviations);
-    return Math.floor(s);
+
+    return <td>{Math.floor(s)}</td>;
+  };
+
+  renderMax = index => {
+    let teamTotal = [];
+    let specificHour = index;
+    for (let x = 0; x < this.state.seed.length; x++) {
+      teamTotal.push(this.state.seed[x].horas[specificHour]);
+    }
+    const n = teamTotal.length;
+    const mean = teamTotal.reduce((a, b) => a + b) / n;
+    const s = Math.sqrt(
+      teamTotal.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+    );
+
+    return <td>{Math.floor(s + this.sums[index] / this.state.seed.length)}</td>;
+  };
+
+  renderMin = index => {
+    let teamTotal = [];
+    let specificHour = index;
+    for (let x = 0; x < this.state.seed.length; x++) {
+      teamTotal.push(this.state.seed[x].horas[specificHour]);
+    }
+    const n = teamTotal.length;
+    const mean = teamTotal.reduce((a, b) => a + b) / n;
+    const s = Math.sqrt(
+      teamTotal.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+    );
+
+    return <td>{Math.floor(this.sums[index] / this.state.seed.length - s)}</td>;
   };
 
   renderHours = () => {
@@ -259,6 +300,7 @@ class Quota extends React.Component {
   hoursHandler = () => {};
 
   render() {
+    this.columnValues = [];
     this.deviations = [];
     this.sums = [];
     return (
