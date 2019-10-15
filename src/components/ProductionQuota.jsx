@@ -61,10 +61,10 @@ class Quota extends React.Component {
       return <td>{this.renderDeviation(key)}</td>;
     });
     let maximumRow = this.state.seed[0].horas.map((eachHour, key) => {
-      return this.renderMax(key);
+      return <td>{this.renderMax(key)}</td>;
     });
     let minimumRow = this.state.seed[0].horas.map((eachHour, key) => {
-      return this.renderMin(key);
+      return <td>{this.renderMin(key)}</td>;
     });
     rows.push(
       <tr>
@@ -216,12 +216,8 @@ class Quota extends React.Component {
   renderMax = index => {
     let teamTotal = this.rowTotalsArray[index];
     this.rowAveragesArray.push(Math.round(teamTotal / this.state.seed.length));
-    return (
-      <td>
-        {Math.round(
-          this.colDeviationArray[index] + this.rowAveragesArray[index]
-        )}
-      </td>
+    return Math.round(
+      this.colDeviationArray[index] + this.rowAveragesArray[index]
     );
   };
 
@@ -242,12 +238,8 @@ class Quota extends React.Component {
   };
 
   renderMin = index => {
-    return (
-      <td>
-        {Math.round(
-          this.rowAveragesArray[index] - this.colDeviationArray[index]
-        )}
-      </td>
+    return Math.round(
+      this.rowAveragesArray[index] - this.colDeviationArray[index]
     );
   };
 
@@ -397,6 +389,13 @@ class Quota extends React.Component {
       return this.renderDeviation(key);
     });
 
+    let maximumDeviationRow = this.state.seed[0].horas.map((eachHour, key) => {
+      return this.renderMax(key);
+    });
+    let minimumDeviationRow = this.state.seed[0].horas.map((eachHour, key) => {
+      return this.renderMin(key);
+    });
+    
     let totalDeviationMax = this.renderTotalDeviationMax();
     let totalDeviationMin = this.renderTotalDeviationMin();
 
@@ -405,7 +404,9 @@ class Quota extends React.Component {
       averageDeviationMin: averageDeviationMin,
 
       deviationsArray: deviationsArray,
-
+      maximumDeviationRow: maximumDeviationRow,
+      minimumDeviationRow:minimumDeviationRow,
+      
       totalDeviationMax: totalDeviationMax,
       totalDeviationMin: totalDeviationMin,
 
