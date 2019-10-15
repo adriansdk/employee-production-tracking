@@ -58,7 +58,7 @@ class Quota extends React.Component {
       );
     });
     let deviationRow = this.state.seed[0].horas.map((eachHour, key) => {
-      return this.renderDeviation(key);
+      return <td>{this.renderDeviation(key)}</td>;
     });
     let maximumRow = this.state.seed[0].horas.map((eachHour, key) => {
       return this.renderMax(key);
@@ -180,7 +180,8 @@ class Quota extends React.Component {
       teamTotal.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
     );
     this.colDeviationArray.push(Math.round(s));
-    return <td>{Math.round(s)}</td>;
+    console.log(s);
+    return Math.round(s);
   };
 
   renderDailyDeviation = () => {
@@ -392,12 +393,18 @@ class Quota extends React.Component {
     let averageDeviationMin = this.renderAverageDeviationMin();
     let averageDeviationMax = this.renderDailyAverageDeviation();
 
+    let deviationsArray = this.state.seed[0].horas.map((eachHour, key) => {
+      return this.renderDeviation(key);
+    });
+
     let totalDeviationMax = this.renderTotalDeviationMax();
     let totalDeviationMin = this.renderTotalDeviationMin();
 
     this.setState({
       averageDeviationMax: averageDeviationMax,
       averageDeviationMin: averageDeviationMin,
+
+      deviationsArray: deviationsArray,
 
       totalDeviationMax: totalDeviationMax,
       totalDeviationMin: totalDeviationMin,
