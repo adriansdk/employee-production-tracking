@@ -24,6 +24,9 @@ class Quota extends React.Component {
       averageDeviationMax: [],
       hourlyAverageMaximum: [],
 
+      maximumDeviationRow: [],
+      minimumDeviationRow: [],
+
       totalDeviationMax: [],
       totalDeviationMin: [],
 
@@ -106,28 +109,42 @@ class Quota extends React.Component {
     let columns = hours.map((eachHour, key) => {
       total += eachHour;
       sums[key] ? (sums[key] += eachHour) : (sums[key] = eachHour);
-      return <td key={key}>{eachHour}</td>;
+      if (eachHour > this.state.maximumDeviationRow[key]) {
+        return (
+          <td key={key} style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>
+            {eachHour}
+          </td>
+        );
+      } else if (eachHour < this.state.minimumDeviationRow[key]) {
+        return (
+          <td key={key} style={{ backgroundColor: "rgba(255,0,0,0.3)" }}>
+            {eachHour}
+          </td>
+        );
+      } else {
+        return <td key={key}>{eachHour}</td>;
+      }
     });
     if (total > this.state.totalDeviationMax) {
       columns.push(
-        <td style={{ backgroundColor: "blue" }}>{Math.round(total)}</td>
+        <td style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>{Math.round(total)}</td>
       );
     } else if (total < this.state.totalDeviationMin) {
       columns.push(
-        <td style={{ backgroundColor: "red" }}>{Math.round(total)}</td>
+        <td style={{ backgroundColor: "rgba(255,0,0,0.3)" }}>{Math.round(total)}</td>
       );
     } else {
       columns.push(<td>{Math.round(total)}</td>);
     }
     if (total / hours.length > this.state.hourlyAverageMaximum) {
       columns.push(
-        <td style={{ backgroundColor: "blue" }}>
+        <td style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>
           {Math.round(total / hours.length)}
         </td>
       );
     } else if (total / hours.length < this.state.averageDeviationMin) {
       columns.push(
-        <td style={{ backgroundColor: "red" }}>
+        <td style={{ backgroundColor: "rgba(255,0,0,0.3)" }}>
           {Math.round(total / hours.length)}
         </td>
       );
@@ -180,7 +197,6 @@ class Quota extends React.Component {
       teamTotal.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
     );
     this.colDeviationArray.push(Math.round(s));
-    console.log(s);
     return Math.round(s);
   };
 
@@ -395,7 +411,7 @@ class Quota extends React.Component {
     let minimumDeviationRow = this.state.seed[0].horas.map((eachHour, key) => {
       return this.renderMin(key);
     });
-    
+
     let totalDeviationMax = this.renderTotalDeviationMax();
     let totalDeviationMin = this.renderTotalDeviationMin();
 
@@ -405,8 +421,8 @@ class Quota extends React.Component {
 
       deviationsArray: deviationsArray,
       maximumDeviationRow: maximumDeviationRow,
-      minimumDeviationRow:minimumDeviationRow,
-      
+      minimumDeviationRow: minimumDeviationRow,
+
       totalDeviationMax: totalDeviationMax,
       totalDeviationMin: totalDeviationMin,
 
