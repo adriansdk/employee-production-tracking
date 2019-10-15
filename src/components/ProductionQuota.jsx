@@ -8,13 +8,25 @@ import ProductionAverage from "./ProductionAverage.jsx";
 class Quota extends React.Component {
   constructor() {
     super();
-    this.rowAverages = [];
-    this.rowTotals = [];
-    this.colAverages = [];
-    this.colDeviation = [];
-    this.colTotals = [];
-    this.horasArray = [];
+    this.totalColAverage = undefined;
+    this.averageArrayAverage = undefined;
+    this.hourlyAverageMaximum = undefined;
+
+    this.colDeviationArray = [];
+    this.averagesColArray = [];
+
+    this.rowTotalsArray = [];
+    this.rowAveragesArray = [];
+    this.colTotalsArray = [];
+    this.employeeHours = [];
     this.state = {
+      averageDeviationMin: [],
+      averageDeviationMax: [],
+      hourlyAverageMaximum: [],
+
+      totalDeviationMax: [],
+      totalDeviationMin: [],
+
       filters: ["setor", "tipo"],
       seed: Data,
       isCreating: false,
@@ -31,12 +43,13 @@ class Quota extends React.Component {
 
   renderTable = () => {
     let rows = this.state.seed.map((eachEmployee, key) => {
-      this.horasArray.push(eachEmployee.horas);
-      this.rowAverages.push(
+      this.employeeHours.push(eachEmployee.horas);
+      this.averagesColArray.push(
         Math.round(
           eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
         )
       );
+      this.colTotalsArray.push(eachEmployee.horas.reduce(this.reducer));
       return (
         <tr key={key}>
           <th>{eachEmployee.funcionario}</th>
@@ -66,16 +79,19 @@ class Quota extends React.Component {
         <th>Desvio</th>
         {deviationRow}
         {this.renderDailyDeviation()}
-        {this.renderDailyAverageDeviation()}
+        <td>{this.renderDailyAverageDeviation()}</td>
       </tr>,
       <tr>
         <th>Máximo:</th>
         {maximumRow}
-        {/* {this.renderDailyMax()} */}
+        <td>{this.renderTotalDeviationMax()}</td>
+        <td>{this.renderAverageDeviationMax()}</td>
       </tr>,
       <tr>
         <th>Mínimo:</th>
         {minimumRow}
+        <td>{this.renderTotalDeviationMin()}</td>
+        <td>{this.renderAverageDeviationMin()}</td>
         <td></td>
       </tr>
     );
@@ -86,44 +102,68 @@ class Quota extends React.Component {
   renderHourlyTotal = eachEmployee => {
     let hours = eachEmployee.horas;
     let total = 0;
-    let sums = this.colTotals;
+    let sums = this.rowTotalsArray;
     let columns = hours.map((eachHour, key) => {
       total += eachHour;
       sums[key] ? (sums[key] += eachHour) : (sums[key] = eachHour);
       return <td key={key}>{eachHour}</td>;
     });
-    columns.push(
-      <td>{Math.round(total)}</td>,
-      <td>{Math.round(total / hours.length)}</td>
-    );
+    if (total > this.state.totalDeviationMax) {
+      columns.push(
+        <td style={{ backgroundColor: "blue" }}>{Math.round(total)}</td>
+      );
+    } else if (total < this.state.totalDeviationMin) {
+      columns.push(
+        <td style={{ backgroundColor: "red" }}>{Math.round(total)}</td>
+      );
+    } else {
+      columns.push(<td>{Math.round(total)}</td>);
+    }
+    if (total / hours.length > this.state.hourlyAverageMaximum) {
+      columns.push(
+        <td style={{ backgroundColor: "blue" }}>
+          {Math.round(total / hours.length)}
+        </td>
+      );
+    } else if (total / hours.length < this.state.averageDeviationMin) {
+      columns.push(
+        <td style={{ backgroundColor: "red" }}>
+          {Math.round(total / hours.length)}
+        </td>
+      );
+    } else {
+      columns.push(<td>{Math.round(total / hours.length)}</td>);
+    }
     return columns;
   };
 
   renderSums = () => {
     let teamDailyTotal = 0;
-    let teamTotalRow = this.colTotals.map((eachSum, key) => {
+    let teamTotalRow = this.rowTotalsArray.map((eachSum, key) => {
       teamDailyTotal += eachSum;
       return <td key={key}>{eachSum}</td>;
     });
-    console.log(teamDailyTotal);
-    console.log(teamTotalRow);
     teamTotalRow.push(
       <th>{Math.round(teamDailyTotal)}</th>,
-      <th>{Math.round(teamDailyTotal / this.colTotals.length)}</th>
+      <th>{Math.round(teamDailyTotal / this.rowTotalsArray.length)}</th>
     );
     return teamTotalRow;
   };
 
   renderTeamAverage = () => {
     let teamDailyTotal = 0;
-    let averages = this.colTotals.map((eachSum, key) => {
+    let averages = this.rowTotalsArray.map((eachSum, key) => {
       teamDailyTotal += eachSum;
       return <td>{Math.round(eachSum / this.state.seed.length)}</td>;
     });
     let teamDailyAverage = teamDailyTotal / this.state.seed.length;
+    this.totalColAverage = teamDailyAverage;
+    this.averageArrayAverage = Math.round(
+      teamDailyAverage / this.rowTotalsArray.length
+    );
     averages.push(
       <td>{Math.round(teamDailyAverage)}</td>,
-      <td>{Math.round(teamDailyAverage / this.colTotals.length)}</td>
+      <td>{Math.round(teamDailyAverage / this.rowTotalsArray.length)}</td>
     );
     return averages;
   };
@@ -139,27 +179,33 @@ class Quota extends React.Component {
     const s = Math.sqrt(
       teamTotal.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
     );
-    this.colDeviation.push(Math.round(s));
+    this.colDeviationArray.push(Math.round(s));
     return <td>{Math.round(s)}</td>;
   };
 
   renderDailyDeviation = () => {
-    const n = this.colTotals.length;
-    const mean = this.colTotals.reduce((a, b) => a + b) / n;
+    const n = this.rowTotalsArray.length;
+    const mean = this.rowTotalsArray.reduce((a, b) => a + b) / n;
     const s = Math.sqrt(
-      this.colTotals.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+      this.rowTotalsArray
+        .map(x => Math.pow(x - mean, 2))
+        .reduce((a, b) => a + b) / n
     );
+    this.totalDeviation = Math.round(s);
     return <td>{Math.round(s)}</td>;
   };
 
   renderDailyAverageDeviation = () => {
-    const n = this.rowAverages.length;
-    const mean = this.rowAverages.reduce((a, b) => a + b) / n;
+    const n = this.averagesColArray.length;
+    const mean = this.averagesColArray.reduce((a, b) => a + b) / n;
     const s = Math.sqrt(
-      this.rowAverages.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) /
-        n
+      this.averagesColArray
+        .map(x => Math.pow(x - mean, 2))
+        .reduce((a, b) => a + b) / n
     );
-    return <td>{Math.round(s)}</td>;
+    this.averageDeviation = Math.round(s);
+
+    return Math.round(s);
   };
 
   reducer = (total, num) => {
@@ -167,16 +213,40 @@ class Quota extends React.Component {
   };
 
   renderMax = index => {
-    let teamTotal = this.colTotals[index];
-    this.colAverages.push(Math.round(teamTotal / this.state.seed.length));
+    let teamTotal = this.rowTotalsArray[index];
+    this.rowAveragesArray.push(Math.round(teamTotal / this.state.seed.length));
     return (
-      <td>{Math.round(this.colDeviation[index] + this.colAverages[index])}</td>
+      <td>
+        {Math.round(
+          this.colDeviationArray[index] + this.rowAveragesArray[index]
+        )}
+      </td>
     );
+  };
+
+  renderTotalDeviationMax = () => {
+    return this.totalDeviation + this.rowAveragesArray.reduce(this.reducer);
+  };
+
+  renderAverageDeviationMax = () => {
+    return this.averageArrayAverage + this.averageDeviation;
+  };
+
+  renderTotalDeviationMin = () => {
+    return this.rowAveragesArray.reduce(this.reducer) - this.totalDeviation;
+  };
+
+  renderAverageDeviationMin = () => {
+    return this.averageArrayAverage - this.averageDeviation;
   };
 
   renderMin = index => {
     return (
-      <td>{Math.round(this.colAverages[index] - this.colDeviation[index])}</td>
+      <td>
+        {Math.round(
+          this.rowAveragesArray[index] - this.colDeviationArray[index]
+        )}
+      </td>
     );
   };
 
@@ -273,7 +343,6 @@ class Quota extends React.Component {
   editCell = (e, index) => {
     let newArray = this.state.funcionario.horas;
     newArray[index] = e.target.value;
-    console.log(newArray);
     this.setState({
       funcionario: {
         nome: this.state.funcionario.nome,
@@ -318,18 +387,47 @@ class Quota extends React.Component {
     });
   };
 
-  hoursHandler = () => {};
+  componentDidMount = () => {
+    let hourlyAverageMaximum = this.renderAverageDeviationMax();
+    let averageDeviationMin = this.renderAverageDeviationMin();
+    let averageDeviationMax = this.renderDailyAverageDeviation();
+
+    let totalDeviationMax = this.renderTotalDeviationMax();
+    let totalDeviationMin = this.renderTotalDeviationMin();
+
+    this.setState({
+      averageDeviationMax: averageDeviationMax,
+      averageDeviationMin: averageDeviationMin,
+
+      totalDeviationMax: totalDeviationMax,
+      totalDeviationMin: totalDeviationMin,
+
+      hourlyAverageMaximum: hourlyAverageMaximum
+    });
+  };
 
   render() {
-    console.log(this.horasArray);
-    console.log(this.rowTotals);
-    console.log(this.rowAverages);
-    this.rowAverages = [];
-    this.rowTotal = [];
-    this.colAverages = [];
-    this.colDeviation = [];
-    this.colTotals = [];
-    this.horasArray = [];
+    // console.log(this.totalDeviation)
+    // console.log(this.averageDeviation)
+    // console.log(this.totalColAverage)
+    // console.log(this.colDeviationArray)
+    // console.log(this.averagesColArray)
+    // console.log(this.rowTotalsArray)
+    // console.log(this.rowAveragesArray)
+    // console.log(this.colTotalsArray)
+    // console.log(this.employeeHours)
+
+    this.totalColAverage = undefined;
+    this.averageArrayAverage = undefined;
+    this.hourlyAverageMaximum = undefined;
+
+    this.colDeviationArray = [];
+    this.averagesColArray = [];
+
+    this.rowTotalsArray = [];
+    this.rowAveragesArray = [];
+    this.colTotalsArray = [];
+    this.employeeHours = [];
     return (
       <div className="daily-quota-tracker">
         <div className="container-fluid">
@@ -337,10 +435,10 @@ class Quota extends React.Component {
             <div className="col-9">
               <div className="row">
                 <div className="col-2">
-                  <p>{this.createButton()}</p>
-                  <input type="submit" onClick={this.isCreating} />
+                  {/* <p>{this.createButton()}</p> */}
+                  {/* <input type="submit" onClick={this.isCreating} /> */}
                 </div>
-                {this.renderCancelCreation()}
+                {/* {this.renderCancelCreation()} */}
               </div>
               <table style={{ textAlign: "center" }} className="table">
                 <thead>
@@ -361,10 +459,10 @@ class Quota extends React.Component {
             <div className="col">
               <div className="row">
                 <div className="col">
-                  <ProductionTotal total={this.colTotals} />
+                  <ProductionTotal total={this.rowTotalsArray} />
                 </div>
                 <div className="col">
-                  <ProductionAverage total={this.colTotals} />
+                  <ProductionAverage total={this.rowTotalsArray} />
                 </div>
                 <div className="row">{this.newEmployeeForm()}</div>
               </div>
