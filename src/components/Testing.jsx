@@ -45,61 +45,61 @@ class Quota extends React.Component {
   }
 
   renderTable = () => {
-    let rows = this.state.seed.map((eachEmployee, key) => {
-      this.employeeHours.push(eachEmployee.horas);
-      this.averagesColArray.push(
-        Math.round(
-          eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
-        )
-      );
-      this.colTotalsArray.push(eachEmployee.horas.reduce(this.reducer));
-      return (
-        <tr key={key}>
-          <th>{eachEmployee.funcionario}</th>
-          {this.renderHourlyTotal(eachEmployee)}
-        </tr>
-      );
-    });
-    let deviationRow = this.state.seed[0].horas.map((eachHour, key) => {
-      return <td>{this.renderDeviation(key)}</td>;
-    });
-    let maximumRow = this.state.seed[0].horas.map((eachHour, key) => {
-      return <td>{this.renderMax(key)}</td>;
-    });
-    let minimumRow = this.state.seed[0].horas.map((eachHour, key) => {
-      return <td>{this.renderMin(key)}</td>;
-    });
-    rows.push(
-      <tr>
-        <th>Total:</th>
-        {this.renderSums()}
-      </tr>,
-      <tr>
-        <th>Média</th>
-        {this.renderTeamAverage()}
-      </tr>,
-      <tr>
-        <th>Desvio</th>
-        {deviationRow}
-        {this.renderDailyDeviation()}
-        <td>{this.renderDailyAverageDeviation()}</td>
-      </tr>,
-      <tr>
-        <th>Máximo:</th>
-        {maximumRow}
-        <td>{this.renderTotalDeviationMax()}</td>
-        <td>{this.renderAverageDeviationMax()}</td>
-      </tr>,
-      <tr>
-        <th>Mínimo:</th>
-        {minimumRow}
-        <td>{this.renderTotalDeviationMin()}</td>
-        <td>{this.renderAverageDeviationMin()}</td>
-        <td></td>
-      </tr>
+    // let rows = this.state.seed.map((eachEmployee, key) => {
+    //   this.employeeHours.push(eachEmployee.horas);
+    //   this.averagesColArray.push(
+    //     Math.round(
+    //       eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
+    //     )
+    //   );
+    //   this.colTotalsArray.push(eachEmployee.horas.reduce(this.reducer));
+    //   return (
+    //     <tr key={key}>
+    //       <th>{eachEmployee.funcionario}</th>
+    //       {this.renderHourlyTotal(eachEmployee)}
+    //     </tr>
+    //   );
+    // });
+    // let deviationRow = this.state.seed[0].horas.map((eachHour, key) => {
+    //   return <td>{this.renderDeviation(key)}</td>;
+    // });
+    // let maximumRow = this.state.seed[0].horas.map((eachHour, key) => {
+    //   return <td>{this.renderMax(key)}</td>;
+    // });
+    // let minimumRow = this.state.seed[0].horas.map((eachHour, key) => {
+    //   return <td>{this.renderMin(key)}</td>;
+    // });
+    // rows.push(
+    //   <tr>
+    //     <th>Total:</th>
+    //     {this.renderSums()}
+    //   </tr>,
+    //   <tr>
+    //     <th>Média</th>
+    //     {this.renderTeamAverage()}
+    //   </tr>,
+    //   <tr>
+    //     <th>Desvio</th>
+    //     {deviationRow}
+    //     {this.renderDailyDeviation()}
+    //     <td>{this.renderDailyAverageDeviation()}</td>
+    //   </tr>,
+    //   <tr>
+    //     <th>Máximo:</th>
+    //     {maximumRow}
+    //     <td>{this.renderTotalDeviationMax()}</td>
+    //     <td>{this.renderAverageDeviationMax()}</td>
+    //   </tr>,
+    //   <tr>
+    //     <th>Mínimo:</th>
+    //     {minimumRow}
+    //     <td>{this.renderTotalDeviationMin()}</td>
+    //     <td>{this.renderAverageDeviationMin()}</td>
+    //     <td></td>
+    //   </tr>
     );
 
-    return rows;
+    // return rows;
   };
 
   renderHourlyTotal = eachEmployee => {

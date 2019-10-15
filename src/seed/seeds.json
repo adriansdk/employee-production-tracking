@@ -1,5 +1,25 @@
 [
   {
+    "funcionario": "Visnieski",
+    "metaDiaria": 400,
+    "setor": [
+      {
+        "Entrega": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      },
+      {
+        "Recebimento": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      }
+    ],
+    "horas": [10,10,10,10,10,10,10,10,10,10],
+    "totalDiario": 0
+  },
+  {
     "funcionario": "Elba",
     "metaDiaria": 400,
     "setor": [
@@ -12,7 +32,7 @@
       {
         "Recebimento": {
           "tipo": ["Calçados", "Peças"],
-          "quantida.....................de": 0
+          "quantidade": 0
         }
       }
     ],
