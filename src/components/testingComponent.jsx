@@ -1,26 +1,16 @@
 import React from "react";
-import Data from "../seed/seeds.json";
-import ProductionTotal from "./ProductionTotal";
-import "./styles/Quota.scss";
-import NewEmployee from "./NewEmployee.jsx";
-import ProductionAverage from "./ProductionAverage.jsx";
+import data from "../seed/seeds.json";
 
-class Quota extends React.Component {
+class TestingComponent extends React.Component {
   constructor() {
     super();
     this.state = {
-      averageDeviationMin: [],
-      averageDeviationMax: [],
-      hourlyAverageMaximum: [],
-
-      maximumDeviationRow: [],
-      minimumDeviationRow: [],
-
-      totalDeviationMax: [],
-      totalDeviationMin: [],
-
-      allData: [],
-      seed: Data
+      data: data,
+      allEmployeeHours: [],
+      individualDailyAverage: [],
+      individualDailyTotal: [],
+      teamDailyTotal: [],
+      teamDailyAverage: []
     };
   }
 
@@ -28,83 +18,45 @@ class Quota extends React.Component {
     return total + num;
   };
 
-  getEmployeeHours = () => {
+  getHours = () => {
+    let allEmployeeNames = [];
     let allEmployeeHours = [];
     let individualDailyAverage = [];
     let individualDailyTotal = [];
-    let teamDailyTotal = []
-    let teamDailyAverage = []
-    this.state.seed.map((eachEmployee, key) => {
+    let teamDailyTotal = [];
+    let teamDailyAverage = [];
+    this.state.data.map((eachEmployee, key) => {
       allEmployeeHours.push(eachEmployee.horas);
-
-      individualDailyTotal.push(
-        Math.round(eachEmployee.horas.reduce(this.reducer))
-      );
-
+      allEmployeeNames.push(eachEmployee.funcionario);
+    });
+    let timeTeamHours = [];
+    allEmployeeHours.map((eachHour, i) => {
+      eachHour.map((productivity, index) => {
+        console.log(productivity);
+        timeTeamHours.push((timeTeamHours[index] = productivity));
+      });
+      individualDailyTotal.push(Math.round(eachHour.reduce(this.reducer)));
       individualDailyAverage.push(
-        Math.round(
-          eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
-        )
+        Math.round(eachHour.reduce(this.reducer) / eachHour.length)
       );
     });
-    allEmployeeHours.map(eachHour => {
-      console.log(eachHour);
-    });
+    console.log(timeTeamHours);
   };
-
-  renderHours = () => {
-    let index = 0;
-    let hours = this.state.seed[index].horas;
-    return hours.map((eachHour, key) => {
-      index++;
-      return (
-        <th key={key}>
-          {key + 7}h-{key + 8}h{" "}
-        </th>
-      );
-    });
-  };
-
-  componentDidMount = () => {};
 
   render() {
-    this.getEmployeeHours();
     return (
-      <div className="daily-quota-tracker">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-9">
-              <div className="row"></div>
-              <table style={{ textAlign: "center" }} className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Funcionario</th>
-                    {this.renderHours()}
-                    <th>Total:</th>
-                    <th>Média Hora:</th>
-                  </tr>
-                </thead>
-                {/* <tbody>{this.renderTable()}</tbody> */}
-                <tfoot>
-                  <tr></tr>
-                </tfoot>
-              </table>
-            </div>
-            <div className="col">
-              <div className="row">
-                <div className="col">
-                  {/* <ProductionTotal total={this.rowTotalsArray} /> */}
-                </div>
-                <div className="col">
-                  {/* <ProductionAverage total={this.rowTotalsArray} /> */}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div>
+        <h1>hello</h1>
+        {this.getHours()}
       </div>
     );
   }
+
+  componentDidMount() {
+    this.setState({
+      someKey: "otherValue"
+    });
+  }
 }
 
-export default Quota;
+export default TestingComponent;

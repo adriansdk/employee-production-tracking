@@ -27,6 +27,7 @@ class Quota extends React.Component {
       maximumDeviationRow: [],
       minimumDeviationRow: [],
 
+      totalDeviation: undefined,
       totalDeviationMax: [],
       totalDeviationMin: [],
 
@@ -45,14 +46,17 @@ class Quota extends React.Component {
   }
 
   renderTable = () => {
+    let employeeHours = [];
+    let individualDailyAverages = [];
+    let individualDailyTotal = [];
     let rows = this.state.seed.map((eachEmployee, key) => {
-      this.employeeHours.push(eachEmployee.horas);
-      this.averagesColArray.push(
+      employeeHours.push(eachEmployee.horas);
+      individualDailyAverages.push(
         Math.round(
           eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
         )
       );
-      this.colTotalsArray.push(eachEmployee.horas.reduce(this.reducer));
+      individualDailyTotal.push(eachEmployee.horas.reduce(this.reducer));
       return (
         <tr key={key}>
           <th>{eachEmployee.funcionario}</th>
@@ -81,7 +85,7 @@ class Quota extends React.Component {
       <tr>
         <th>Desvio</th>
         {deviationRow}
-        {this.renderDailyDeviation()}
+        <td>{this.renderDailyDeviation()}</td>
         <td>{this.renderDailyAverageDeviation()}</td>
       </tr>,
       <tr>
@@ -216,14 +220,22 @@ class Quota extends React.Component {
   };
 
   renderDailyAverageDeviation = () => {
-    const n = this.averagesColArray.length;
-    const mean = this.averagesColArray.reduce((a, b) => a + b) / n;
+    let individualDailyAverages = [];
+    this.state.seed.map((eachEmployee, key) => {
+      individualDailyAverages.push(
+        Math.round(
+          eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
+        )
+      );
+    });
+    const n = individualDailyAverages.length;
+    const mean = individualDailyAverages.reduce((a, b) => a + b) / n;
     const s = Math.sqrt(
-      this.averagesColArray
+      individualDailyAverages
         .map(x => Math.pow(x - mean, 2))
         .reduce((a, b) => a + b) / n
     );
-    this.averageDeviation = Math.round(s);
+
     return Math.round(s);
   };
 
@@ -240,9 +252,13 @@ class Quota extends React.Component {
   };
 
   renderTotalDeviationMax = () => {
-    console.log(this.state.totalDeviation)
-    let max = this.state.totalDeviation + this.rowAveragesArray.reduce(this.reducer);
-    return max;
+    console.log(
+      this.state.totalDeviation,
+      this.rowAveragesArray.reduce(this.reducer)
+    );
+    return (
+      this.state.totalDeviation + this.rowAveragesArray.reduce(this.reducer)
+    );
   };
 
   renderAverageDeviationMax = () => {
@@ -250,8 +266,9 @@ class Quota extends React.Component {
   };
 
   renderTotalDeviationMin = () => {
-    let min = this.rowAveragesArray.reduce(this.reducer) - this.state.totalDeviation;
-    return min;
+    return (
+      this.rowAveragesArray.reduce(this.reducer) - this.state.totalDeviation
+    );
   };
 
   renderAverageDeviationMin = () => {
@@ -400,13 +417,10 @@ class Quota extends React.Component {
       }
     });
   };
-
   componentDidMount = () => {
     let hourlyAverageMaximum = this.renderAverageDeviationMax();
     let averageDeviationMin = this.renderAverageDeviationMin();
     let averageDeviationMax = this.renderDailyAverageDeviation();
-
-    let totalDeviation = this.renderDailyDeviation()
 
     let deviationsArray = this.state.seed[0].horas.map((eachHour, key) => {
       return this.renderDeviation(key);
@@ -419,21 +433,21 @@ class Quota extends React.Component {
       return this.renderMin(key);
     });
 
+    let totalDeviation = this.renderDailyDeviation();
+    console.log(totalDeviation);
     let totalDeviationMax = this.renderTotalDeviationMax();
     console.log(totalDeviationMax);
     let totalDeviationMin = this.renderTotalDeviationMin();
-    // console.log(totalDeviationMin);
 
     this.setState({
       averageDeviationMax: averageDeviationMax,
       averageDeviationMin: averageDeviationMin,
 
-      
+      totalDeviation: totalDeviation,
       deviationsArray: deviationsArray,
       maximumDeviationRow: maximumDeviationRow,
       minimumDeviationRow: minimumDeviationRow,
-      
-      totalDeviation:totalDeviation,
+
       totalDeviationMax: totalDeviationMax,
       totalDeviationMin: totalDeviationMin,
 
@@ -442,16 +456,6 @@ class Quota extends React.Component {
   };
 
   render() {
-    // console.log(this.totalDeviation)
-    // console.log(this.averageDeviation)
-    // console.log(this.totalColAverage)
-    // console.log(this.colDeviationArray)
-    // console.log(this.averagesColArray)
-    // console.log(this.rowTotalsArray)
-    // console.log(this.rowAveragesArray)
-    // console.log(this.colTotalsArray)
-    // console.log(this.employeeHours)
-    
     this.totalColAverage = undefined;
     this.averageArrayAverage = undefined;
     this.hourlyAverageMaximum = undefined;

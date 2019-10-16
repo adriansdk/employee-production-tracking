@@ -1,4 +1,5 @@
 import React from "react";
+import  "../thing";
 
 class Home extends React.Component {
   state = { someKey: "someValue" };

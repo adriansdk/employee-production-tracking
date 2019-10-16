@@ -1,7 +1,7 @@
 import React from "react";
 // import DailyQuota from "../DailyQuota";
 import ProductionQuota from "../ProductionQuota";
-import TestingComponent from "../testingComponent"
+import TestingComponent from "../TestingComponent"
 
 class Performance extends React.Component {
   state = { someKey: "someValue" };
@@ -9,7 +9,7 @@ class Performance extends React.Component {
   render() {
     return (
       <div className="performance">
-        <TestingComponent/>
+        <ProductionQuota/>
       </div>
     );
   }
