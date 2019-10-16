@@ -27,9 +27,6 @@ class Quota extends React.Component {
       maximumDeviationRow: [],
       minimumDeviationRow: [],
 
-      totalDeviationMax: [],
-      totalDeviationMin: [],
-
       filters: ["setor", "tipo"],
       seed: Data,
       isCreating: false,
@@ -125,13 +122,18 @@ class Quota extends React.Component {
         return <td key={key}>{eachHour}</td>;
       }
     });
-    if (total > this.state.totalDeviationMax) {
+    console.log(this.totalDeviationMax);
+    if (total > this.totalDeviationMax) {
       columns.push(
-        <td style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>{Math.round(total)}</td>
+        <td style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>
+          {Math.round(total)}
+        </td>
       );
-    } else if (total < this.state.totalDeviationMin) {
+    } else if (total < this.totalDeviationMin) {
       columns.push(
-        <td style={{ backgroundColor: "rgba(255,0,0,0.3)" }}>{Math.round(total)}</td>
+        <td style={{ backgroundColor: "rgba(255,0,0,0.3)" }}>
+          {Math.round(total)}
+        </td>
       );
     } else {
       columns.push(<td>{Math.round(total)}</td>);
@@ -238,7 +240,9 @@ class Quota extends React.Component {
   };
 
   renderTotalDeviationMax = () => {
-    return this.totalDeviation + this.rowAveragesArray.reduce(this.reducer);
+    let max = this.totalDeviation + this.rowAveragesArray.reduce(this.reducer);
+    this.totalDeviationMax = max;
+    return max;
   };
 
   renderAverageDeviationMax = () => {
@@ -246,7 +250,9 @@ class Quota extends React.Component {
   };
 
   renderTotalDeviationMin = () => {
-    return this.rowAveragesArray.reduce(this.reducer) - this.totalDeviation;
+    let min = this.rowAveragesArray.reduce(this.reducer) - this.totalDeviation;
+    this.totalDeviationMin = min;
+    return min;
   };
 
   renderAverageDeviationMin = () => {
@@ -412,35 +418,17 @@ class Quota extends React.Component {
       return this.renderMin(key);
     });
 
-    let totalDeviationMax = this.renderTotalDeviationMax();
-    let totalDeviationMin = this.renderTotalDeviationMin();
-
     this.setState({
       averageDeviationMax: averageDeviationMax,
       averageDeviationMin: averageDeviationMin,
-
       deviationsArray: deviationsArray,
       maximumDeviationRow: maximumDeviationRow,
       minimumDeviationRow: minimumDeviationRow,
-
-      totalDeviationMax: totalDeviationMax,
-      totalDeviationMin: totalDeviationMin,
-
       hourlyAverageMaximum: hourlyAverageMaximum
     });
   };
 
   render() {
-    // console.log(this.totalDeviation)
-    // console.log(this.averageDeviation)
-    // console.log(this.totalColAverage)
-    // console.log(this.colDeviationArray)
-    // console.log(this.averagesColArray)
-    // console.log(this.rowTotalsArray)
-    // console.log(this.rowAveragesArray)
-    // console.log(this.colTotalsArray)
-    // console.log(this.employeeHours)
-
     this.totalColAverage = undefined;
     this.averageArrayAverage = undefined;
     this.hourlyAverageMaximum = undefined;
