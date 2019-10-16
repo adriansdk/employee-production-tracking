@@ -68,7 +68,7 @@ class Quota extends React.Component {
     });
     rows.push(
       <tr>
-        <th>Total:</th>
+        <th style={{backgroundColor: "rgba(11,11,11,0.1)"}}>Total:</th>
         {this.renderSums()}
       </tr>,
       <tr>
@@ -160,11 +160,11 @@ class Quota extends React.Component {
     let teamDailyTotal = 0;
     let teamTotalRow = this.rowTotalsArray.map((eachSum, key) => {
       teamDailyTotal += eachSum;
-      return <td key={key}>{eachSum}</td>;
+      return <th style={{backgroundColor: "rgba(11,11,11,0.1)"}} key={key}>{eachSum}</th>;
     });
     teamTotalRow.push(
-      <th>{Math.round(teamDailyTotal)}</th>,
-      <th>{Math.round(teamDailyTotal / this.rowTotalsArray.length)}</th>
+      <th style={{backgroundColor: "rgba(11,11,11,0.1)"}}>{Math.round(teamDailyTotal)}</th>,
+      <th style={{backgroundColor: "rgba(11,11,11,0.1)"}}>{Math.round(teamDailyTotal / this.rowTotalsArray.length)}</th>
     );
     return teamTotalRow;
   };
@@ -313,7 +313,7 @@ class Quota extends React.Component {
         return (
           <tr
             style={{
-              backgroundColor: "rgba(33,33,33, 0.2)",
+              backgroundColor: "rgba(33,33,33, 0.1)",
               boxShadow: "2px 2px 2px 2px black"
             }}
           >
@@ -328,7 +328,7 @@ class Quota extends React.Component {
         );
       } else
         return (
-          <tr style={{ backgroundColor: "rgba(33,33,33, 0.2)" }}>
+          <tr style={{ backgroundColor: "rgba(33,33,33, 0.1)" }}>
             <th>Nome</th>
             {newEmployee.horas.map((eachHour, key) => {
               total += eachHour;
