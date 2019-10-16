@@ -2,6 +2,7 @@
   {
     "funcionario": "Elba",
     "metaDiaria": 400,
+    "data": "xx/xx/xxxx",
     "setor": [
       {
         "Entrega": {
@@ -12,16 +13,17 @@
       {
         "Recebimento": {
           "tipo": ["Calçados", "Peças"],
-          "quantida.....................de": 0
+          "quantidade": 0
         }
       }
     ],
-    "horas": [112, 53, 45, 34, 23, 40, 63, 17, 40, 33, 53],
+    "horas": [10, 20, 10, 10, 10, 10, 10, 10, 10, 10],
     "totalDiario": 0
   },
   {
     "funcionario": "Julie",
     "metaDiaria": 400,
+    "data": "xx/xx/xxxx",
     "setor": [
       {
         "Entrega": {
@@ -36,12 +38,13 @@
         }
       }
     ],
-    "horas": [12, 93, 55, 34, 32, 60, 73, 47, 40, 33, 53],
+    "horas": [10, 10, 10, 10, 10, 20, 5, 10, 10, 10],
     "totalDiario": 0
   },
   {
     "funcionario": "Adrian",
     "metaDiaria": 400,
+    "data": "xx/xx/xxxx",
     "setor": [
       {
         "Entrega": {
@@ -56,12 +59,13 @@
         }
       }
     ],
-    "horas": [30, 100, 20, 43, 12, 12, 23, 27, 40, 33, 123],
+    "horas": [10, 10, 10, 10, 10, 20, 10, 10, 20, 10],
     "totalDiario": 0
   },
   {
     "funcionario": "Nick",
     "metaDiaria": 400,
+    "data": "xx/xx/xxxx",
     "setor": [
       {
         "Entrega": {
@@ -76,12 +80,13 @@
         }
       }
     ],
-    "horas": [100, 19, 20, 43, 35, 12, 23, 27, 40, 33, 29],
+    "horas": [10, 5, 10, 10, 10, 10, 10, 10, 10, 30],
     "totalDiario": 0
   },
   {
     "funcionario": "Junior",
     "metaDiaria": 400,
+    "data": "xx/xx/xxxx",
     "setor": [
       {
         "Entrega": {
@@ -96,12 +101,13 @@
         }
       }
     ],
-    "horas": [10, 30, 20, 43, 80, 12, 23, 27, 40, 33, 29],
+    "horas": [10, 10, 10, 10, 20, 10, 10, 10, 5, 10],
     "totalDiario": 0
   },
   {
     "funcionario": "Qiwei",
     "metaDiaria": 400,
+    "data": "xx/xx/xxxx",
     "setor": [
       {
         "Entrega": {
@@ -116,12 +122,13 @@
         }
       }
     ],
-    "horas": [20, 22, 35, 65, 56, 70, 30, 22, 11, 24, 29],
+    "horas": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
     "totalDiario": 0
   },
   {
     "funcionario": "Allex",
     "metaDiaria": 400,
+    "data": "xx/xx/xxxx",
     "setor": [
       {
         "Entrega": {
@@ -136,12 +143,13 @@
         }
       }
     ],
-    "horas": [70, 96, 25, 17, 70, 25, 17, 4, 25, 17, 29],
+    "horas": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
     "totalDiario": 0
   },
   {
     "funcionario": "Adrian",
     "metaDiaria": 400,
+    "data": "xx/xx/xxxx",
     "setor": [
       {
         "Entrega": {
@@ -156,7 +164,7 @@
         }
       }
     ],
-    "horas": [56, 67, 30, 65, 56, 30, 65, 22, 30, 65, 29],
+    "horas": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
     "totalDiario": 0
   }
 ]
