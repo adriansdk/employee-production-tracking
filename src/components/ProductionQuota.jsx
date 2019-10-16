@@ -461,14 +461,6 @@ class Quota extends React.Component {
     });
   };
 
-  createButton = () => {
-    if (this.state.isCreating) {
-      return <p>Criando novo usuário</p>;
-    } else if (!this.state.isCreating) {
-      return <p>Crie novo usuário</p>;
-    }
-  };
-
   nameHandler = event => {
     console.log(event.target.value);
     this.setState({
