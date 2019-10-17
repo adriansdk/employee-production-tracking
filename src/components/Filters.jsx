@@ -1,4 +1,5 @@
 import React from "react";
+import "./styles/Filters.scss";
 
 class Filters extends React.Component {
   constructor() {
@@ -11,10 +12,10 @@ class Filters extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <p>Nome do funcionário:</p>
+        <h3>Pesquise por nome:</h3>
         <input
           type="text"
-          placeholder="Nome do novo funcionário"
+          placeholder="Nome do funcionário"
           value={this.props.employeeName}
           onChange={this.props.nameHandler}
         />
