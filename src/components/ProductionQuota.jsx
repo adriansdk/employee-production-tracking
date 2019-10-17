@@ -25,6 +25,9 @@ class Quota extends React.Component {
       maximumDeviationRow: [],
       minimumDeviationRow: [],
 
+      totalDeviationMax: undefined,
+      totalDeviationMin: undefined,
+
       data: Data,
       filteredData: Data,
 
@@ -51,11 +54,7 @@ class Quota extends React.Component {
     };
   }
 
-  filterData = () => {
-    console.log(this.state.filters.byName.nameFilter);
-
-    // this.setState({ filteredData: filteredData });
-  };
+  filterData = () => {};
 
   renderTable = () => {
     let rows = [];
@@ -197,13 +196,13 @@ class Quota extends React.Component {
         return <td key={key}>{eachHour}</td>;
       }
     });
-    if (total > this.totalDeviationMax) {
+    if (total > this.state.totalDeviationMax) {
       columns.push(
         <td style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>
           {Math.round(total)}
         </td>
       );
-    } else if (total < this.totalDeviationMin) {
+    } else if (total < this.state.totalDeviationMin) {
       columns.push(
         <td style={{ backgroundColor: "rgba(255,0,0,0.3)" }}>
           {Math.round(total)}
@@ -212,13 +211,13 @@ class Quota extends React.Component {
     } else {
       columns.push(<td>{Math.round(total)}</td>);
     }
-    if (total / hours.length > this.averageDeviationMax) {
+    if (total / hours.length > this.state.averageDeviationMax) {
       columns.push(
         <td style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>
           {Math.round(total / hours.length)}
         </td>
       );
-    } else if (total / hours.length < this.averageDeviationMin) {
+    } else if (total / hours.length < this.state.averageDeviationMin) {
       columns.push(
         <td style={{ backgroundColor: "rgba(255,0,0,0.3)" }}>
           {Math.round(total / hours.length)}
@@ -323,6 +322,15 @@ class Quota extends React.Component {
     );
   };
 
+  getAverageAndTotalDeviation = () => {
+    this.setState({
+      totalDeviationMax: this.totalDeviationMax,
+      totalDeviationMin: this.totalDeviationMin,
+      averageDeviationMax: this.averageDeviationMax,
+      averageDeviationMin: this.averageDeviationMin
+    });
+  };
+
   renderTotalDeviationMax = () => {
     let max = this.totalDeviation + this.rowAveragesArray.reduce(this.reducer);
     this.totalDeviationMax = max;
@@ -338,6 +346,7 @@ class Quota extends React.Component {
   renderTotalDeviationMin = () => {
     let min = this.rowAveragesArray.reduce(this.reducer) - this.totalDeviation;
     this.totalDeviationMin = min;
+    // this.setState({ totalDeviationMin: min });
     return min;
   };
 
@@ -481,10 +490,15 @@ class Quota extends React.Component {
       this.setState({
         filteredData: filteredData
       });
+    } else if (filteredData.length === 0) {
+      this.setState({
+        filteredData: this.state.data
+      });
     }
   };
 
   componentDidMount = () => {
+    this.getAverageAndTotalDeviation();
     let deviationsArray = this.state.filteredData[0].horas.map(
       (eachHour, key) => {
         return this.renderDeviation(key);
