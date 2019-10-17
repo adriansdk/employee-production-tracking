@@ -2,11 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 
-import SideNav, {
-  NavItem,
-  NavIcon,
-  NavText
-} from "@trendmicro/react-sidenav";
+import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 
 class Navbar extends React.Component {
   state = {
@@ -26,7 +22,7 @@ class Navbar extends React.Component {
             backgroundColor: "black"
           }}
         >
-          <SideNav.Toggle onClick={this.props.width}/>
+          <SideNav.Toggle onClick={this.props.width} />
           <SideNav.Nav defaultSelected="home">
             <NavItem eventKey="home">
               <NavIcon>

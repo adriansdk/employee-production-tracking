@@ -17,7 +17,8 @@
       }
     ],
     "horas": [112, 53, 45, 34, 23, 40, 63, 17, 40, 33, 53],
-    "totalDiario": 0
+    "totalDiario": 0,
+    "data": "00/00/2019"
   },
   {
     "funcionario": "Elba",
@@ -37,7 +38,8 @@
       }
     ],
     "horas": [112, 53, 45, 34, 23, 40, 63, 17, 40, 33, 53],
-    "totalDiario": 0
+    "totalDiario": 0,
+    "data": "00/00/2019"
   },
   {
     "funcionario": "Julie",
@@ -57,7 +59,8 @@
       }
     ],
     "horas": [12, 93, 55, 34, 32, 60, 73, 47, 40, 33, 53],
-    "totalDiario": 0
+    "totalDiario": 0,
+    "data": "00/00/2019"
   },
   {
     "funcionario": "Adrian",
@@ -77,7 +80,8 @@
       }
     ],
     "horas": [30, 100, 20, 43, 12, 12, 23, 27, 40, 33, 123],
-    "totalDiario": 0
+    "totalDiario": 0,
+    "data": "00/00/2019"
   },
   {
     "funcionario": "Nick",
@@ -97,7 +101,8 @@
       }
     ],
     "horas": [100, 19, 20, 43, 35, 12, 23, 27, 40, 33, 29],
-    "totalDiario": 0
+    "totalDiario": 0,
+    "data": "00/00/2019"
   },
   {
     "funcionario": "Junior",
@@ -117,7 +122,8 @@
       }
     ],
     "horas": [10, 30, 20, 43, 80, 12, 23, 27, 40, 33, 29],
-    "totalDiario": 0
+    "totalDiario": 0,
+    "data": "00/00/2019"
   },
   {
     "funcionario": "Qiwei",
@@ -137,7 +143,8 @@
       }
     ],
     "horas": [20, 22, 35, 65, 56, 70, 30, 22, 11, 24, 29],
-    "totalDiario": 0
+    "totalDiario": 0,
+    "data": "00/00/2019"
   },
   {
     "funcionario": "Allex",
@@ -157,7 +164,8 @@
       }
     ],
     "horas": [70, 96, 25, 17, 70, 25, 17, 4, 25, 17, 29],
-    "totalDiario": 0
+    "totalDiario": 0,
+    "data": "00/00/2019"
   },
   {
     "funcionario": "Angela",
@@ -177,6 +185,7 @@
       }
     ],
     "horas": [56, 67, 30, 65, 56, 30, 65, 22, 30, 65, 29],
-    "totalDiario": 0
+    "totalDiario": 0,
+    "data": "00/00/2019"
   }
 ]

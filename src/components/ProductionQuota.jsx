@@ -3,7 +3,7 @@ import Data from "../seed/seeds.json";
 import ProductionTotal from "./ProductionTotal";
 import NewEmployee from "./NewEmployee.jsx";
 import ProductionAverage from "./ProductionAverage.jsx";
-import "./styles/Quota.scss";
+import "./styles/ProductionQuota.scss";
 import Filters from "./Filters.jsx";
 
 class Quota extends React.Component {
@@ -536,18 +536,13 @@ class Quota extends React.Component {
     return (
       <div className="daily-quota-tracker">
         <div className="container-fluid">
-          <button onClick={this.filterData}>FILTER BY NAME</button>
           <div className="row">
             <div className="col-9">
-              <div className="row">
-                <div className="col-2">
-                  <Filters
-                    nameHandler={this.nameHandler}
-                    employeeName={this.state.filters.byName.nameFilter}
-                  />
-                </div>
-                {this.renderCancelCreation()}
-              </div>
+              <Filters
+                nameHandler={this.nameHandler}
+                employeeName={this.state.filters.byName.nameFilter}
+              />
+              {this.renderCancelCreation()}
               <table style={{ textAlign: "center" }} className="table">
                 <thead>
                   <tr>
