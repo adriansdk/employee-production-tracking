@@ -211,13 +211,13 @@ class Quota extends React.Component {
     } else {
       columns.push(<td>{Math.round(total)}</td>);
     }
-    if (total / hours.length > this.state.averageDeviationMax) {
+    if (total / hours.length > this.averageDeviationMax) {
       columns.push(
         <td style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>
           {Math.round(total / hours.length)}
         </td>
       );
-    } else if (total / hours.length < this.state.averageDeviationMin) {
+    } else if (total / hours.length < this.averageDeviationMin) {
       columns.push(
         <td style={{ backgroundColor: "rgba(255,0,0,0.3)" }}>
           {Math.round(total / hours.length)}
