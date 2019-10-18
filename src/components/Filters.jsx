@@ -8,7 +8,6 @@ class Filters extends React.Component {
       someKey: "someValue"
     };
   }
-
   render() {
     return (
       <div className="filter">
