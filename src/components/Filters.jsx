@@ -12,10 +12,12 @@ class Filters extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h3>Pesquise por nome:</h3>
+        <span>
+          <i class="fas fa-search"></i>
+        </span>
         <input
           type="text"
-          placeholder="Nome do funcionário"
+          placeholder="Pesquise por nome de funcionário, setor, categoria..."
           value={this.props.employeeName}
           onChange={this.props.nameHandler}
         />

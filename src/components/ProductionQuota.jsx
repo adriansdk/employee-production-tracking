@@ -110,7 +110,6 @@ class Quota extends React.Component {
           {minimumRow}
           <td>{this.renderTotalDeviationMin()}</td>
           <td>{this.renderAverageDeviationMin()}</td>
-          <td></td>
         </tr>
       );
     } else if (this.state.filters.byName.nameFilter.length === 0) {
@@ -164,7 +163,6 @@ class Quota extends React.Component {
           {minimumRow}
           <td>{this.renderTotalDeviationMin()}</td>
           <td>{this.renderAverageDeviationMin()}</td>
-          <td></td>
         </tr>
       );
     }
@@ -369,7 +367,11 @@ class Quota extends React.Component {
       return (
         <th
           key={key}
-          style={{ backgroundColor: "rgba(0,0,150,0.7)", color: "white" }}
+          style={{
+            backgroundColor: "rgba(0,0,150,0.7)",
+            color: "white",
+            borderTop: "1px solid black"
+          }}
         >
           {key + 7}h-{key + 8}h{" "}
         </th>
@@ -550,7 +552,8 @@ class Quota extends React.Component {
                       style={{
                         backgroundColor: "rgba(0,0,150,0.7)",
                         color: "white",
-                        border: "1px solid black"
+                        borderTop: "1px solid black",
+                        borderLeft: "1px solid black"
                       }}
                     >
                       Funcionario
@@ -559,7 +562,8 @@ class Quota extends React.Component {
                     <th
                       style={{
                         backgroundColor: "rgba(0,0,150,0.7)",
-                        color: "white"
+                        color: "white",
+                        borderTop: "1px solid black"
                       }}
                     >
                       Total:
@@ -567,7 +571,9 @@ class Quota extends React.Component {
                     <th
                       style={{
                         backgroundColor: "rgba(0,0,150,0.7)",
-                        color: "white"
+                        color: "white",
+                        borderTop: "1px solid black",
+                        borderRight: "1px solid black"
                       }}
                     >
                       Média Hora:
