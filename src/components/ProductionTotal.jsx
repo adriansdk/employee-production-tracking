@@ -1,4 +1,5 @@
 import React from "react";
+import "./styles/ProductionTotal.scss"
 
 class ProductionTotal extends React.Component {
   state = { someKey: "someValue" };
@@ -13,8 +14,8 @@ class ProductionTotal extends React.Component {
 
   render() {
     return (
-      <div className="total-box mx-auto">
-        <h3>Produção:</h3>
+      <div className="total-box mx-auto production-container">
+        <p>Produção total:</p>
         <h1>{this.showSums()}</h1>
       </div>
     );

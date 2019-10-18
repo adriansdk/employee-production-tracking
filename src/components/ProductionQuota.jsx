@@ -1,7 +1,6 @@
 import React from "react";
 import Data from "../seed/seeds.json";
 import ProductionTotal from "./ProductionTotal";
-import NewEmployee from "./NewEmployee.jsx";
 import ProductionAverage from "./ProductionAverage.jsx";
 import "./styles/ProductionQuota.scss";
 import Filters from "./Filters.jsx";
@@ -575,9 +574,6 @@ class Quota extends React.Component {
                   </tr>
                 </thead>
                 <tbody>{this.renderTable()}</tbody>
-                <tfoot>
-                  <tr></tr>
-                </tfoot>
               </table>
             </div>
             <div className="col">
