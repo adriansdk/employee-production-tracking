@@ -1,5 +1,19 @@
-input{
+.filter {
+  padding-top: 20px;
+  p{
+    font-size: 25px;
+    font-weight: bold;
+  }
+  input {
     padding: 10px;
     height: 50px;
-    width: 40%;
+    width: 45%;
+  }
+  span{
+    padding: 15px 15px 14px;
+    border: 1px solid black;
+  }
+  .fas {
+    font-size: 25px;
+  }
 }

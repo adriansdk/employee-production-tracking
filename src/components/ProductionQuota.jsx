@@ -1,7 +1,6 @@
 import React from "react";
 import Data from "../seed/seeds.json";
 import ProductionTotal from "./ProductionTotal";
-import NewEmployee from "./NewEmployee.jsx";
 import ProductionAverage from "./ProductionAverage.jsx";
 import "./styles/ProductionQuota.scss";
 import Filters from "./Filters.jsx";
@@ -111,7 +110,6 @@ class Quota extends React.Component {
           {minimumRow}
           <td>{this.renderTotalDeviationMin()}</td>
           <td>{this.renderAverageDeviationMin()}</td>
-          <td></td>
         </tr>
       );
     } else if (this.state.filters.byName.nameFilter.length === 0) {
@@ -165,7 +163,6 @@ class Quota extends React.Component {
           {minimumRow}
           <td>{this.renderTotalDeviationMin()}</td>
           <td>{this.renderAverageDeviationMin()}</td>
-          <td></td>
         </tr>
       );
     }
@@ -370,7 +367,11 @@ class Quota extends React.Component {
       return (
         <th
           key={key}
-          style={{ backgroundColor: "rgba(0,0,150,0.7)", color: "white" }}
+          style={{
+            backgroundColor: "rgba(0,0,150,0.7)",
+            color: "white",
+            borderTop: "1px solid black"
+          }}
         >
           {key + 7}h-{key + 8}h{" "}
         </th>
@@ -471,7 +472,6 @@ class Quota extends React.Component {
   };
 
   nameHandler = event => {
-    console.log(event.target.value);
     this.setState({
       filters: {
         byName: {
@@ -481,8 +481,10 @@ class Quota extends React.Component {
       }
     });
     let filteredData = [];
-    this.state.data.map(eachEmployee => {
+    this.state.data.map((eachEmployee, index) => {
       if (eachEmployee.funcionario.includes(event.target.value)) {
+        filteredData.push(eachEmployee);
+      } else if (eachEmployee.setor.includes(event.target.value)) {
         filteredData.push(eachEmployee);
       }
     });
@@ -537,7 +539,7 @@ class Quota extends React.Component {
       <div className="daily-quota-tracker">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-9">
+            <div className="col-8">
               <Filters
                 nameHandler={this.nameHandler}
                 employeeName={this.state.filters.byName.nameFilter}
@@ -550,7 +552,9 @@ class Quota extends React.Component {
                       scope="col"
                       style={{
                         backgroundColor: "rgba(0,0,150,0.7)",
-                        color: "white"
+                        color: "white",
+                        borderTop: "1px solid black",
+                        borderLeft: "1px solid black"
                       }}
                     >
                       Funcionario
@@ -559,7 +563,8 @@ class Quota extends React.Component {
                     <th
                       style={{
                         backgroundColor: "rgba(0,0,150,0.7)",
-                        color: "white"
+                        color: "white",
+                        borderTop: "1px solid black"
                       }}
                     >
                       Total:
@@ -567,7 +572,9 @@ class Quota extends React.Component {
                     <th
                       style={{
                         backgroundColor: "rgba(0,0,150,0.7)",
-                        color: "white"
+                        color: "white",
+                        borderTop: "1px solid black",
+                        borderRight: "1px solid black"
                       }}
                     >
                       Média Hora:
@@ -575,9 +582,6 @@ class Quota extends React.Component {
                   </tr>
                 </thead>
                 <tbody>{this.renderTable()}</tbody>
-                <tfoot>
-                  <tr></tr>
-                </tfoot>
               </table>
             </div>
             <div className="col">

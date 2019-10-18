@@ -1,4 +1,5 @@
 import React from "react";
+import "./styles/ProductionAverage.scss"
 
 class ProductionAverage extends React.Component {
   state = {};
@@ -16,7 +17,7 @@ class ProductionAverage extends React.Component {
 
   render() {
     return (
-      <div className="total-box mx-auto">
+      <div className="production-average mx-auto">
         <h3>Média:</h3>
         <h1>{this.showAverage()}</h1>
       </div>

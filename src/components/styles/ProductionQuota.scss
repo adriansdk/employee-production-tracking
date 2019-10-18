@@ -1,19 +1,29 @@
 .table {
+  font-size: 20px;
   border-radius: 15px;
-  th {
-    padding: 0px;
-    font-size: 14px;
+  thead {
+    th {
+      padding: 10px 5px;
+      font-size: 17px;
+    }
   }
-  td {
-    padding: 0px;
+  tbody {
+    tr {
+      height: 30px;
+    }
+    th {
+      padding: 5px 0px;
+      height: 20px;
+      border: 1px solid black;
+    }
+    td {
+      border: 1px solid black;
+      padding: 5px 0px;
+      height: 20px;
+    }
   }
   margin-top: 20px;
   box-shadow: 0 0 5px 2px lightgray;
   -webkit-box-shadow: 0 0 5px 2px lightgray;
   -moz-box-shadow: 0 0 5px 2px lightgray;
-}
-
-.total-box {
-  border: 2px black solid;
-  text-align: center;
 }

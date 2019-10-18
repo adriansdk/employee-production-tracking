@@ -1,8 +1,6 @@
 import React from "react";
-// import DailyQuota from "../DailyQuota";
 import ProductionQuota from "../ProductionQuota";
-import ProductionTotal from "../ProductionTotal";
-
+import "../styles/Performance.scss"
 class Performance extends React.Component {
   state = { someKey: "someValue" };
 

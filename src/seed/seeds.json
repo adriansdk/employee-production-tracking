@@ -1,5 +1,26 @@
 [
   {
+    "funcionario": "Rinaldo",
+    "metaDiaria": 400,
+    "setor": [
+      {
+        "Entrega": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      },
+      {
+        "Recebimento": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      }
+    ],
+    "horas": [112, 53, 45, 34, 23, 40, 63, 17, 40, 33, 53],
+    "totalDiario": 0,
+    "data": "00/00/2019"
+  },
+  {
     "funcionario": "Alejandro",
     "metaDiaria": 400,
     "setor": [
