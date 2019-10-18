@@ -536,7 +536,7 @@ class Quota extends React.Component {
       <div className="daily-quota-tracker">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-9">
+            <div className="col-8">
               <Filters
                 nameHandler={this.nameHandler}
                 employeeName={this.state.filters.byName.nameFilter}
@@ -549,7 +549,8 @@ class Quota extends React.Component {
                       scope="col"
                       style={{
                         backgroundColor: "rgba(0,0,150,0.7)",
-                        color: "white"
+                        color: "white",
+                        border: "1px solid black"
                       }}
                     >
                       Funcionario
