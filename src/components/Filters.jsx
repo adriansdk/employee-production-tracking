@@ -12,7 +12,7 @@ class Filters extends React.Component {
   render() {
     return (
       <div className="filter">
-        <p>Pesquise por nome de funcionário, setor ou categoria:</p>
+        <p>Search for employee name, sector or category:</p>
         <input
           type="text"
           placeholder='Ex:"Adrian", "Production", "Shoes"...'

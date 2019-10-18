@@ -18,7 +18,7 @@ class ProductionAverage extends React.Component {
   render() {
     return (
       <div className="production-average mx-auto">
-        <h3>Média:</h3>
+        <h3>Average Production:</h3>
         <h1>{this.showAverage()}</h1>
       </div>
     );

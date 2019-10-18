@@ -90,7 +90,7 @@ class Quota extends React.Component {
           {this.renderSums()}
         </tr>,
         <tr>
-          <th>Média</th>
+          <th>Average</th>
           {this.renderTeamAverage()}
         </tr>,
         <tr>
@@ -143,23 +143,23 @@ class Quota extends React.Component {
           {this.renderSums()}
         </tr>,
         <tr>
-          <th>Média</th>
+          <th>Average</th>
           {this.renderTeamAverage()}
         </tr>,
         <tr>
-          <th>Desvio</th>
+          <th>Deviation</th>
           {deviationRow}
           {this.renderDailyDeviation()}
           <td>{this.renderDailyAverageDeviation()}</td>
         </tr>,
         <tr>
-          <th>Máximo:</th>
+          <th>Maximum:</th>
           {maximumRow}
           <td>{this.renderTotalDeviationMax()}</td>
           <td>{this.renderAverageDeviationMax()}</td>
         </tr>,
         <tr>
-          <th>Mínimo:</th>
+          <th>Minimum:</th>
           {minimumRow}
           <td>{this.renderTotalDeviationMin()}</td>
           <td>{this.renderAverageDeviationMin()}</td>
@@ -557,7 +557,7 @@ class Quota extends React.Component {
                         borderLeft: "1px solid black"
                       }}
                     >
-                      Funcionario
+                      Employee
                     </th>
                     {this.renderHours()}
                     <th
@@ -567,7 +567,7 @@ class Quota extends React.Component {
                         borderTop: "1px solid black"
                       }}
                     >
-                      Total:
+                      Total
                     </th>
                     <th
                       style={{
@@ -577,7 +577,7 @@ class Quota extends React.Component {
                         borderRight: "1px solid black"
                       }}
                     >
-                      Média Hora:
+                      Hourly Average
                     </th>
                   </tr>
                 </thead>
