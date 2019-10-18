@@ -472,7 +472,6 @@ class Quota extends React.Component {
   };
 
   nameHandler = event => {
-    console.log(event.target.value);
     this.setState({
       filters: {
         byName: {
@@ -482,8 +481,10 @@ class Quota extends React.Component {
       }
     });
     let filteredData = [];
-    this.state.data.map(eachEmployee => {
+    this.state.data.map((eachEmployee, index) => {
       if (eachEmployee.funcionario.includes(event.target.value)) {
+        filteredData.push(eachEmployee);
+      } else if (eachEmployee.setor.includes(event.target.value)) {
         filteredData.push(eachEmployee);
       }
     });
