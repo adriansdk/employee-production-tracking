@@ -20,7 +20,7 @@ class Filters extends React.Component {
           onChange={this.props.nameHandler}
         />
         <span className="search-icon">
-          <i class="fas fa-search"></i>
+          <i className="fas fa-search"></i>
         </span>
       </div>
     );

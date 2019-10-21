@@ -21,6 +21,7 @@ class Quota extends React.Component {
     this.employeeHours = [];
 
     this.state = {
+      quotas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       maximumDeviationRow: [],
       minimumDeviationRow: [],
 
@@ -39,21 +40,9 @@ class Quota extends React.Component {
         bySector: false,
         byType: false,
         byCategory: false
-      },
-
-      isCreating: false,
-      funcionario: {
-        nome: "",
-        setor: "",
-        tipo: "",
-        horas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        metaDiaria: 0,
-        totalDiario: 0
       }
     };
   }
-
-  filterData = () => {};
 
   renderTable = () => {
     let rows = [];
@@ -110,6 +99,10 @@ class Quota extends React.Component {
           {minimumRow}
           <td>{this.renderTotalDeviationMin()}</td>
           <td>{this.renderAverageDeviationMin()}</td>
+        </tr>,
+        <tr>
+          <th>Meta:</th>
+          {this.renderQuota()}
         </tr>
       );
     } else if (this.state.filters.byName.nameFilter.length === 0) {
@@ -163,6 +156,10 @@ class Quota extends React.Component {
           {minimumRow}
           <td>{this.renderTotalDeviationMin()}</td>
           <td>{this.renderAverageDeviationMin()}</td>
+        </tr>,
+        <tr>
+          <th>Meta:</th>
+          {this.renderQuota()}
         </tr>
       );
     }
@@ -497,6 +494,25 @@ class Quota extends React.Component {
         filteredData: this.state.data
       });
     }
+  };
+
+  setHourlyQuota = (index, e) => {
+    let array = this.state.quotas
+    array[index] = e.target.value
+    this.setState({
+      quotas: array
+    })
+  }
+
+  renderQuota = () => {
+    return this.state.quotas.map((eachQuota, index) => {
+      return (
+        <td>
+          {" "}
+          <input type="number" style={{width:"70px"}} onChange={(e) => this.setHourlyQuota(index, e)} value={this.state.quotas[index]}/>
+        </td>
+      );
+    });
   };
 
   componentDidMount = () => {
