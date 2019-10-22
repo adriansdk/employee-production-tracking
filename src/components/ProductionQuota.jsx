@@ -103,6 +103,11 @@ class Quota extends React.Component {
         <tr>
           <th>Meta:</th>
           {this.renderQuota()}
+          {this.renderTotalQuota()}
+        </tr>,
+        <tr>
+          <th>% Atingimento:</th>
+          {this.renderProduction()}
         </tr>
       );
     } else if (this.state.filters.byName.nameFilter.length === 0) {
@@ -160,6 +165,7 @@ class Quota extends React.Component {
         <tr>
           <th>Meta:</th>
           {this.renderQuota()}
+          {this.renderTotalQuota()}
         </tr>,
         <tr>
           <th>% Atingimento:</th>
@@ -515,7 +521,7 @@ class Quota extends React.Component {
           {" "}
           <input
             type="number"
-            style={{ width: "70px" }}
+            style={{ width: "85%", padding: "5px 2px" }}
             onChange={e => this.setHourlyQuota(index, e)}
             value={this.state.quotas[index]}
           />
@@ -527,18 +533,43 @@ class Quota extends React.Component {
   renderProduction = () => {
     return this.state.quotas.map((eachQuota, index) => {
       let total = this.rowTotalsArray[index];
-      let percentage = (eachQuota / total) * 100;
+      let percentage = (total / eachQuota) * 100;
       let production = Math.round(percentage * 10) / 10;
-      if (percentage) {
-        if (percentage > 100) {
-          return <td style={{backgroundColor:"rgba(0,0,255, 0.3)"}}>{production}%</td>;
-        } else if (percentage < 100) {
-          return <td style={{backgroundColor:"rgba(255,0,0, 0.3)"}}>{production}%</td>;
+      if (eachQuota != 0) {
+        if (percentage >= 100) {
+          return (
+            <td style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>
+              {production}%
+            </td>
+          );
+        } else if (percentage <= 100) {
+          return (
+            <td style={{ backgroundColor: "rgba(255,0,0, 0.3)" }}>
+              {production}%
+            </td>
+          );
+        } else if (eachQuota === 0) {
+          return <td>Sem meta</td>;
         }
       } else {
         return <td>0%</td>;
       }
     });
+  };
+
+  renderTotalQuota = () => {
+    let total = this.rowTotalsArray.reduce(this.reducer);
+    let totalQuota = this.state.quotas.reduce(this.reducer);
+    if (totalQuota <= total) {
+      return (
+        <th style={{ backgroundColor: "rgba(0,0,255,0.3)" }}>{totalQuota}</th>
+      );
+    }
+    if (totalQuota >= total) {
+      return (
+        <th style={{ backgroundColor: "rgba(255,0,0,0.3)" }}>{totalQuota}</th>
+      );
+    }
   };
 
   componentDidMount = () => {
