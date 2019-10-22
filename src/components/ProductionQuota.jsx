@@ -502,7 +502,7 @@ class Quota extends React.Component {
 
   setHourlyQuota = (index, e) => {
     let array = this.state.quotas;
-    array[index] = e.target.value;
+    array[index] = parseInt(e.target.value);
     this.setState({
       quotas: array
     });
@@ -526,7 +526,9 @@ class Quota extends React.Component {
 
   renderProduction = () => {
     return this.state.quotas.map((eachQuota, index) => {
+      console.log(eachQuota, this.rowTotalsArray[index]);
       let total = eachQuota + this.rowTotalsArray[index];
+      console.log(total);
       return <td>{total}</td>;
     });
   };
