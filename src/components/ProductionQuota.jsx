@@ -13,6 +13,8 @@ class Quota extends React.Component {
     this.hourlyAverageMaximum = undefined;
     this.averageDeviationMax = undefined;
     this.averageDeviationMin = undefined;
+    this.averageQuota = undefined;
+    this.totalQuota = undefined;
     this.colDeviationArray = [];
     this.averagesColArray = [];
     this.rowTotalsArray = [];
@@ -103,7 +105,8 @@ class Quota extends React.Component {
         <tr>
           <th>Meta:</th>
           {this.renderQuota()}
-          {this.renderTotalQuota()}
+          <th>{this.getTotalQuota()}</th>
+          <th>{this.getAverageQuota()}</th>
         </tr>,
         <tr>
           <th>% Atingimento:</th>
@@ -165,7 +168,8 @@ class Quota extends React.Component {
         <tr>
           <th>Meta:</th>
           {this.renderQuota()}
-          {this.renderTotalQuota()}
+          <th>{this.getTotalQuota()}</th>
+          <th>{this.getAverageQuota()}</th>
         </tr>,
         <tr>
           <th>% Atingimento:</th>
@@ -326,12 +330,14 @@ class Quota extends React.Component {
     );
   };
 
-  getAverageAndTotalDeviation = () => {
+  getState = () => {
     this.setState({
       totalDeviationMax: this.totalDeviationMax,
       totalDeviationMin: this.totalDeviationMin,
       averageDeviationMax: this.averageDeviationMax,
-      averageDeviationMin: this.averageDeviationMin
+      averageDeviationMin: this.averageDeviationMin,
+      totalQuota: this.totalQuota,
+      averageQuota: this.averageQuota
     });
   };
 
@@ -557,23 +563,19 @@ class Quota extends React.Component {
     });
   };
 
-  renderTotalQuota = () => {
-    let total = this.rowTotalsArray.reduce(this.reducer);
-    let totalQuota = this.state.quotas.reduce(this.reducer);
-    if (totalQuota <= total) {
-      return (
-        <th style={{ backgroundColor: "rgba(0,0,255,0.3)" }}>{totalQuota}</th>
-      );
-    }
-    if (totalQuota >= total) {
-      return (
-        <th style={{ backgroundColor: "rgba(255,0,0,0.3)" }}>{totalQuota}</th>
-      );
-    }
+  getTotalQuota = () => {
+    this.totalQuota = this.state.quotas.reduce(this.reducer);
+    return this.totalQuota;
+  };
+
+  getAverageQuota = () => {
+    this.totalQuota = this.state.quotas.reduce(this.reducer);
+    let averageQuota = this.totalQuota / 10;
+    return averageQuota;
   };
 
   componentDidMount = () => {
-    this.getAverageAndTotalDeviation();
+    this.getState();
     let deviationsArray = this.state.filteredData[0].horas.map(
       (eachHour, key) => {
         return this.renderDeviation(key);
@@ -602,6 +604,8 @@ class Quota extends React.Component {
     this.totalColAverage = undefined;
     this.averageArrayAverage = undefined;
     this.hourlyAverageMaximum = undefined;
+    this.averageQuota = undefined;
+    this.totalQuota = undefined;
     this.colDeviationArray = [];
     this.averagesColArray = [];
     this.rowTotalsArray = [];
