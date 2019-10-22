@@ -526,10 +526,14 @@ class Quota extends React.Component {
 
   renderProduction = () => {
     return this.state.quotas.map((eachQuota, index) => {
-      console.log(eachQuota, this.rowTotalsArray[index]);
-      let total = eachQuota + this.rowTotalsArray[index];
-      console.log(total);
-      return <td>{total}</td>;
+      let total = this.rowTotalsArray[index];
+      let percentage = (eachQuota / total) * 100;
+      let production = Math.round(percentage * 10) / 10;
+      if (percentage) {
+        return <td>{production}%</td>;
+      } else {
+        return <td>0%</td>;
+      }
     });
   };
 
