@@ -530,7 +530,11 @@ class Quota extends React.Component {
       let percentage = (eachQuota / total) * 100;
       let production = Math.round(percentage * 10) / 10;
       if (percentage) {
-        return <td>{production}%</td>;
+        if (percentage > 100) {
+          return <td style={{backgroundColor:"rgba(0,0,255, 0.3)"}}>{production}%</td>;
+        } else if (percentage < 100) {
+          return <td style={{backgroundColor:"rgba(255,0,0, 0.3)"}}>{production}%</td>;
+        }
       } else {
         return <td>0%</td>;
       }
