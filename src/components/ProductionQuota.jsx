@@ -160,6 +160,10 @@ class Quota extends React.Component {
         <tr>
           <th>Meta:</th>
           {this.renderQuota()}
+        </tr>,
+        <tr>
+          <th>% Atingimento:</th>
+          {this.renderProduction()}
         </tr>
       );
     }
@@ -497,21 +501,33 @@ class Quota extends React.Component {
   };
 
   setHourlyQuota = (index, e) => {
-    let array = this.state.quotas
-    array[index] = e.target.value
+    let array = this.state.quotas;
+    array[index] = e.target.value;
     this.setState({
       quotas: array
-    })
-  }
+    });
+  };
 
   renderQuota = () => {
     return this.state.quotas.map((eachQuota, index) => {
       return (
         <td>
           {" "}
-          <input type="number" style={{width:"70px"}} onChange={(e) => this.setHourlyQuota(index, e)} value={this.state.quotas[index]}/>
+          <input
+            type="number"
+            style={{ width: "70px" }}
+            onChange={e => this.setHourlyQuota(index, e)}
+            value={this.state.quotas[index]}
+          />
         </td>
       );
+    });
+  };
+
+  renderProduction = () => {
+    return this.state.quotas.map((eachQuota, index) => {
+      let total = eachQuota + this.rowTotalsArray[index];
+      return <td>{total}</td>;
     });
   };
 
