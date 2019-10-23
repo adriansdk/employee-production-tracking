@@ -15,6 +15,7 @@ class Quota extends React.Component {
     this.averageDeviationMin = undefined;
     this.averageQuota = undefined;
     this.totalQuota = undefined;
+    this.productionsArray = [];
     this.colDeviationArray = [];
     this.averagesColArray = [];
     this.rowTotalsArray = [];
@@ -174,6 +175,7 @@ class Quota extends React.Component {
         <tr>
           <th>% Atingimento:</th>
           {this.renderProduction()}
+          {this.renderProductionTotal()}
         </tr>
       );
     }
@@ -541,6 +543,8 @@ class Quota extends React.Component {
       let total = this.rowTotalsArray[index];
       let percentage = (total / eachQuota) * 100;
       let production = Math.round(percentage * 10) / 10;
+      this.productionsArray.push(production);
+      console.log(this.productionsArray)
       if (eachQuota != 0) {
         if (percentage >= 100) {
           return (
@@ -558,9 +562,20 @@ class Quota extends React.Component {
           return <td>Sem meta</td>;
         }
       } else {
-        return <td>0%</td>;
+        return <td>Indefinido</td>;
       }
     });
+  };
+
+  renderProductionTotal = () => {
+    let average =
+      this.productionsArray.reduce(this.reducer) / this.productionsArray.length;
+    let roundedAverage = Math.round(average * 10) / 10;
+    if (roundedAverage === NaN || roundedAverage === Infinity) {
+      return <td>Defina a meta:</td>;
+    } else {
+      return <td>{roundedAverage}%</td>;
+    }
   };
 
   getTotalQuota = () => {
@@ -609,6 +624,7 @@ class Quota extends React.Component {
     this.colDeviationArray = [];
     this.averagesColArray = [];
     this.rowTotalsArray = [];
+    this.productionsArray = [];
     this.rowAveragesArray = [];
     this.colTotalsArray = [];
     this.employeeHours = [];
