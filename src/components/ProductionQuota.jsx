@@ -13,6 +13,9 @@ class Quota extends React.Component {
     this.hourlyAverageMaximum = undefined;
     this.averageDeviationMax = undefined;
     this.averageDeviationMin = undefined;
+    this.averageQuota = undefined;
+    this.totalQuota = undefined;
+    this.productionsArray = [];
     this.colDeviationArray = [];
     this.averagesColArray = [];
     this.rowTotalsArray = [];
@@ -21,6 +24,7 @@ class Quota extends React.Component {
     this.employeeHours = [];
 
     this.state = {
+      quotas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       maximumDeviationRow: [],
       minimumDeviationRow: [],
 
@@ -39,21 +43,9 @@ class Quota extends React.Component {
         bySector: false,
         byType: false,
         byCategory: false
-      },
-
-      isCreating: false,
-      funcionario: {
-        nome: "",
-        setor: "",
-        tipo: "",
-        horas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        metaDiaria: 0,
-        totalDiario: 0
       }
     };
   }
-
-  filterData = () => {};
 
   renderTable = () => {
     let rows = [];
@@ -110,6 +102,16 @@ class Quota extends React.Component {
           {minimumRow}
           <td>{this.renderTotalDeviationMin()}</td>
           <td>{this.renderAverageDeviationMin()}</td>
+        </tr>,
+        <tr>
+          <th>Meta:</th>
+          {this.renderQuota()}
+          <th>{this.getTotalQuota()}</th>
+          <th>{this.getAverageQuota()}</th>
+        </tr>,
+        <tr>
+          <th>% Atingimento:</th>
+          {this.renderProduction()}
         </tr>
       );
     } else if (this.state.filters.byName.nameFilter.length === 0) {
@@ -163,6 +165,17 @@ class Quota extends React.Component {
           {minimumRow}
           <td>{this.renderTotalDeviationMin()}</td>
           <td>{this.renderAverageDeviationMin()}</td>
+        </tr>,
+        <tr>
+          <th>Meta:</th>
+          {this.renderQuota()}
+          <th>{this.getTotalQuota()}</th>
+          <th>{this.getAverageQuota()}</th>
+        </tr>,
+        <tr>
+          <th>% Atingimento:</th>
+          {this.renderProduction()}
+          {this.renderProductionTotal()}
         </tr>
       );
     }
@@ -319,12 +332,14 @@ class Quota extends React.Component {
     );
   };
 
-  getAverageAndTotalDeviation = () => {
+  getState = () => {
     this.setState({
       totalDeviationMax: this.totalDeviationMax,
       totalDeviationMin: this.totalDeviationMin,
       averageDeviationMax: this.averageDeviationMax,
-      averageDeviationMin: this.averageDeviationMin
+      averageDeviationMin: this.averageDeviationMin,
+      totalQuota: this.totalQuota,
+      averageQuota: this.averageQuota
     });
   };
 
@@ -499,8 +514,83 @@ class Quota extends React.Component {
     }
   };
 
+  setHourlyQuota = (index, e) => {
+    let array = this.state.quotas;
+    array[index] = parseInt(e.target.value);
+    this.setState({
+      quotas: array
+    });
+  };
+
+  renderQuota = () => {
+    return this.state.quotas.map((eachQuota, index) => {
+      return (
+        <td>
+          {" "}
+          <input
+            type="number"
+            style={{ width: "85%", padding: "5px 2px" }}
+            onChange={e => this.setHourlyQuota(index, e)}
+            value={this.state.quotas[index]}
+          />
+        </td>
+      );
+    });
+  };
+
+  renderProduction = () => {
+    return this.state.quotas.map((eachQuota, index) => {
+      let total = this.rowTotalsArray[index];
+      let percentage = (total / eachQuota) * 100;
+      let production = Math.round(percentage * 10) / 10;
+      this.productionsArray.push(production);
+      console.log(this.productionsArray)
+      if (eachQuota != 0) {
+        if (percentage >= 100) {
+          return (
+            <td style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>
+              {production}%
+            </td>
+          );
+        } else if (percentage <= 100) {
+          return (
+            <td style={{ backgroundColor: "rgba(255,0,0, 0.3)" }}>
+              {production}%
+            </td>
+          );
+        } else if (eachQuota === 0) {
+          return <td>Sem meta</td>;
+        }
+      } else {
+        return <td>Indefinido</td>;
+      }
+    });
+  };
+
+  renderProductionTotal = () => {
+    let average =
+      this.productionsArray.reduce(this.reducer) / this.productionsArray.length;
+    let roundedAverage = Math.round(average * 10) / 10;
+    if (roundedAverage === NaN || roundedAverage === Infinity) {
+      return <td>Defina a meta:</td>;
+    } else {
+      return <td>{roundedAverage}%</td>;
+    }
+  };
+
+  getTotalQuota = () => {
+    this.totalQuota = this.state.quotas.reduce(this.reducer);
+    return this.totalQuota;
+  };
+
+  getAverageQuota = () => {
+    this.totalQuota = this.state.quotas.reduce(this.reducer);
+    let averageQuota = this.totalQuota / 10;
+    return averageQuota;
+  };
+
   componentDidMount = () => {
-    this.getAverageAndTotalDeviation();
+    this.getState();
     let deviationsArray = this.state.filteredData[0].horas.map(
       (eachHour, key) => {
         return this.renderDeviation(key);
@@ -529,9 +619,12 @@ class Quota extends React.Component {
     this.totalColAverage = undefined;
     this.averageArrayAverage = undefined;
     this.hourlyAverageMaximum = undefined;
+    this.averageQuota = undefined;
+    this.totalQuota = undefined;
     this.colDeviationArray = [];
     this.averagesColArray = [];
     this.rowTotalsArray = [];
+    this.productionsArray = [];
     this.rowAveragesArray = [];
     this.colTotalsArray = [];
     this.employeeHours = [];
