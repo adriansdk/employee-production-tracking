@@ -496,7 +496,7 @@ class Quota extends React.Component {
       }
     });
     let filteredData = [];
-    this.state.data.map((eachEmployee, index) => {
+    this.state.data.map(eachEmployee => {
       if (eachEmployee.funcionario.includes(event.target.value)) {
         filteredData.push(eachEmployee);
       } else if (eachEmployee.setor.includes(event.target.value)) {
@@ -528,6 +528,7 @@ class Quota extends React.Component {
         <td>
           {" "}
           <input
+            key={index}
             type="number"
             style={{ width: "85%", padding: "5px 2px" }}
             onChange={e => this.setHourlyQuota(index, e)}
@@ -540,12 +541,15 @@ class Quota extends React.Component {
 
   renderProduction = () => {
     return this.state.quotas.map((eachQuota, index) => {
+      if (eachQuota === isNaN) {
+        eachQuota = 0;
+      }
+      console.log(eachQuota);
       let total = this.rowTotalsArray[index];
       let percentage = (total / eachQuota) * 100;
       let production = Math.round(percentage * 10) / 10;
       this.productionsArray.push(production);
-      console.log(this.productionsArray)
-      if (eachQuota != 0) {
+      if (eachQuota !== 0) {
         if (percentage >= 100) {
           return (
             <td style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>
@@ -571,8 +575,8 @@ class Quota extends React.Component {
     let average =
       this.productionsArray.reduce(this.reducer) / this.productionsArray.length;
     let roundedAverage = Math.round(average * 10) / 10;
-    if (roundedAverage === NaN || roundedAverage === Infinity) {
-      return <td>Defina a meta:</td>;
+    if (roundedAverage === isNaN || roundedAverage === Infinity) {
+      return <td>Atingimento:</td>;
     } else {
       return <td>{roundedAverage}%</td>;
     }
