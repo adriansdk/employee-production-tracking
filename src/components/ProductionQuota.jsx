@@ -28,22 +28,15 @@ class Quota extends React.Component {
       quotas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       maximumDeviationRow: [],
       minimumDeviationRow: [],
-
       totalDeviationMax: undefined,
       totalDeviationMin: undefined,
-
       data: Data,
       filteredData: Data,
-
       filters: {
         byName: {
           active: false,
           nameFilter: ""
-        },
-        byDate: false,
-        bySector: false,
-        byType: false,
-        byCategory: false
+        }
       }
     };
   }
@@ -396,33 +389,6 @@ class Quota extends React.Component {
     });
   };
 
-  isCreating = () => {
-    if (!this.state.isCreating) {
-      this.setState({
-        isCreating: true
-      });
-    }
-  };
-
-  cancelCreation = () => {
-    if (this.state.isCreating) {
-      this.setState({
-        isCreating: false
-      });
-    }
-  };
-
-  renderCancelCreation = () => {
-    if (this.state.isCreating) {
-      return (
-        <div className="col-2">
-          <p>Cancelar</p>
-          <input type="submit" onClick={this.cancelCreation} />
-        </div>
-      );
-    }
-  };
-
   newEmployeeRow = () => {
     if (this.state.isCreating) {
       let newEmployee = this.state.funcionario;
@@ -464,7 +430,7 @@ class Quota extends React.Component {
       <td key={key} onClick={this.editCell}>
         <p>{tableCellContent}</p>
         <input
-          style={{ width: "60%", display: "inline" }}
+          style={{ width: "60%", display: "inline", height: "20px" }}
           type="text"
           onChange={e => this.editCell(e, key)}
           value={this.state.funcionario.horas[key]}
@@ -650,50 +616,53 @@ class Quota extends React.Component {
       <div className="daily-quota-tracker">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-8">
-              <Filters
-                nameHandler={this.nameHandler}
-                employeeName={this.state.filters.byName.nameFilter}
-              />
-              {this.renderCancelCreation()}
-              <table style={{ textAlign: "center" }} className="table">
-                <thead>
-                  <tr>
-                    <th
-                      scope="col"
-                      style={{
-                        backgroundColor: "rgba(0,0,150,0.7)",
-                        color: "white",
-                        borderTop: "1px solid black",
-                        borderLeft: "1px solid black"
-                      }}
-                    >
-                      Funcionario
-                    </th>
-                    {this.renderHours()}
-                    <th
-                      style={{
-                        backgroundColor: "rgba(0,0,150,0.7)",
-                        color: "white",
-                        borderTop: "1px solid black"
-                      }}
-                    >
-                      Total:
-                    </th>
-                    <th
-                      style={{
-                        backgroundColor: "rgba(0,0,150,0.7)",
-                        color: "white",
-                        borderTop: "1px solid black",
-                        borderRight: "1px solid black"
-                      }}
-                    >
-                      Média Hora:
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>{this.renderTable()}</tbody>
-              </table>
+            <div className="col-9">
+              <div className="row">
+                <Filters
+                  nameHandler={this.nameHandler}
+                  employeeName={this.state.filters.byName.nameFilter}
+                />
+              </div>
+              <div className="row">
+                <table style={{ textAlign: "center" }} className="my-table">
+                  <thead>
+                    <tr>
+                      <th
+                        scope="col"
+                        style={{
+                          backgroundColor: "rgba(0,0,150,0.7)",
+                          color: "white",
+                          borderTop: "1px solid black",
+                          borderLeft: "1px solid black"
+                        }}
+                      >
+                        Funcionario
+                      </th>
+                      {this.renderHours()}
+                      <th
+                        style={{
+                          backgroundColor: "rgba(0,0,150,0.7)",
+                          color: "white",
+                          borderTop: "1px solid black"
+                        }}
+                      >
+                        Total:
+                      </th>
+                      <th
+                        style={{
+                          backgroundColor: "rgba(0,0,150,0.7)",
+                          color: "white",
+                          borderTop: "1px solid black",
+                          borderRight: "1px solid black"
+                        }}
+                      >
+                        Média Hora:
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>{this.renderTable()}</tbody>
+                </table>
+              </div>
             </div>
             <div className="col">
               <div className="row">
