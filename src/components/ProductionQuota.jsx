@@ -15,6 +15,7 @@ class Quota extends React.Component {
     this.averageDeviationMin = undefined;
     this.averageQuota = undefined;
     this.totalQuota = undefined;
+    this.teamDailyTotal = undefined;
     this.productionsArray = [];
     this.colDeviationArray = [];
     this.averagesColArray = [];
@@ -249,6 +250,7 @@ class Quota extends React.Component {
         </th>
       );
     });
+    this.teamDailyTotal = teamDailyTotal;
     teamTotalRow.push(
       <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
         {Math.round(teamDailyTotal)}
@@ -539,12 +541,22 @@ class Quota extends React.Component {
     });
   };
 
+  getTotalQuota = () => {
+    this.totalQuota = this.state.quotas.reduce(this.reducer);
+    return this.totalQuota;
+  };
+
+  getAverageQuota = () => {
+    this.totalQuota = this.state.quotas.reduce(this.reducer);
+    let averageQuota = this.totalQuota / 10;
+    return averageQuota;
+  };
+
   renderProduction = () => {
     return this.state.quotas.map((eachQuota, index) => {
       if (eachQuota === isNaN) {
         eachQuota = 0;
       }
-      console.log(eachQuota);
       let total = this.rowTotalsArray[index];
       let percentage = (total / eachQuota) * 100;
       let production = Math.round(percentage * 10) / 10;
@@ -572,27 +584,28 @@ class Quota extends React.Component {
   };
 
   renderProductionTotal = () => {
-    let average =
-      this.productionsArray.reduce(this.reducer) / this.productionsArray.length;
-    let roundedAverage = Math.round(average * 10) / 10;
-    if (roundedAverage === isNaN || roundedAverage === Infinity) {
+    let total = this.teamDailyTotal;
+    let quotasTotal = this.state.quotas.reduce(this.reducer);
+    let percentage = (total / quotasTotal) * 100;
+    let totalProductionPercentage = Math.round(percentage * 10) / 10;
+    if (totalProductionPercentage === Infinity) {
       return <td>Atingimento:</td>;
     } else {
-      return <td>{roundedAverage}%</td>;
+      if (totalProductionPercentage >= 100) {
+        return (
+          <td style={{ backgroundColor: "rgba(0,0,255,0.3)" }}>
+            {totalProductionPercentage}%
+          </td>
+        );
+      } else if (totalProductionPercentage <= 100) {
+        return (
+          <td style={{ backgroundColor: "rgba(255,0,0,0.3)" }}>
+            {totalProductionPercentage}%
+          </td>
+        );
+      }
     }
   };
-
-  getTotalQuota = () => {
-    this.totalQuota = this.state.quotas.reduce(this.reducer);
-    return this.totalQuota;
-  };
-
-  getAverageQuota = () => {
-    this.totalQuota = this.state.quotas.reduce(this.reducer);
-    let averageQuota = this.totalQuota / 10;
-    return averageQuota;
-  };
-
   componentDidMount = () => {
     this.getState();
     let deviationsArray = this.state.filteredData[0].horas.map(
@@ -620,6 +633,7 @@ class Quota extends React.Component {
   };
 
   render() {
+    this.teamDailyTotal = undefined;
     this.totalColAverage = undefined;
     this.averageArrayAverage = undefined;
     this.hourlyAverageMaximum = undefined;
