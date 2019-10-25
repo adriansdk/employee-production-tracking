@@ -386,7 +386,7 @@ class Quota extends React.Component {
         <th
           key={key}
           style={{
-            backgroundColor: "rgba(0,0,150,0.7)",
+            backgroundColor: "#007ACC",
             color: "white",
             borderTop: "1px solid black"
           }}
@@ -556,7 +556,7 @@ class Quota extends React.Component {
           return <td>Sem meta</td>;
         }
       } else {
-        return <td>Indefinido</td>;
+        return <td>N/D</td>;
       }
     });
   };
@@ -642,7 +642,7 @@ class Quota extends React.Component {
                       <th
                         scope="col"
                         style={{
-                          backgroundColor: "rgba(0,0,150,0.7)",
+                          backgroundColor: "#007ACC",
                           color: "white",
                           borderTop: "1px solid black",
                           borderLeft: "1px solid black"
@@ -653,7 +653,7 @@ class Quota extends React.Component {
                       {this.renderHours()}
                       <th
                         style={{
-                          backgroundColor: "rgba(0,0,150,0.7)",
+                          backgroundColor: "#007ACC",
                           color: "white",
                           borderTop: "1px solid black"
                         }}
@@ -662,7 +662,7 @@ class Quota extends React.Component {
                       </th>
                       <th
                         style={{
-                          backgroundColor: "rgba(0,0,150,0.7)",
+                          backgroundColor: "#007ACC",
                           color: "white",
                           borderTop: "1px solid black",
                           borderRight: "1px solid black"

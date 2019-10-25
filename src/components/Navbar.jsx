@@ -19,7 +19,7 @@ class Navbar extends React.Component {
           style={{
             fontFamily: "Roboto",
             fontWeight: "bold",
-            backgroundColor: "black"
+            backgroundColor: "#007ACC"
           }}
         >
           <SideNav.Toggle onClick={this.props.width} />
