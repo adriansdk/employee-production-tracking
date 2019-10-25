@@ -4,6 +4,7 @@ import ProductionTotal from "./ProductionTotal";
 import ProductionAverage from "./ProductionAverage.jsx";
 import "./styles/ProductionQuota.scss";
 import Filters from "./Filters.jsx";
+import BarChart from "./BarChart.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -15,6 +16,8 @@ class Quota extends React.Component {
     this.averageDeviationMin = undefined;
     this.averageQuota = undefined;
     this.totalQuota = undefined;
+    this.teamDailyTotal = undefined;
+    this.employeeNames = [];
     this.productionsArray = [];
     this.colDeviationArray = [];
     this.averagesColArray = [];
@@ -27,22 +30,15 @@ class Quota extends React.Component {
       quotas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       maximumDeviationRow: [],
       minimumDeviationRow: [],
-
       totalDeviationMax: undefined,
       totalDeviationMin: undefined,
-
       data: Data,
       filteredData: Data,
-
       filters: {
         byName: {
           active: false,
           nameFilter: ""
-        },
-        byDate: false,
-        bySector: false,
-        byType: false,
-        byCategory: false
+        }
       }
     };
   }
@@ -51,7 +47,6 @@ class Quota extends React.Component {
     let rows = [];
     if (this.state.filters.byName.nameFilter.length > 0) {
       rows = this.state.filteredData.map((eachEmployee, key) => {
-        this.employeeHours.push(eachEmployee.horas);
         this.averagesColArray.push(
           Math.round(
             eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
@@ -104,19 +99,24 @@ class Quota extends React.Component {
           <td>{this.renderAverageDeviationMin()}</td>
         </tr>,
         <tr>
-          <th>Meta:</th>
+          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>Meta:</th>
           {this.renderQuota()}
-          <th>{this.getTotalQuota()}</th>
-          <th>{this.getAverageQuota()}</th>
+          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+            {this.getTotalQuota()}
+          </th>
+          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+            {this.getAverageQuota()}
+          </th>
         </tr>,
         <tr>
-          <th>% Atingimento:</th>
+          <th style={{ borderBottom: "0px" }}>% Atingimento:</th>
           {this.renderProduction()}
         </tr>
       );
     } else if (this.state.filters.byName.nameFilter.length === 0) {
       rows = this.state.data.map((eachEmployee, key) => {
         this.employeeHours.push(eachEmployee.horas);
+        this.employeeNames.push(eachEmployee.funcionario);
         this.averagesColArray.push(
           Math.round(
             eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
@@ -167,13 +167,31 @@ class Quota extends React.Component {
           <td>{this.renderAverageDeviationMin()}</td>
         </tr>,
         <tr>
-          <th>Meta:</th>
+          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>Meta:</th>
           {this.renderQuota()}
-          <th>{this.getTotalQuota()}</th>
-          <th>{this.getAverageQuota()}</th>
+          <th
+            style={{
+              backgroundColor: "rgba(11,11,11,0.1)",
+              borderRight: "1px solid black",
+              borderLeft: "1px solid black",
+              borderBottom: "1px solid black"
+            }}
+          >
+            {this.getTotalQuota()}
+          </th>
+          <th
+            style={{
+              backgroundColor: "rgba(11,11,11,0.1)",
+              borderRight: "1px solid black",
+              borderLeft: "1px solid black",
+              borderBottom: "1px solid black"
+            }}
+          >
+            {this.getAverageQuota()}
+          </th>
         </tr>,
         <tr>
-          <th>% Atingimento:</th>
+          <th style={{ borderBottom: "0px" }}>% Atingimento:</th>
           {this.renderProduction()}
           {this.renderProductionTotal()}
         </tr>
@@ -244,16 +262,37 @@ class Quota extends React.Component {
     let teamTotalRow = this.rowTotalsArray.map((eachSum, key) => {
       teamDailyTotal += eachSum;
       return (
-        <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }} key={key}>
+        <th
+          style={{
+            backgroundColor: "rgba(11,11,11,0.1)",
+            borderRight: "1px solid black",
+            borderLeft: "1px solid black",
+            borderBottom: "1px solid black"
+          }}
+          key={key}
+        >
           {eachSum}
         </th>
       );
     });
+    this.teamDailyTotal = teamDailyTotal;
     teamTotalRow.push(
-      <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+      <th
+        style={{
+          backgroundColor: "rgba(11,11,11,0.1)",
+          borderRight: "1px solid black",
+          borderBottom: "1px solid black"
+        }}
+      >
         {Math.round(teamDailyTotal)}
       </th>,
-      <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+      <th
+        style={{
+          backgroundColor: "rgba(11,11,11,0.1)",
+          borderRight: "1px solid black",
+          borderBottom: "1px solid black"
+        }}
+      >
         {Math.round(teamDailyTotal / this.rowTotalsArray.length)}
       </th>
     );
@@ -383,7 +422,7 @@ class Quota extends React.Component {
         <th
           key={key}
           style={{
-            backgroundColor: "rgba(0,0,150,0.7)",
+            backgroundColor: "#007ACC",
             color: "white",
             borderTop: "1px solid black"
           }}
@@ -392,33 +431,6 @@ class Quota extends React.Component {
         </th>
       );
     });
-  };
-
-  isCreating = () => {
-    if (!this.state.isCreating) {
-      this.setState({
-        isCreating: true
-      });
-    }
-  };
-
-  cancelCreation = () => {
-    if (this.state.isCreating) {
-      this.setState({
-        isCreating: false
-      });
-    }
-  };
-
-  renderCancelCreation = () => {
-    if (this.state.isCreating) {
-      return (
-        <div className="col-2">
-          <p>Cancelar</p>
-          <input type="submit" onClick={this.cancelCreation} />
-        </div>
-      );
-    }
   };
 
   newEmployeeRow = () => {
@@ -462,7 +474,7 @@ class Quota extends React.Component {
       <td key={key} onClick={this.editCell}>
         <p>{tableCellContent}</p>
         <input
-          style={{ width: "60%", display: "inline" }}
+          style={{ width: "60%", display: "inline", height: "20px" }}
           type="text"
           onChange={e => this.editCell(e, key)}
           value={this.state.funcionario.horas[key]}
@@ -496,7 +508,7 @@ class Quota extends React.Component {
       }
     });
     let filteredData = [];
-    this.state.data.map((eachEmployee, index) => {
+    this.state.data.map(eachEmployee => {
       if (eachEmployee.funcionario.includes(event.target.value)) {
         filteredData.push(eachEmployee);
       } else if (eachEmployee.setor.includes(event.target.value)) {
@@ -525,11 +537,23 @@ class Quota extends React.Component {
   renderQuota = () => {
     return this.state.quotas.map((eachQuota, index) => {
       return (
-        <td>
+        <td
+          style={{
+            backgroundColor: "rgba(11,11,11,0.1)",
+            borderRight: "1px solid black",
+            borderLeft: "1px solid black",
+            borderBottom: "1px solid black"
+          }}
+        >
           {" "}
           <input
+            key={index}
             type="number"
-            style={{ width: "85%", padding: "5px 2px" }}
+            style={{
+              width: "85%",
+              padding: "5px 2px",
+              height: "25px"
+            }}
             onChange={e => this.setHourlyQuota(index, e)}
             value={this.state.quotas[index]}
           />
@@ -538,14 +562,27 @@ class Quota extends React.Component {
     });
   };
 
+  getTotalQuota = () => {
+    this.totalQuota = this.state.quotas.reduce(this.reducer);
+    return this.totalQuota;
+  };
+
+  getAverageQuota = () => {
+    this.totalQuota = this.state.quotas.reduce(this.reducer);
+    let averageQuota = this.totalQuota / 10;
+    return averageQuota;
+  };
+
   renderProduction = () => {
     return this.state.quotas.map((eachQuota, index) => {
+      if (eachQuota === isNaN) {
+        eachQuota = 0;
+      }
       let total = this.rowTotalsArray[index];
       let percentage = (total / eachQuota) * 100;
       let production = Math.round(percentage * 10) / 10;
       this.productionsArray.push(production);
-      console.log(this.productionsArray)
-      if (eachQuota != 0) {
+      if (eachQuota !== 0) {
         if (percentage >= 100) {
           return (
             <td style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>
@@ -562,33 +599,34 @@ class Quota extends React.Component {
           return <td>Sem meta</td>;
         }
       } else {
-        return <td>Indefinido</td>;
+        return <td>N/D</td>;
       }
     });
   };
 
   renderProductionTotal = () => {
-    let average =
-      this.productionsArray.reduce(this.reducer) / this.productionsArray.length;
-    let roundedAverage = Math.round(average * 10) / 10;
-    if (roundedAverage === NaN || roundedAverage === Infinity) {
-      return <td>Defina a meta:</td>;
+    let total = this.teamDailyTotal;
+    let quotasTotal = this.state.quotas.reduce(this.reducer);
+    let percentage = (total / quotasTotal) * 100;
+    let totalProductionPercentage = Math.round(percentage * 10) / 10;
+    if (totalProductionPercentage === Infinity) {
+      return <td style={{ whiteSpace: "nowrap" }}>% Total:</td>;
     } else {
-      return <td>{roundedAverage}%</td>;
+      if (totalProductionPercentage >= 100) {
+        return (
+          <td style={{ backgroundColor: "rgba(0,0,255,0.3)" }}>
+            {totalProductionPercentage}%
+          </td>
+        );
+      } else if (totalProductionPercentage <= 100) {
+        return (
+          <td style={{ backgroundColor: "rgba(255,0,0,0.3)" }}>
+            {totalProductionPercentage}%
+          </td>
+        );
+      }
     }
   };
-
-  getTotalQuota = () => {
-    this.totalQuota = this.state.quotas.reduce(this.reducer);
-    return this.totalQuota;
-  };
-
-  getAverageQuota = () => {
-    this.totalQuota = this.state.quotas.reduce(this.reducer);
-    let averageQuota = this.totalQuota / 10;
-    return averageQuota;
-  };
-
   componentDidMount = () => {
     this.getState();
     let deviationsArray = this.state.filteredData[0].horas.map(
@@ -616,11 +654,13 @@ class Quota extends React.Component {
   };
 
   render() {
+    this.teamDailyTotal = undefined;
     this.totalColAverage = undefined;
     this.averageArrayAverage = undefined;
     this.hourlyAverageMaximum = undefined;
     this.averageQuota = undefined;
     this.totalQuota = undefined;
+    this.employeeNames = [];
     this.colDeviationArray = [];
     this.averagesColArray = [];
     this.rowTotalsArray = [];
@@ -632,19 +672,32 @@ class Quota extends React.Component {
       <div className="daily-quota-tracker">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-8">
+            <div className="col-7">
               <Filters
                 nameHandler={this.nameHandler}
                 employeeName={this.state.filters.byName.nameFilter}
               />
-              {this.renderCancelCreation()}
-              <table style={{ textAlign: "center" }} className="table">
+            </div>
+            <div className="col">
+              <div className="row">
+                <div className="col">
+                  <ProductionTotal total={this.rowTotalsArray} />
+                </div>
+                <div className="col">
+                  <ProductionAverage total={this.rowTotalsArray} />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-7">
+              <table style={{ textAlign: "center" }} className="my-table">
                 <thead>
                   <tr>
                     <th
                       scope="col"
                       style={{
-                        backgroundColor: "rgba(0,0,150,0.7)",
+                        backgroundColor: "#007ACC",
                         color: "white",
                         borderTop: "1px solid black",
                         borderLeft: "1px solid black"
@@ -655,7 +708,7 @@ class Quota extends React.Component {
                     {this.renderHours()}
                     <th
                       style={{
-                        backgroundColor: "rgba(0,0,150,0.7)",
+                        backgroundColor: "#007ACC",
                         color: "white",
                         borderTop: "1px solid black"
                       }}
@@ -664,7 +717,7 @@ class Quota extends React.Component {
                     </th>
                     <th
                       style={{
-                        backgroundColor: "rgba(0,0,150,0.7)",
+                        backgroundColor: "#007ACC",
                         color: "white",
                         borderTop: "1px solid black",
                         borderRight: "1px solid black"
@@ -678,14 +731,7 @@ class Quota extends React.Component {
               </table>
             </div>
             <div className="col">
-              <div className="row">
-                <div className="col">
-                  <ProductionTotal total={this.rowTotalsArray} />
-                </div>
-                <div className="col">
-                  <ProductionAverage total={this.rowTotalsArray} />
-                </div>
-              </div>
+              <BarChart name={this.employeeNames} total={this.colTotalsArray} />
             </div>
           </div>
         </div>
