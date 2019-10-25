@@ -108,7 +108,7 @@ class Quota extends React.Component {
           </th>
         </tr>,
         <tr>
-          <th>% Atingimento:</th>
+          <th style={{ borderBottom: "0px" }}>% Atingimento:</th>
           {this.renderProduction()}
         </tr>
       );
@@ -167,15 +167,29 @@ class Quota extends React.Component {
         <tr>
           <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>Meta:</th>
           {this.renderQuota()}
-          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+          <th
+            style={{
+              backgroundColor: "rgba(11,11,11,0.1)",
+              borderRight: "1px solid black",
+              borderLeft: "1px solid black",
+              borderBottom: "1px solid black"
+            }}
+          >
             {this.getTotalQuota()}
           </th>
-          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+          <th
+            style={{
+              backgroundColor: "rgba(11,11,11,0.1)",
+              borderRight: "1px solid black",
+              borderLeft: "1px solid black",
+              borderBottom: "1px solid black"
+            }}
+          >
             {this.getAverageQuota()}
           </th>
         </tr>,
         <tr>
-          <th>% Atingimento:</th>
+          <th style={{ borderBottom: "0px" }}>% Atingimento:</th>
           {this.renderProduction()}
           {this.renderProductionTotal()}
         </tr>
@@ -246,17 +260,37 @@ class Quota extends React.Component {
     let teamTotalRow = this.rowTotalsArray.map((eachSum, key) => {
       teamDailyTotal += eachSum;
       return (
-        <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }} key={key}>
+        <th
+          style={{
+            backgroundColor: "rgba(11,11,11,0.1)",
+            borderRight: "1px solid black",
+            borderLeft: "1px solid black",
+            borderBottom: "1px solid black"
+          }}
+          key={key}
+        >
           {eachSum}
         </th>
       );
     });
     this.teamDailyTotal = teamDailyTotal;
     teamTotalRow.push(
-      <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+      <th
+        style={{
+          backgroundColor: "rgba(11,11,11,0.1)",
+          borderRight: "1px solid black",
+          borderBottom: "1px solid black"
+        }}
+      >
         {Math.round(teamDailyTotal)}
       </th>,
-      <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+      <th
+        style={{
+          backgroundColor: "rgba(11,11,11,0.1)",
+          borderRight: "1px solid black",
+          borderBottom: "1px solid black"
+        }}
+      >
         {Math.round(teamDailyTotal / this.rowTotalsArray.length)}
       </th>
     );
@@ -501,7 +535,14 @@ class Quota extends React.Component {
   renderQuota = () => {
     return this.state.quotas.map((eachQuota, index) => {
       return (
-        <td style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+        <td
+          style={{
+            backgroundColor: "rgba(11,11,11,0.1)",
+            borderRight: "1px solid black",
+            borderLeft: "1px solid black",
+            borderBottom: "1px solid black"
+          }}
+        >
           {" "}
           <input
             key={index}

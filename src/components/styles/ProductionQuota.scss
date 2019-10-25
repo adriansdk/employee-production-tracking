@@ -6,10 +6,10 @@
   -moz-box-shadow: 0 0 5px 2px lightgray;
   th {
     padding: 3px 5px;
-    border: 1px solid black;
+    border-bottom: 1px solid rgb(0, 0, 0);
     white-space: nowrap;
   }
   td {
-    border: 1px solid black;
+    border: 1px solid rgb(54, 22, 22);
   }
 }
