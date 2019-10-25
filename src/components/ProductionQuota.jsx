@@ -4,6 +4,7 @@ import ProductionTotal from "./ProductionTotal";
 import ProductionAverage from "./ProductionAverage.jsx";
 import "./styles/ProductionQuota.scss";
 import Filters from "./Filters.jsx";
+import BarChart from "./BarChart.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -16,6 +17,7 @@ class Quota extends React.Component {
     this.averageQuota = undefined;
     this.totalQuota = undefined;
     this.teamDailyTotal = undefined;
+    this.employeeNames = [];
     this.productionsArray = [];
     this.colDeviationArray = [];
     this.averagesColArray = [];
@@ -45,7 +47,6 @@ class Quota extends React.Component {
     let rows = [];
     if (this.state.filters.byName.nameFilter.length > 0) {
       rows = this.state.filteredData.map((eachEmployee, key) => {
-        this.employeeHours.push(eachEmployee.horas);
         this.averagesColArray.push(
           Math.round(
             eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
@@ -115,6 +116,7 @@ class Quota extends React.Component {
     } else if (this.state.filters.byName.nameFilter.length === 0) {
       rows = this.state.data.map((eachEmployee, key) => {
         this.employeeHours.push(eachEmployee.horas);
+        this.employeeNames.push(eachEmployee.funcionario);
         this.averagesColArray.push(
           Math.round(
             eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
@@ -658,6 +660,7 @@ class Quota extends React.Component {
     this.hourlyAverageMaximum = undefined;
     this.averageQuota = undefined;
     this.totalQuota = undefined;
+    this.employeeNames = [];
     this.colDeviationArray = [];
     this.averagesColArray = [];
     this.rowTotalsArray = [];
@@ -669,53 +672,11 @@ class Quota extends React.Component {
       <div className="daily-quota-tracker">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-9">
-              <div className="row">
-                <Filters
-                  nameHandler={this.nameHandler}
-                  employeeName={this.state.filters.byName.nameFilter}
-                />
-              </div>
-              <div className="row">
-                <table style={{ textAlign: "center" }} className="my-table">
-                  <thead>
-                    <tr>
-                      <th
-                        scope="col"
-                        style={{
-                          backgroundColor: "#007ACC",
-                          color: "white",
-                          borderTop: "1px solid black",
-                          borderLeft: "1px solid black"
-                        }}
-                      >
-                        Funcionario
-                      </th>
-                      {this.renderHours()}
-                      <th
-                        style={{
-                          backgroundColor: "#007ACC",
-                          color: "white",
-                          borderTop: "1px solid black"
-                        }}
-                      >
-                        Total:
-                      </th>
-                      <th
-                        style={{
-                          backgroundColor: "#007ACC",
-                          color: "white",
-                          borderTop: "1px solid black",
-                          borderRight: "1px solid black"
-                        }}
-                      >
-                        Média Hora:
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>{this.renderTable()}</tbody>
-                </table>
-              </div>
+            <div className="col-7">
+              <Filters
+                nameHandler={this.nameHandler}
+                employeeName={this.state.filters.byName.nameFilter}
+              />
             </div>
             <div className="col">
               <div className="row">
@@ -726,6 +687,51 @@ class Quota extends React.Component {
                   <ProductionAverage total={this.rowTotalsArray} />
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-7">
+              <table style={{ textAlign: "center" }} className="my-table">
+                <thead>
+                  <tr>
+                    <th
+                      scope="col"
+                      style={{
+                        backgroundColor: "#007ACC",
+                        color: "white",
+                        borderTop: "1px solid black",
+                        borderLeft: "1px solid black"
+                      }}
+                    >
+                      Funcionario
+                    </th>
+                    {this.renderHours()}
+                    <th
+                      style={{
+                        backgroundColor: "#007ACC",
+                        color: "white",
+                        borderTop: "1px solid black"
+                      }}
+                    >
+                      Total:
+                    </th>
+                    <th
+                      style={{
+                        backgroundColor: "#007ACC",
+                        color: "white",
+                        borderTop: "1px solid black",
+                        borderRight: "1px solid black"
+                      }}
+                    >
+                      Média Hora:
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>{this.renderTable()}</tbody>
+              </table>
+            </div>
+            <div className="col">
+              <BarChart name={this.employeeNames} total={this.colTotalsArray} />
             </div>
           </div>
         </div>
