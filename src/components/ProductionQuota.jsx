@@ -5,6 +5,7 @@ import ProductionAverage from "./ProductionAverage.jsx";
 import "./styles/ProductionQuota.scss";
 import Filters from "./Filters.jsx";
 import BarChart from "./BarChart.jsx";
+import DateFilter from "./DateFilter.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -672,11 +673,15 @@ class Quota extends React.Component {
       <div className="daily-quota-tracker">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-7">
+            <div className="col-5">
               <Filters
                 nameHandler={this.nameHandler}
                 employeeName={this.state.filters.byName.nameFilter}
               />
+            </div>
+            <div className="col-2">
+              <h1>Filtros:</h1>
+              <DateFilter />
             </div>
             <div className="col">
               <div className="row">
