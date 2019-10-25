@@ -98,10 +98,14 @@ class Quota extends React.Component {
           <td>{this.renderAverageDeviationMin()}</td>
         </tr>,
         <tr>
-          <th>Meta:</th>
+          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>Meta:</th>
           {this.renderQuota()}
-          <th>{this.getTotalQuota()}</th>
-          <th>{this.getAverageQuota()}</th>
+          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+            {this.getTotalQuota()}
+          </th>
+          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+            {this.getAverageQuota()}
+          </th>
         </tr>,
         <tr>
           <th>% Atingimento:</th>
@@ -161,10 +165,14 @@ class Quota extends React.Component {
           <td>{this.renderAverageDeviationMin()}</td>
         </tr>,
         <tr>
-          <th>Meta:</th>
+          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>Meta:</th>
           {this.renderQuota()}
-          <th>{this.getTotalQuota()}</th>
-          <th>{this.getAverageQuota()}</th>
+          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+            {this.getTotalQuota()}
+          </th>
+          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+            {this.getAverageQuota()}
+          </th>
         </tr>,
         <tr>
           <th>% Atingimento:</th>
@@ -493,12 +501,16 @@ class Quota extends React.Component {
   renderQuota = () => {
     return this.state.quotas.map((eachQuota, index) => {
       return (
-        <td>
+        <td style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
           {" "}
           <input
             key={index}
             type="number"
-            style={{ width: "85%", padding: "5px 2px" }}
+            style={{
+              width: "85%",
+              padding: "5px 2px",
+              height: "25px"
+            }}
             onChange={e => this.setHourlyQuota(index, e)}
             value={this.state.quotas[index]}
           />
@@ -555,7 +567,7 @@ class Quota extends React.Component {
     let percentage = (total / quotasTotal) * 100;
     let totalProductionPercentage = Math.round(percentage * 10) / 10;
     if (totalProductionPercentage === Infinity) {
-      return <td>Atingimento:</td>;
+      return <td style={{ whiteSpace: "nowrap" }}>% Total:</td>;
     } else {
       if (totalProductionPercentage >= 100) {
         return (
