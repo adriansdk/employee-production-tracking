@@ -1,11 +1,12 @@
 import React from "react";
-import { Bar,  } from "react-chartjs";
+import { Bar } from "react-chartjs";
 
 class BarChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: {
+        type: "horizontalBar",
         labels: this.props.name,
         datasets: [
           {
@@ -24,7 +25,10 @@ class BarChart extends React.Component {
     console.log(this.props.name);
     return (
       <div className="chart">
-        <Bar data={this.state.data} options={{ maintainAspectRatio: false, responsive: true }} />
+        <Bar
+          data={this.state.data}
+          options={{ maintainAspectRatio: false, responsive: true }}
+        />
       </div>
     );
   }

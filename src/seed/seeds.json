@@ -21,6 +21,27 @@
     "data": "00/00/2019"
   },
   {
+    "funcionario": "Maria",
+    "metaDiaria": 400,
+    "setor": [
+      {
+        "Entrega": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      },
+      {
+        "Recebimento": {
+          "tipo": ["Calçados", "Peças"],
+          "quantidade": 0
+        }
+      }
+    ],
+    "horas": [50, 90, 30, 20, 10, 15, 30, 50, 30, 12, 70],
+    "totalDiario": 0,
+    "data": "00/00/2019"
+  },
+  {
     "funcionario": "Alejandro",
     "metaDiaria": 400,
     "setor": [
