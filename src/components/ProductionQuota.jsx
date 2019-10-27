@@ -1,12 +1,12 @@
 import React from "react";
 import Data from "../seed/seeds.json";
 import ProductionTotal from "./ProductionTotal";
-import ProductionAverage from "./ProductionAverage.jsx";
 import Filters from "./Filters.jsx";
 import BarChart from "./BarChart.jsx";
 import DateFilter from "./DateFilter.jsx";
 import FilterActivator from "./FilterActivator.jsx";
 import "./styles/ProductionQuota.scss";
+import TotalQuota from "./TotalQuota.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -460,48 +460,12 @@ class Quota extends React.Component {
     });
   };
 
-  newEmployeeRow = () => {
-    if (this.state.isCreating) {
-      let newEmployee = this.state.funcionario;
-      let total = 0;
-      if (newEmployee.nome.length > 0) {
-        return (
-          <tr
-            style={{
-              backgroundColor: "rgba(33,33,33, 0.1)",
-              boxShadow: "2px 2px 2px 2px black"
-            }}
-          >
-            <th>{newEmployee.nome}</th>
-            {newEmployee.horas.map((eachHour, key) => {
-              total += eachHour;
-              return this.editableCell(eachHour, key);
-            })}
-            <td>{total}</td>
-            <td>{total / newEmployee.horas.length}</td>
-          </tr>
-        );
-      } else
-        return (
-          <tr style={{ backgroundColor: "rgba(33,33,33, 0.1)" }}>
-            <th>Nome</th>
-            {newEmployee.horas.map((eachHour, key) => {
-              total += eachHour;
-              return this.editableCell(eachHour, key);
-            })}
-            <td>{total}</td>
-            <td>{total / newEmployee.horas.length}</td>
-          </tr>
-        );
-    }
-  };
-
   editableCell = (tableCellContent, key) => {
     return (
       <td key={key} onClick={this.editCell}>
         <p>{tableCellContent}</p>
         <input
-          style={{ width: "60%", display: "inline", height: "20px" }}
+          style={{ width: "30%", display: "inline", height: "20px" }}
           type="text"
           onChange={e => this.editCell(e, key)}
           value={this.state.funcionario.horas[key]}
@@ -587,7 +551,7 @@ class Quota extends React.Component {
             key={index}
             type="number"
             style={{
-              width: "85%",
+              width: "50%",
               padding: "5px 2px",
               height: "25px"
             }}
@@ -771,7 +735,7 @@ class Quota extends React.Component {
               <ProductionTotal total={this.rowTotalsArray} />
             </div>
             <div className="col">
-              <ProductionAverage total={this.rowTotalsArray} />
+              <TotalQuota quota={this.totalQuota} />
             </div>
           </div>
           <div className="row">
