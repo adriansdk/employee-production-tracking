@@ -13,12 +13,6 @@ class Filters extends React.Component {
     return (
       <div className="filter">
         <p>Pesquise por nome de funcionário, setor ou categoria:</p>
-        <input
-          type="text"
-          placeholder='Ex:"Adrian", "Production", "Shoes"...'
-          value={this.props.employeeName}
-          onChange={this.props.nameHandler}
-        />
         <span className="search-icon">
           <i className="fas fa-search"></i>
         </span>

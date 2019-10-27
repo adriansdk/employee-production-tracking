@@ -10,9 +10,7 @@ class FilterActivator extends React.Component {
 
   render() {
     return (
-      <button onClick={this.props.filter} className="btn btn-outline-info" style={{margin: "5px 5px", padding:"5px 3px"}}>
-        {this.props.typeOfFilter}
-      </button>
+      "aghag"
     );
   }
 
