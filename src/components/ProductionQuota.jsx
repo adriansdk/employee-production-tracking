@@ -61,7 +61,9 @@ class Quota extends React.Component {
         this.colTotalsArray.push(eachEmployee.horas.reduce(this.reducer));
         return (
           <tr key={key}>
-            <th>{eachEmployee.funcionario}</th>
+            <th onMouseOver={this.getEmployeeData}>
+              {eachEmployee.funcionario}
+            </th>
             {this.renderHourlyTotal(eachEmployee)}
           </tr>
         );
@@ -131,7 +133,9 @@ class Quota extends React.Component {
         this.colTotalsArray.push(eachEmployee.horas.reduce(this.reducer));
         return (
           <tr key={key}>
-            <th>{eachEmployee.funcionario}</th>
+            <th onMouseOver={this.getEmployeeData}>
+              {eachEmployee.funcionario}
+            </th>
             {this.renderHourlyTotal(eachEmployee)}
           </tr>
         );
@@ -229,6 +233,12 @@ class Quota extends React.Component {
         }
       });
     }
+  };
+
+  getEmployeeData = e => {
+    let employee = this.state.data.filter(
+      funcionario => funcionario.funcionario === e.target.innerHTML
+    );
   };
 
   renderHourlyTotal = eachEmployee => {
@@ -388,6 +398,7 @@ class Quota extends React.Component {
   };
 
   reducer = (total, num) => {
+    console.log(total, num);
     return total + num;
   };
 

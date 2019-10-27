@@ -10,7 +10,6 @@ class MissingQuota extends React.Component {
 
   getMissingQuota = () => {
     let missingQuota = this.props.missingQuota;
-    console.log(missingQuota);
     if (missingQuota < 0) {
       return "Meta atingida";
     } else {
