@@ -1,7 +1,6 @@
 import React from "react";
 import Data from "../seed/seeds.json";
 import ProductionTotal from "./ProductionTotal";
-import Filters from "./Filters.jsx";
 import BarChart from "./BarChart.jsx";
 import DateFilter from "./DateFilter.jsx";
 import FilterActivator from "./FilterActivator.jsx";
@@ -10,6 +9,7 @@ import TotalQuota from "./TotalQuota.jsx";
 import MissingQuota from "./MissingQuota.jsx";
 import ProductionPercentage from "./ProductionPercentage.jsx";
 import TableLegend from "./TableLegend.jsx";
+import FilterSelector from "./FilterSelector.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -548,8 +548,20 @@ class Quota extends React.Component {
       <div className="daily-quota-tracker">
         <div className="container-fluid">
           <div className="row">
-            <DateFilter filterByDate={this.filterByDate} />
-            <FilterActivator
+            <div className="col-6">
+              <div className="row">
+                <h1>Filtros:</h1>
+              </div>
+              <div className="row">
+                <div className="col px-0">
+                  <DateFilter filterByDate={this.filterByDate} />
+                </div>
+                <div className="col px-0">
+                  <FilterSelector />
+                </div>
+              </div>
+            </div>
+            {/* <FilterActivator
               typeOfFilter="Setor"
               filter={this.filterBySector}
             />
@@ -557,7 +569,7 @@ class Quota extends React.Component {
               typeOfFilter="Categoria"
               filter={this.filterByCategory}
             />
-            <FilterActivator typeOfFilter="Tipo" filter={this.filterBy} />
+            <FilterActivator typeOfFilter="Tipo" filter={this.filterBy} /> */}
           </div>
           <div className="row">
             <table
