@@ -7,6 +7,8 @@ import DateFilter from "./DateFilter.jsx";
 import FilterActivator from "./FilterActivator.jsx";
 import "./styles/ProductionQuota.scss";
 import TotalQuota from "./TotalQuota.jsx";
+import MissingQuota from "./MissingQuota.jsx";
+import ProductionPercentage from "./ProductionPercentage.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -19,6 +21,7 @@ class Quota extends React.Component {
     this.averageQuota = undefined;
     this.totalQuota = undefined;
     this.teamDailyTotal = undefined;
+    this.totalProductionPercentage = undefined;
     this.employeeNames = [];
     this.productionsArray = [];
     this.colDeviationArray = [];
@@ -610,6 +613,7 @@ class Quota extends React.Component {
     let quotasTotal = this.state.quotas.reduce(this.reducer);
     let percentage = (total / quotasTotal) * 100;
     let totalProductionPercentage = Math.round(percentage * 10) / 10;
+    this.totalProductionPercentage = totalProductionPercentage;
     if (totalProductionPercentage === Infinity) {
       return <td style={{ whiteSpace: "nowrap" }}>% Total:</td>;
     } else {
@@ -661,6 +665,7 @@ class Quota extends React.Component {
     this.hourlyAverageMaximum = undefined;
     this.averageQuota = undefined;
     this.totalQuota = undefined;
+    this.totalProductionPercentage = undefined;
     this.employeeNames = [];
     this.colDeviationArray = [];
     this.averagesColArray = [];
@@ -736,6 +741,18 @@ class Quota extends React.Component {
             </div>
             <div className="col">
               <TotalQuota quota={this.totalQuota} />
+            </div>
+            <div className="col">
+              <MissingQuota
+                missingQuota={
+                  this.totalQuota - this.rowTotalsArray.reduce(this.reducer)
+                }
+              />
+            </div>
+            <div className="col">
+              <ProductionPercentage
+                productionPercentage={this.totalProductionPercentage}
+              />
             </div>
           </div>
           <div className="row">
