@@ -4,16 +4,14 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "Entrega": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Entrega",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       },
       {
-        "Recebimento": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Recebimento",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       }
     ],
     "horas": [112, 53, 45, 34, 23, 40, 63, 17, 40, 33, 53],
@@ -25,16 +23,14 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "Entrega": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Entrega",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       },
       {
-        "Recebimento": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Recebimento",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       }
     ],
     "horas": [50, 90, 30, 20, 10, 15, 30, 50, 30, 12, 70],
@@ -46,16 +42,14 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "Entrega": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Entrega",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       },
       {
-        "Recebimento": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Recebimento",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       }
     ],
     "horas": [112, 53, 45, 34, 23, 40, 63, 17, 40, 33, 53],
@@ -67,16 +61,14 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "Entrega": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Entrega",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       },
       {
-        "Recebimento": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Recebimento",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       }
     ],
     "horas": [112, 53, 45, 34, 23, 40, 63, 17, 40, 33, 53],
@@ -88,16 +80,14 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "Entrega": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Entrega",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       },
       {
-        "Recebimento": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Recebimento",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       }
     ],
     "horas": [12, 93, 55, 34, 32, 60, 73, 47, 40, 33, 53],
@@ -109,16 +99,14 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "Entrega": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Entrega",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       },
       {
-        "Recebimento": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Recebimento",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       }
     ],
     "horas": [30, 100, 20, 43, 12, 12, 23, 27, 40, 33, 123],
@@ -130,16 +118,14 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "Entrega": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Entrega",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       },
       {
-        "Recebimento": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Recebimento",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       }
     ],
     "horas": [100, 19, 20, 43, 35, 12, 23, 27, 40, 33, 29],
@@ -151,16 +137,14 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "Entrega": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Entrega",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       },
       {
-        "Recebimento": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Recebimento",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       }
     ],
     "horas": [10, 30, 20, 43, 80, 12, 23, 27, 40, 33, 29],
@@ -172,16 +156,14 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "Entrega": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Entrega",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       },
       {
-        "Recebimento": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Recebimento",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       }
     ],
     "horas": [20, 22, 35, 65, 56, 70, 30, 22, 11, 24, 29],
@@ -193,16 +175,14 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "Entrega": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Entrega",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       },
       {
-        "Recebimento": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Recebimento",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       }
     ],
     "horas": [70, 96, 25, 17, 70, 25, 17, 4, 25, 17, 29],
@@ -214,16 +194,14 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "Entrega": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Entrega",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       },
       {
-        "Recebimento": {
-          "tipo": ["Calçados", "Peças"],
-          "quantidade": 0
-        }
+        "nome": "Recebimento",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
       }
     ],
     "horas": [56, 67, 30, 65, 56, 30, 65, 22, 30, 65, 29],

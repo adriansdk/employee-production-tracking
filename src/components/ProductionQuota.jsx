@@ -1,10 +1,14 @@
 import React from "react";
 import Data from "../seed/seeds.json";
 import ProductionTotal from "./ProductionTotal";
-import ProductionAverage from "./ProductionAverage.jsx";
-import "./styles/ProductionQuota.scss";
 import Filters from "./Filters.jsx";
 import BarChart from "./BarChart.jsx";
+import DateFilter from "./DateFilter.jsx";
+import FilterActivator from "./FilterActivator.jsx";
+import "./styles/ProductionQuota.scss";
+import TotalQuota from "./TotalQuota.jsx";
+import MissingQuota from "./MissingQuota.jsx";
+import ProductionPercentage from "./ProductionPercentage.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -17,6 +21,7 @@ class Quota extends React.Component {
     this.averageQuota = undefined;
     this.totalQuota = undefined;
     this.teamDailyTotal = undefined;
+    this.totalProductionPercentage = undefined;
     this.employeeNames = [];
     this.productionsArray = [];
     this.colDeviationArray = [];
@@ -38,7 +43,8 @@ class Quota extends React.Component {
         byName: {
           active: false,
           nameFilter: ""
-        }
+        },
+        bySector: false
       }
     };
   }
@@ -199,6 +205,30 @@ class Quota extends React.Component {
     }
 
     return rows;
+  };
+
+  filterBySector = () => {
+    if (!this.state.filters.bySector) {
+      this.setState({
+        filters: {
+          byName: {
+            active: false,
+            nameFilter: this.state.filters.byName.nameFilter
+          },
+          bySector: true
+        }
+      });
+    } else if (this.state.filters.bySector) {
+      this.setState({
+        filters: {
+          byName: {
+            active: false,
+            nameFilter: this.state.filters.byName.nameFilter
+          },
+          bySector: false
+        }
+      });
+    }
   };
 
   renderHourlyTotal = eachEmployee => {
@@ -433,48 +463,12 @@ class Quota extends React.Component {
     });
   };
 
-  newEmployeeRow = () => {
-    if (this.state.isCreating) {
-      let newEmployee = this.state.funcionario;
-      let total = 0;
-      if (newEmployee.nome.length > 0) {
-        return (
-          <tr
-            style={{
-              backgroundColor: "rgba(33,33,33, 0.1)",
-              boxShadow: "2px 2px 2px 2px black"
-            }}
-          >
-            <th>{newEmployee.nome}</th>
-            {newEmployee.horas.map((eachHour, key) => {
-              total += eachHour;
-              return this.editableCell(eachHour, key);
-            })}
-            <td>{total}</td>
-            <td>{total / newEmployee.horas.length}</td>
-          </tr>
-        );
-      } else
-        return (
-          <tr style={{ backgroundColor: "rgba(33,33,33, 0.1)" }}>
-            <th>Nome</th>
-            {newEmployee.horas.map((eachHour, key) => {
-              total += eachHour;
-              return this.editableCell(eachHour, key);
-            })}
-            <td>{total}</td>
-            <td>{total / newEmployee.horas.length}</td>
-          </tr>
-        );
-    }
-  };
-
   editableCell = (tableCellContent, key) => {
     return (
       <td key={key} onClick={this.editCell}>
         <p>{tableCellContent}</p>
         <input
-          style={{ width: "60%", display: "inline", height: "20px" }}
+          style={{ width: "30%", display: "inline", height: "20px" }}
           type="text"
           onChange={e => this.editCell(e, key)}
           value={this.state.funcionario.horas[key]}
@@ -508,13 +502,23 @@ class Quota extends React.Component {
       }
     });
     let filteredData = [];
-    this.state.data.map(eachEmployee => {
-      if (eachEmployee.funcionario.includes(event.target.value)) {
+    let filteredBySector = [];
+    let filtered = undefined;
+    this.state.data.map((eachEmployee, index) => {
+      let includesSearch = eachEmployee.funcionario.includes(
+        event.target.value
+      );
+      if (includesSearch) {
         filteredData.push(eachEmployee);
-      } else if (eachEmployee.setor.includes(event.target.value)) {
-        filteredData.push(eachEmployee);
+      } else if (this.state.filters.bySector === true) {
+        eachEmployee.setor.map((setor, sectorIndex) => {
+          if (setor.nome.includes(event.target.value)) {
+            filteredBySector.push(eachEmployee);
+          }
+        });
       }
     });
+    console.log(filteredBySector);
     if (filteredData.length > 0) {
       this.setState({
         filteredData: filteredData
@@ -550,7 +554,7 @@ class Quota extends React.Component {
             key={index}
             type="number"
             style={{
-              width: "85%",
+              width: "50%",
               padding: "5px 2px",
               height: "25px"
             }}
@@ -609,6 +613,7 @@ class Quota extends React.Component {
     let quotasTotal = this.state.quotas.reduce(this.reducer);
     let percentage = (total / quotasTotal) * 100;
     let totalProductionPercentage = Math.round(percentage * 10) / 10;
+    this.totalProductionPercentage = totalProductionPercentage;
     if (totalProductionPercentage === Infinity) {
       return <td style={{ whiteSpace: "nowrap" }}>% Total:</td>;
     } else {
@@ -660,6 +665,7 @@ class Quota extends React.Component {
     this.hourlyAverageMaximum = undefined;
     this.averageQuota = undefined;
     this.totalQuota = undefined;
+    this.totalProductionPercentage = undefined;
     this.employeeNames = [];
     this.colDeviationArray = [];
     this.averagesColArray = [];
@@ -672,67 +678,85 @@ class Quota extends React.Component {
       <div className="daily-quota-tracker">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-7">
+            <div className="col-5">
               <Filters
                 nameHandler={this.nameHandler}
                 employeeName={this.state.filters.byName.nameFilter}
               />
-            </div>
-            <div className="col">
-              <div className="row">
-                <div className="col">
-                  <ProductionTotal total={this.rowTotalsArray} />
-                </div>
-                <div className="col">
-                  <ProductionAverage total={this.rowTotalsArray} />
-                </div>
-              </div>
+              <FilterActivator
+                typeOfFilter="Setor"
+                filter={this.filterBySector}
+              />
+              <FilterActivator
+                typeOfFilter="Categoria"
+                filter={this.filterByCategory}
+              />
+              <FilterActivator typeOfFilter="Tipo" filter={this.filterBy} />
+              <DateFilter />
             </div>
           </div>
           <div className="row">
-            <div className="col-7">
-              <table style={{ textAlign: "center" }} className="my-table">
-                <thead>
-                  <tr>
-                    <th
-                      scope="col"
-                      style={{
-                        backgroundColor: "#007ACC",
-                        color: "white",
-                        borderTop: "1px solid black",
-                        borderLeft: "1px solid black"
-                      }}
-                    >
-                      Funcionario
-                    </th>
-                    {this.renderHours()}
-                    <th
-                      style={{
-                        backgroundColor: "#007ACC",
-                        color: "white",
-                        borderTop: "1px solid black"
-                      }}
-                    >
-                      Total:
-                    </th>
-                    <th
-                      style={{
-                        backgroundColor: "#007ACC",
-                        color: "white",
-                        borderTop: "1px solid black",
-                        borderRight: "1px solid black"
-                      }}
-                    >
-                      Média Hora:
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>{this.renderTable()}</tbody>
-              </table>
+            <table style={{ textAlign: "center" }} className="my-table">
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    style={{
+                      backgroundColor: "#007ACC",
+                      color: "white",
+                      borderTop: "1px solid black",
+                      borderLeft: "1px solid black"
+                    }}
+                  >
+                    Funcionario
+                  </th>
+                  {this.renderHours()}
+                  <th
+                    style={{
+                      backgroundColor: "#007ACC",
+                      color: "white",
+                      borderTop: "1px solid black"
+                    }}
+                  >
+                    Total:
+                  </th>
+                  <th
+                    style={{
+                      backgroundColor: "#007ACC",
+                      color: "white",
+                      borderTop: "1px solid black",
+                      borderRight: "1px solid black"
+                    }}
+                  >
+                    Média Hora:
+                  </th>
+                </tr>
+              </thead>
+              <tbody>{this.renderTable()}</tbody>
+            </table>
+          </div>
+          <div className="row">
+            <div className="col">
+              <ProductionTotal total={this.rowTotalsArray} />
             </div>
             <div className="col">
-              <BarChart name={this.employeeNames} total={this.colTotalsArray} />
+              <TotalQuota quota={this.totalQuota} />
             </div>
+            <div className="col">
+              <MissingQuota
+                missingQuota={
+                  this.totalQuota - this.rowTotalsArray.reduce(this.reducer)
+                }
+              />
+            </div>
+            <div className="col">
+              <ProductionPercentage
+                productionPercentage={this.totalProductionPercentage}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <BarChart name={this.employeeNames} total={this.colTotalsArray} />
           </div>
         </div>
       </div>

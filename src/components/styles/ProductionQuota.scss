@@ -5,6 +5,9 @@
   box-shadow: 0 0 5px 2px lightgray;
   -webkit-box-shadow: 0 0 5px 2px lightgray;
   -moz-box-shadow: 0 0 5px 2px lightgray;
+  tr:hover {
+    background-color: (rgba(0, 150, 0, 0.2));
+  }
   th {
     padding: 3px 5px;
     border-bottom: 1px solid rgb(0, 0, 0);
@@ -13,4 +16,15 @@
   td {
     border: 1px solid rgb(54, 22, 22);
   }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
 }

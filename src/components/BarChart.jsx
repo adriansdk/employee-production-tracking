@@ -1,5 +1,6 @@
 import React from "react";
 import { Bar } from "react-chartjs";
+import './styles/BarChart.scss'
 
 class BarChart extends React.Component {
   constructor(props) {
@@ -22,7 +23,6 @@ class BarChart extends React.Component {
   }
 
   render() {
-    console.log(this.props.name);
     return (
       <div className="chart">
         <Bar

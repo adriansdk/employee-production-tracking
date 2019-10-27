@@ -18,6 +18,7 @@
     "react-bootstrap": "^1.0.0-beta.13",
     "react-chartjs": "^2.2.0",
     "react-chartjs-2": "^2.8.0",
+    "react-datepicker": "^2.9.6",
     "react-dom": "^16.10.2",
     "react-metismenu": "^1.4.0",
     "react-router": "^5.1.2",
