@@ -1,7 +1,7 @@
 [
   {
     "funcionario": "Rinaldo",
-    "metaDiaria": 400,
+    "metaDiaria": 0,
     "setor": [
       {
         "nome": "Entrega",
