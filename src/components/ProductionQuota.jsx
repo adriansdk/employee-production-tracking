@@ -2,10 +2,11 @@ import React from "react";
 import Data from "../seed/seeds.json";
 import ProductionTotal from "./ProductionTotal";
 import ProductionAverage from "./ProductionAverage.jsx";
-import "./styles/ProductionQuota.scss";
 import Filters from "./Filters.jsx";
 import BarChart from "./BarChart.jsx";
 import DateFilter from "./DateFilter.jsx";
+import FilterActivator from "./FilterActivator.jsx";
+import "./styles/ProductionQuota.scss";
 
 class Quota extends React.Component {
   constructor() {
@@ -39,7 +40,8 @@ class Quota extends React.Component {
         byName: {
           active: false,
           nameFilter: ""
-        }
+        },
+        bySector: false
       }
     };
   }
@@ -200,6 +202,30 @@ class Quota extends React.Component {
     }
 
     return rows;
+  };
+
+  filterBySector = () => {
+    if (!this.state.filters.bySector) {
+      this.setState({
+        filters: {
+          byName: {
+            active: false,
+            nameFilter: this.state.filters.byName.nameFilter
+          },
+          bySector: true
+        }
+      });
+    } else if (this.state.filters.bySector) {
+      this.setState({
+        filters: {
+          byName: {
+            active: false,
+            nameFilter: this.state.filters.byName.nameFilter
+          },
+          bySector: false
+        }
+      });
+    }
   };
 
   renderHourlyTotal = eachEmployee => {
@@ -509,13 +535,23 @@ class Quota extends React.Component {
       }
     });
     let filteredData = [];
-    this.state.data.map(eachEmployee => {
-      if (eachEmployee.funcionario.includes(event.target.value)) {
+    let filteredBySector = [];
+    let filtered = undefined;
+    this.state.data.map((eachEmployee, index) => {
+      let includesSearch = eachEmployee.funcionario.includes(
+        event.target.value
+      );
+      if (includesSearch) {
         filteredData.push(eachEmployee);
-      } else if (eachEmployee.setor.includes(event.target.value)) {
-        filteredData.push(eachEmployee);
+      } else if (this.state.filters.bySector === true) {
+        eachEmployee.setor.map((setor, sectorIndex) => {
+          if (setor.nome.includes(event.target.value)) {
+            filteredBySector.push(eachEmployee);
+          }
+        });
       }
     });
+    console.log(filteredBySector);
     if (filteredData.length > 0) {
       this.setState({
         filteredData: filteredData
@@ -678,66 +714,68 @@ class Quota extends React.Component {
                 nameHandler={this.nameHandler}
                 employeeName={this.state.filters.byName.nameFilter}
               />
-            </div>
-            <div className="col-2">
-              <h1>Filtros:</h1>
+              <FilterActivator
+                typeOfFilter="Setor"
+                filter={this.filterBySector}
+              />
+              <FilterActivator
+                typeOfFilter="Categoria"
+                filter={this.filterByCategory}
+              />
+              <FilterActivator typeOfFilter="Tipo" filter={this.filterBy} />
               <DateFilter />
-            </div>
-            <div className="col">
-              <div className="row">
-                <div className="col">
-                  <ProductionTotal total={this.rowTotalsArray} />
-                </div>
-                <div className="col">
-                  <ProductionAverage total={this.rowTotalsArray} />
-                </div>
-              </div>
             </div>
           </div>
           <div className="row">
-            <div className="col-7">
-              <table style={{ textAlign: "center" }} className="my-table">
-                <thead>
-                  <tr>
-                    <th
-                      scope="col"
-                      style={{
-                        backgroundColor: "#007ACC",
-                        color: "white",
-                        borderTop: "1px solid black",
-                        borderLeft: "1px solid black"
-                      }}
-                    >
-                      Funcionario
-                    </th>
-                    {this.renderHours()}
-                    <th
-                      style={{
-                        backgroundColor: "#007ACC",
-                        color: "white",
-                        borderTop: "1px solid black"
-                      }}
-                    >
-                      Total:
-                    </th>
-                    <th
-                      style={{
-                        backgroundColor: "#007ACC",
-                        color: "white",
-                        borderTop: "1px solid black",
-                        borderRight: "1px solid black"
-                      }}
-                    >
-                      Média Hora:
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>{this.renderTable()}</tbody>
-              </table>
+            <table style={{ textAlign: "center" }} className="my-table">
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    style={{
+                      backgroundColor: "#007ACC",
+                      color: "white",
+                      borderTop: "1px solid black",
+                      borderLeft: "1px solid black"
+                    }}
+                  >
+                    Funcionario
+                  </th>
+                  {this.renderHours()}
+                  <th
+                    style={{
+                      backgroundColor: "#007ACC",
+                      color: "white",
+                      borderTop: "1px solid black"
+                    }}
+                  >
+                    Total:
+                  </th>
+                  <th
+                    style={{
+                      backgroundColor: "#007ACC",
+                      color: "white",
+                      borderTop: "1px solid black",
+                      borderRight: "1px solid black"
+                    }}
+                  >
+                    Média Hora:
+                  </th>
+                </tr>
+              </thead>
+              <tbody>{this.renderTable()}</tbody>
+            </table>
+          </div>
+          <div className="row">
+            <div className="col">
+              <ProductionTotal total={this.rowTotalsArray} />
             </div>
             <div className="col">
-              <BarChart name={this.employeeNames} total={this.colTotalsArray} />
+              <ProductionAverage total={this.rowTotalsArray} />
             </div>
+          </div>
+          <div className="row">
+            <BarChart name={this.employeeNames} total={this.colTotalsArray} />
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/ProductionTotal.scss"
+import "./styles/ProductionTotal.scss";
 
 class ProductionTotal extends React.Component {
   state = { someKey: "someValue" };
