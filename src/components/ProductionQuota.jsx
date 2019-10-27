@@ -9,6 +9,7 @@ import "./styles/ProductionQuota.scss";
 import TotalQuota from "./TotalQuota.jsx";
 import MissingQuota from "./MissingQuota.jsx";
 import ProductionPercentage from "./ProductionPercentage.jsx";
+import TableLegend from "./TableLegend.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -40,195 +41,102 @@ class Quota extends React.Component {
       data: Data,
       filteredData: Data,
       filters: {
-        byName: {
-          active: false,
-          nameFilter: ""
+        bySector: {
+          activated: false,
+          currentSector: undefined
         },
-        bySector: false
+        byDate: {
+          activated: false,
+          currentDate: undefined
+        },
+        byType: {
+          activated: false,
+          currentType: undefined
+        }
       }
     };
   }
 
   renderTable = () => {
     let rows = [];
-    if (this.state.filters.byName.nameFilter.length > 0) {
-      rows = this.state.filteredData.map((eachEmployee, key) => {
-        this.averagesColArray.push(
-          Math.round(
-            eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
-          )
-        );
-        this.colTotalsArray.push(eachEmployee.horas.reduce(this.reducer));
-        return (
-          <tr key={key}>
-            <th>{eachEmployee.funcionario}</th>
-            {this.renderHourlyTotal(eachEmployee)}
-          </tr>
-        );
-      });
-      let deviationRow = this.state.filteredData[0].horas.map(
-        (eachHour, key) => {
-          return <td>{this.renderDeviation(key)}</td>;
-        }
+    rows = this.state.filteredData.map((eachEmployee, key) => {
+      this.employeeNames.push(eachEmployee.funcionario);
+      this.averagesColArray.push(
+        Math.round(
+          eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
+        )
       );
-      let maximumRow = this.state.filteredData[0].horas.map((eachHour, key) => {
-        return <td>{this.renderMax(key)}</td>;
-      });
-      let minimumRow = this.state.filteredData[0].horas.map((eachHour, key) => {
-        return <td>{this.renderMin(key)}</td>;
-      });
-      rows.push(
-        <tr>
-          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>Total:</th>
-          {this.renderSums()}
-        </tr>,
-        <tr>
-          <th>Média</th>
-          {this.renderTeamAverage()}
-        </tr>,
-        <tr>
-          <th>Desvio</th>
-          {deviationRow}
-          {this.renderDailyDeviation()}
-          <td>{this.renderDailyAverageDeviation()}</td>
-        </tr>,
-        <tr>
-          <th>Máximo:</th>
-          {maximumRow}
-          <td>{this.renderTotalDeviationMax()}</td>
-          <td>{this.renderAverageDeviationMax()}</td>
-        </tr>,
-        <tr>
-          <th>Mínimo:</th>
-          {minimumRow}
-          <td>{this.renderTotalDeviationMin()}</td>
-          <td>{this.renderAverageDeviationMin()}</td>
-        </tr>,
-        <tr>
-          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>Meta:</th>
-          {this.renderQuota()}
-          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
-            {this.getTotalQuota()}
-          </th>
-          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
-            {this.getAverageQuota()}
-          </th>
-        </tr>,
-        <tr>
-          <th style={{ borderBottom: "0px" }}>% Atingimento:</th>
-          {this.renderProduction()}
+      this.colTotalsArray.push(eachEmployee.horas.reduce(this.reducer));
+      return (
+        <tr key={key}>
+          <th onMouseOver={this.getEmployeeData}>{eachEmployee.funcionario}</th>
+          {this.renderHourlyTotal(eachEmployee)}
         </tr>
       );
-    } else if (this.state.filters.byName.nameFilter.length === 0) {
-      rows = this.state.data.map((eachEmployee, key) => {
-        this.employeeHours.push(eachEmployee.horas);
-        this.employeeNames.push(eachEmployee.funcionario);
-        this.averagesColArray.push(
-          Math.round(
-            eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
-          )
-        );
-        this.colTotalsArray.push(eachEmployee.horas.reduce(this.reducer));
-        return (
-          <tr key={key}>
-            <th>{eachEmployee.funcionario}</th>
-            {this.renderHourlyTotal(eachEmployee)}
-          </tr>
-        );
-      });
-      let deviationRow = this.state.data[0].horas.map((eachHour, key) => {
-        return <td>{this.renderDeviation(key)}</td>;
-      });
-      let maximumRow = this.state.data[0].horas.map((eachHour, key) => {
-        return <td>{this.renderMax(key)}</td>;
-      });
-      let minimumRow = this.state.data[0].horas.map((eachHour, key) => {
-        return <td>{this.renderMin(key)}</td>;
-      });
-      rows.push(
-        <tr>
-          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>Total:</th>
-          {this.renderSums()}
-        </tr>,
-        <tr>
-          <th>Média</th>
-          {this.renderTeamAverage()}
-        </tr>,
-        <tr>
-          <th>Desvio</th>
-          {deviationRow}
-          {this.renderDailyDeviation()}
-          <td>{this.renderDailyAverageDeviation()}</td>
-        </tr>,
-        <tr>
-          <th>Máximo:</th>
-          {maximumRow}
-          <td>{this.renderTotalDeviationMax()}</td>
-          <td>{this.renderAverageDeviationMax()}</td>
-        </tr>,
-        <tr>
-          <th>Mínimo:</th>
-          {minimumRow}
-          <td>{this.renderTotalDeviationMin()}</td>
-          <td>{this.renderAverageDeviationMin()}</td>
-        </tr>,
-        <tr>
-          <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>Meta:</th>
-          {this.renderQuota()}
-          <th
-            style={{
-              backgroundColor: "rgba(11,11,11,0.1)",
-              borderRight: "1px solid black",
-              borderLeft: "1px solid black",
-              borderBottom: "1px solid black"
-            }}
-          >
-            {this.getTotalQuota()}
-          </th>
-          <th
-            style={{
-              backgroundColor: "rgba(11,11,11,0.1)",
-              borderRight: "1px solid black",
-              borderLeft: "1px solid black",
-              borderBottom: "1px solid black"
-            }}
-          >
-            {this.getAverageQuota()}
-          </th>
-        </tr>,
-        <tr>
-          <th style={{ borderBottom: "0px" }}>% Atingimento:</th>
-          {this.renderProduction()}
-          {this.renderProductionTotal()}
-        </tr>
-      );
-    }
-
+    });
+    let deviationRow = this.state.filteredData[0].horas.map((eachHour, key) => {
+      return <td>{this.renderDeviation(key)}</td>;
+    });
+    let maximumRow = this.state.filteredData[0].horas.map((eachHour, key) => {
+      return <td>{this.renderMax(key)}</td>;
+    });
+    let minimumRow = this.state.filteredData[0].horas.map((eachHour, key) => {
+      return <td>{this.renderMin(key)}</td>;
+    });
+    rows.push(
+      <tr>
+        <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>Total:</th>
+        {this.renderSums()}
+      </tr>,
+      <tr>
+        <th>Média</th>
+        {this.renderTeamAverage()}
+      </tr>,
+      <tr>
+        <th>Desvio</th>
+        {deviationRow}
+        {this.renderDailyDeviation()}
+        <td>{this.renderDailyAverageDeviation()}</td>
+      </tr>,
+      <tr>
+        <th>Máximo:</th>
+        {maximumRow}
+        <td>{this.renderTotalDeviationMax()}</td>
+        <td>{this.renderAverageDeviationMax()}</td>
+      </tr>,
+      <tr>
+        <th>Mínimo:</th>
+        {minimumRow}
+        <td>{this.renderTotalDeviationMin()}</td>
+        <td>{this.renderAverageDeviationMin()}</td>
+      </tr>,
+      <tr>
+        <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>Meta:</th>
+        {this.renderQuota()}
+        <td style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+          {this.getTotalQuota()}
+        </td>
+        <td style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>
+          {this.getAverageQuota()}
+        </td>
+      </tr>,
+      <tr>
+        <th style={{ borderBottom: "0px" }}>% Atingimento:</th>
+        {this.renderProduction()}
+        {this.renderProductionTotal()}
+      </tr>
+    );
     return rows;
   };
 
-  filterBySector = () => {
-    if (!this.state.filters.bySector) {
-      this.setState({
-        filters: {
-          byName: {
-            active: false,
-            nameFilter: this.state.filters.byName.nameFilter
-          },
-          bySector: true
-        }
-      });
-    } else if (this.state.filters.bySector) {
-      this.setState({
-        filters: {
-          byName: {
-            active: false,
-            nameFilter: this.state.filters.byName.nameFilter
-          },
-          bySector: false
-        }
-      });
-    }
+  filterByDate = e => {
+    console.log(e);
+  };
+
+  getEmployeeData = e => {
+    let employee = this.state.data.filter(
+      funcionario => funcionario.funcionario === e.target.innerHTML
+    );
   };
 
   renderHourlyTotal = eachEmployee => {
@@ -492,44 +400,6 @@ class Quota extends React.Component {
     });
   };
 
-  nameHandler = event => {
-    this.setState({
-      filters: {
-        byName: {
-          active: this.state.filters.byName.active,
-          nameFilter: event.target.value
-        }
-      }
-    });
-    let filteredData = [];
-    let filteredBySector = [];
-    let filtered = undefined;
-    this.state.data.map((eachEmployee, index) => {
-      let includesSearch = eachEmployee.funcionario.includes(
-        event.target.value
-      );
-      if (includesSearch) {
-        filteredData.push(eachEmployee);
-      } else if (this.state.filters.bySector === true) {
-        eachEmployee.setor.map((setor, sectorIndex) => {
-          if (setor.nome.includes(event.target.value)) {
-            filteredBySector.push(eachEmployee);
-          }
-        });
-      }
-    });
-    console.log(filteredBySector);
-    if (filteredData.length > 0) {
-      this.setState({
-        filteredData: filteredData
-      });
-    } else if (filteredData.length === 0) {
-      this.setState({
-        filteredData: this.state.data
-      });
-    }
-  };
-
   setHourlyQuota = (index, e) => {
     let array = this.state.quotas;
     array[index] = parseInt(e.target.value);
@@ -678,25 +548,22 @@ class Quota extends React.Component {
       <div className="daily-quota-tracker">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-5">
-              <Filters
-                nameHandler={this.nameHandler}
-                employeeName={this.state.filters.byName.nameFilter}
-              />
-              <FilterActivator
-                typeOfFilter="Setor"
-                filter={this.filterBySector}
-              />
-              <FilterActivator
-                typeOfFilter="Categoria"
-                filter={this.filterByCategory}
-              />
-              <FilterActivator typeOfFilter="Tipo" filter={this.filterBy} />
-              <DateFilter />
-            </div>
+            <DateFilter filterByDate={this.filterByDate} />
+            <FilterActivator
+              typeOfFilter="Setor"
+              filter={this.filterBySector}
+            />
+            <FilterActivator
+              typeOfFilter="Categoria"
+              filter={this.filterByCategory}
+            />
+            <FilterActivator typeOfFilter="Tipo" filter={this.filterBy} />
           </div>
           <div className="row">
-            <table style={{ textAlign: "center" }} className="my-table">
+            <table
+              style={{ textAlign: "center", marginTop: "3px" }}
+              className="my-table"
+            >
               <thead>
                 <tr>
                   <th
@@ -734,6 +601,7 @@ class Quota extends React.Component {
               </thead>
               <tbody>{this.renderTable()}</tbody>
             </table>
+            <TableLegend />
           </div>
           <div className="row">
             <div className="col">

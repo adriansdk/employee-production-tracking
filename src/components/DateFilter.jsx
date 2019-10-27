@@ -7,17 +7,11 @@ class DateFilter extends React.Component {
     startDate: new Date()
   };
 
-  handleChange = date => {
-    this.setState({
-      startDate: date
-    });
-  };
-
   render() {
     return (
       <DatePicker
         selected={this.state.startDate}
-        onChange={this.handleChange}
+        onChange={this.props.filterByDate}
       />
     );
   }
