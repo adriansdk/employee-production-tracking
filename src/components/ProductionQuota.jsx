@@ -10,6 +10,8 @@ import MissingQuota from "./MissingQuota.jsx";
 import ProductionPercentage from "./ProductionPercentage.jsx";
 import TableLegend from "./TableLegend.jsx";
 import FilterSelector from "./FilterSelector.jsx";
+import FilterByType from "./FilterByType.jsx";
+import FilterByCategory from "./FilterByCategory.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -40,39 +42,41 @@ class Quota extends React.Component {
       totalDeviationMin: undefined,
       data: Data,
       filteredData: Data,
-      selectedOption: null,
-      filters: {
-        bySector: {
-          activated: false,
-          selectedOption: null
-        },
-        byDate: {
-          activated: false,
-          currentDate: undefined
-        },
-        byType: {
-          activated: false,
-          currentType: undefined
-        }
-      }
+      selectedSector: null,
+      selectedType: null,
+      selectedCategory: null,
+      selectedDate: new Date()
     };
   }
 
-  filterBySector = selectedOption => {
-    this.setState({ selectedOption }, () =>
-      console.log(`Option selected:`, this.state.selectedOption)
+  filterBySector = selectedSector => {
+    this.setState({ selectedSector }, () =>
+      console.log(`Option selected:`, this.state.selectedSector)
     );
     let filteredArray = [];
-    let filteredData = this.state.data.map(eachEmployee => {
+    this.state.data.map(eachEmployee => {
       for (let i = 0; i < eachEmployee.setor.length; i++) {
-        if (eachEmployee.setor[i].nome === selectedOption.label) {
+        if (eachEmployee.setor[i].nome === selectedSector.label) {
           filteredArray.push(eachEmployee);
         }
       }
     });
     this.setState({ filteredData: filteredArray });
+  };
 
-    console.log(this.rowTotalsArray)
+  filterByDate = selectedDate => {
+    this.setState({ selectedDate }, () =>
+      console.log(`Date selected:`, this.state.selectedDate)
+    );
+    let filteredArray = [];
+    this.state.data.map(eachEmployee => {
+      for (let i = 0; i < eachEmployee.data.length; i++) {
+        if (eachEmployee.data === selectedDate) {
+          filteredArray.push(eachEmployee);
+        }
+      }
+    });
+    // this.setState({ filteredData: filteredArray });
   };
 
   renderTable = () => {
@@ -145,10 +149,6 @@ class Quota extends React.Component {
       </tr>
     );
     return rows;
-  };
-
-  filterByDate = e => {
-    console.log(e);
   };
 
   getEmployeeData = e => {
@@ -334,7 +334,7 @@ class Quota extends React.Component {
       averageDeviationMax: this.averageDeviationMax,
       averageDeviationMin: this.averageDeviationMin,
       totalQuota: this.totalQuota,
-      averageQuota: this.averageQuota,
+      averageQuota: this.averageQuota
     });
   };
 
@@ -566,11 +566,14 @@ class Quota extends React.Component {
       <div className="daily-quota-tracker">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-6">
+            <div className="col">
               <div className="row">
                 <div className="col px-0">
                   <h3>Data:</h3>
-                  <DateFilter filterByDate={this.filterByDate} />
+                  <DateFilter
+                    filterByDate={this.filterByDate}
+                    selectedDate={this.state.selectedDate}
+                  />
                 </div>
                 <div className="col px-0">
                   <h3>Setor:</h3>
@@ -579,17 +582,22 @@ class Quota extends React.Component {
                     selectedOption={this.state.selectedOption}
                   />
                 </div>
+                <div className="col px-0">
+                  <h3>Tipo:</h3>
+                  <FilterByType
+                    handleChange={this.filterByType}
+                    selectedOption={this.state.selectedType}
+                  />
+                </div>
+                <div className="col px-0">
+                  <h3>Categoria:</h3>
+                  <FilterByCategory
+                    handleChange={this.filterByCategory}
+                    selectedOption={this.state.selectedCategory}
+                  />
+                </div>
               </div>
             </div>
-            {/* <FilterActivator
-              typeOfFilter="Setor"
-              filter={this.filterBySector}
-            />
-            <FilterActivator
-              typeOfFilter="Categoria"
-              filter={this.filterByCategory}
-            />
-            <FilterActivator typeOfFilter="Tipo" filter={this.filterBy} /> */}
           </div>
           <div className="row">
             <table
