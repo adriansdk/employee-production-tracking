@@ -40,10 +40,11 @@ class Quota extends React.Component {
       totalDeviationMin: undefined,
       data: Data,
       filteredData: Data,
+      selectedOption: null,
       filters: {
         bySector: {
           activated: false,
-          currentSector: undefined
+          selectedOption: null
         },
         byDate: {
           activated: false,
@@ -56,6 +57,23 @@ class Quota extends React.Component {
       }
     };
   }
+
+  filterBySector = selectedOption => {
+    this.setState({ selectedOption }, () =>
+      console.log(`Option selected:`, this.state.selectedOption)
+    );
+    let filteredArray = [];
+    let filteredData = this.state.data.map(eachEmployee => {
+      for (let i = 0; i < eachEmployee.setor.length; i++) {
+        if (eachEmployee.setor[i].nome === selectedOption.label) {
+          filteredArray.push(eachEmployee);
+        }
+      }
+    });
+    this.setState({ filteredData: filteredArray });
+
+    console.log(this.rowTotalsArray)
+  };
 
   renderTable = () => {
     let rows = [];
@@ -316,7 +334,7 @@ class Quota extends React.Component {
       averageDeviationMax: this.averageDeviationMax,
       averageDeviationMin: this.averageDeviationMin,
       totalQuota: this.totalQuota,
-      averageQuota: this.averageQuota
+      averageQuota: this.averageQuota,
     });
   };
 
@@ -550,14 +568,16 @@ class Quota extends React.Component {
           <div className="row">
             <div className="col-6">
               <div className="row">
-                <h1>Filtros:</h1>
-              </div>
-              <div className="row">
                 <div className="col px-0">
+                  <h3>Data:</h3>
                   <DateFilter filterByDate={this.filterByDate} />
                 </div>
                 <div className="col px-0">
-                  <FilterSelector />
+                  <h3>Setor:</h3>
+                  <FilterSelector
+                    handleChange={this.filterBySector}
+                    selectedOption={this.state.selectedOption}
+                  />
                 </div>
               </div>
             </div>
