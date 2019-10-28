@@ -3,14 +3,12 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 class DateFilter extends React.Component {
-  state = {
-    startDate: new Date()
-  };
+  state = {};
 
   render() {
     return (
       <DatePicker
-        selected={this.state.startDate}
+        selected={this.props.selectedDate}
         onChange={this.props.filterByDate}
       />
     );

@@ -40,7 +40,8 @@ class Quota extends React.Component {
       totalDeviationMin: undefined,
       data: Data,
       filteredData: Data,
-      selectedOption: null,
+      selectedSector: null,
+      selectedDate: new Date(),
       filters: {
         bySector: {
           activated: false,
@@ -58,21 +59,34 @@ class Quota extends React.Component {
     };
   }
 
-  filterBySector = selectedOption => {
-    this.setState({ selectedOption }, () =>
-      console.log(`Option selected:`, this.state.selectedOption)
+  filterBySector = selectedSector => {
+    this.setState({ selectedSector }, () =>
+      console.log(`Option selected:`, this.state.selectedSector)
     );
     let filteredArray = [];
-    let filteredData = this.state.data.map(eachEmployee => {
+    this.state.data.map(eachEmployee => {
       for (let i = 0; i < eachEmployee.setor.length; i++) {
-        if (eachEmployee.setor[i].nome === selectedOption.label) {
+        if (eachEmployee.setor[i].nome === selectedSector.label) {
           filteredArray.push(eachEmployee);
         }
       }
     });
     this.setState({ filteredData: filteredArray });
+  };
 
-    console.log(this.rowTotalsArray)
+  filterByDate = (selectedDate) => {
+    this.setState({ selectedDate }, () =>
+      console.log(`Date selected:`, this.state.selectedDate)
+    );
+    let filteredArray = [];
+    this.state.data.map(eachEmployee => {
+      for (let i = 0; i < eachEmployee.data.length; i++) {
+        if (eachEmployee.data === selectedDate) {
+          filteredArray.push(eachEmployee);
+        }
+      }
+    });
+    // this.setState({ filteredData: filteredArray });
   };
 
   renderTable = () => {
@@ -145,10 +159,6 @@ class Quota extends React.Component {
       </tr>
     );
     return rows;
-  };
-
-  filterByDate = e => {
-    console.log(e);
   };
 
   getEmployeeData = e => {
@@ -334,7 +344,7 @@ class Quota extends React.Component {
       averageDeviationMax: this.averageDeviationMax,
       averageDeviationMin: this.averageDeviationMin,
       totalQuota: this.totalQuota,
-      averageQuota: this.averageQuota,
+      averageQuota: this.averageQuota
     });
   };
 
@@ -570,7 +580,7 @@ class Quota extends React.Component {
               <div className="row">
                 <div className="col px-0">
                   <h3>Data:</h3>
-                  <DateFilter filterByDate={this.filterByDate} />
+                  <DateFilter filterByDate={this.filterByDate} selectedDate={this.state.selectedDate}/>
                 </div>
                 <div className="col px-0">
                   <h3>Setor:</h3>
