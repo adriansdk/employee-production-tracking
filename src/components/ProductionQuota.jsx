@@ -1,7 +1,6 @@
 import React from "react";
 import Data from "../seed/seeds.json";
 import ProductionTotal from "./ProductionTotal";
-import Filters from "./Filters.jsx";
 import BarChart from "./BarChart.jsx";
 import DateFilter from "./DateFilter.jsx";
 import FilterActivator from "./FilterActivator.jsx";
@@ -10,6 +9,7 @@ import TotalQuota from "./TotalQuota.jsx";
 import MissingQuota from "./MissingQuota.jsx";
 import ProductionPercentage from "./ProductionPercentage.jsx";
 import TableLegend from "./TableLegend.jsx";
+import FilterSelector from "./FilterSelector.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -40,10 +40,11 @@ class Quota extends React.Component {
       totalDeviationMin: undefined,
       data: Data,
       filteredData: Data,
+      selectedOption: null,
       filters: {
         bySector: {
           activated: false,
-          currentSector: undefined
+          selectedOption: null
         },
         byDate: {
           activated: false,
@@ -56,6 +57,23 @@ class Quota extends React.Component {
       }
     };
   }
+
+  filterBySector = selectedOption => {
+    this.setState({ selectedOption }, () =>
+      console.log(`Option selected:`, this.state.selectedOption)
+    );
+    let filteredArray = [];
+    let filteredData = this.state.data.map(eachEmployee => {
+      for (let i = 0; i < eachEmployee.setor.length; i++) {
+        if (eachEmployee.setor[i].nome === selectedOption.label) {
+          filteredArray.push(eachEmployee);
+        }
+      }
+    });
+    this.setState({ filteredData: filteredArray });
+
+    console.log(this.rowTotalsArray)
+  };
 
   renderTable = () => {
     let rows = [];
@@ -316,7 +334,7 @@ class Quota extends React.Component {
       averageDeviationMax: this.averageDeviationMax,
       averageDeviationMin: this.averageDeviationMin,
       totalQuota: this.totalQuota,
-      averageQuota: this.averageQuota
+      averageQuota: this.averageQuota,
     });
   };
 
@@ -548,8 +566,22 @@ class Quota extends React.Component {
       <div className="daily-quota-tracker">
         <div className="container-fluid">
           <div className="row">
-            <DateFilter filterByDate={this.filterByDate} />
-            <FilterActivator
+            <div className="col-6">
+              <div className="row">
+                <div className="col px-0">
+                  <h3>Data:</h3>
+                  <DateFilter filterByDate={this.filterByDate} />
+                </div>
+                <div className="col px-0">
+                  <h3>Setor:</h3>
+                  <FilterSelector
+                    handleChange={this.filterBySector}
+                    selectedOption={this.state.selectedOption}
+                  />
+                </div>
+              </div>
+            </div>
+            {/* <FilterActivator
               typeOfFilter="Setor"
               filter={this.filterBySector}
             />
@@ -557,7 +589,7 @@ class Quota extends React.Component {
               typeOfFilter="Categoria"
               filter={this.filterByCategory}
             />
-            <FilterActivator typeOfFilter="Tipo" filter={this.filterBy} />
+            <FilterActivator typeOfFilter="Tipo" filter={this.filterBy} /> */}
           </div>
           <div className="row">
             <table

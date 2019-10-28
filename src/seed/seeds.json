@@ -4,12 +4,7 @@
     "metaDiaria": 0,
     "setor": [
       {
-        "nome": "Entrega",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      },
-      {
-        "nome": "Recebimento",
+        "nome": "CQ1",
         "tipo": ["Calçados", "Peças"],
         "quantidade": 0
       }
@@ -23,7 +18,7 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "nome": "Entrega",
+        "nome": "Transbordo",
         "tipo": ["Calçados", "Peças"],
         "quantidade": 0
       },
@@ -47,7 +42,7 @@
         "quantidade": 0
       },
       {
-        "nome": "Recebimento",
+        "nome": "CQ2",
         "tipo": ["Calçados", "Peças"],
         "quantidade": 0
       }
@@ -61,12 +56,17 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "nome": "Entrega",
+        "nome": "Pesagem",
         "tipo": ["Calçados", "Peças"],
         "quantidade": 0
       },
       {
-        "nome": "Recebimento",
+        "nome": "Separação",
+        "tipo": ["Calçados", "Peças"],
+        "quantidade": 0
+      },
+      {
+        "nome": "CQ2",
         "tipo": ["Calçados", "Peças"],
         "quantidade": 0
       }
@@ -80,7 +80,7 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "nome": "Entrega",
+        "nome": "Pesagem",
         "tipo": ["Calçados", "Peças"],
         "quantidade": 0
       },
@@ -166,7 +166,7 @@
         "quantidade": 0
       }
     ],
-    "horas": [20, 22, 35, 65, 56, 70, 30, 22, 11, 24, 29],
+    "horas": [21, 22, 35, 65, 56, 70, 30, 22, 11, 24, 29],
     "totalDiario": 0,
     "data": "00/00/2019"
   },
