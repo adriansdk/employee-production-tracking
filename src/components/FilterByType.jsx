@@ -2,13 +2,8 @@ import React from "react";
 import Select from "react-select";
 
 const options = [
-  { value: "recebimento", label: "Recebimento" },
-  { value: "cq1", label: "CQ1" },
-  { value: "cq2", label: "CQ2" },
-  { value: "transbordo", label: "Transbordo" },
-  { value: "separação", label: "Separação" },
-  { value: "entrega", label: "Entrega" },
-  { value: "pesagem", label: "Pesagem" }
+  { value: "peça", label: "Peça" },
+  { value: "volume", label: "Volume" }
 ];
 
 class FilterByType extends React.Component {

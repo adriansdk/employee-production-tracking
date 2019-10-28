@@ -10,6 +10,7 @@ import MissingQuota from "./MissingQuota.jsx";
 import ProductionPercentage from "./ProductionPercentage.jsx";
 import TableLegend from "./TableLegend.jsx";
 import FilterSelector from "./FilterSelector.jsx";
+import FilterByType from "./FilterByType.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -42,6 +43,7 @@ class Quota extends React.Component {
       filteredData: Data,
       selectedSector: null,
       selectedDate: new Date(),
+      selectedType: null,
       filters: {
         bySector: {
           activated: false,
@@ -74,7 +76,7 @@ class Quota extends React.Component {
     this.setState({ filteredData: filteredArray });
   };
 
-  filterByDate = (selectedDate) => {
+  filterByDate = selectedDate => {
     this.setState({ selectedDate }, () =>
       console.log(`Date selected:`, this.state.selectedDate)
     );
@@ -580,7 +582,10 @@ class Quota extends React.Component {
               <div className="row">
                 <div className="col px-0">
                   <h3>Data:</h3>
-                  <DateFilter filterByDate={this.filterByDate} selectedDate={this.state.selectedDate}/>
+                  <DateFilter
+                    filterByDate={this.filterByDate}
+                    selectedDate={this.state.selectedDate}
+                  />
                 </div>
                 <div className="col px-0">
                   <h3>Setor:</h3>
@@ -589,17 +594,15 @@ class Quota extends React.Component {
                     selectedOption={this.state.selectedOption}
                   />
                 </div>
+                <div className="col px-0">
+                  <h3>Setor:</h3>
+                  <FilterByType
+                    handleChange={this.filterByType}
+                    selectedOption={this.state.selectedType}
+                  />
+                </div>
               </div>
             </div>
-            {/* <FilterActivator
-              typeOfFilter="Setor"
-              filter={this.filterBySector}
-            />
-            <FilterActivator
-              typeOfFilter="Categoria"
-              filter={this.filterByCategory}
-            />
-            <FilterActivator typeOfFilter="Tipo" filter={this.filterBy} /> */}
           </div>
           <div className="row">
             <table
