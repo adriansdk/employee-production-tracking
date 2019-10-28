@@ -2,16 +2,18 @@ import React from "react";
 import Select from "react-select";
 
 const options = [
-  { value: "peça", label: "Peça" },
-  { value: "volume", label: "Volume" }
+  { value: "todas", label: "Todas" },
+  { value: "dobrados", label: "Dobrados" },
+  { value: "calçados", label: "Calçados" },
+  { value: "outros", label: "Outros" },
 ];
 
-class FilterByType extends React.Component {
+class FilterByCategory extends React.Component {
   render() {
     return (
       <div className="selector" style={{ width: "50%" }}>
         <Select
-          placeholder="Escolha um tipo de peça:"
+          placeholder="Escolha uma categoria:"
           value={this.props.selectedOption}
           onChange={this.props.handleChange}
           options={options}
@@ -21,4 +23,4 @@ class FilterByType extends React.Component {
   }
 }
 
-export default FilterByType;
+export default FilterByCategory;

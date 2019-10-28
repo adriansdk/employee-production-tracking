@@ -11,6 +11,7 @@ import ProductionPercentage from "./ProductionPercentage.jsx";
 import TableLegend from "./TableLegend.jsx";
 import FilterSelector from "./FilterSelector.jsx";
 import FilterByType from "./FilterByType.jsx";
+import FilterByCategory from "./FilterByCategory.jsx";
 
 class Quota extends React.Component {
   constructor() {
@@ -42,22 +43,9 @@ class Quota extends React.Component {
       data: Data,
       filteredData: Data,
       selectedSector: null,
-      selectedDate: new Date(),
       selectedType: null,
-      filters: {
-        bySector: {
-          activated: false,
-          selectedOption: null
-        },
-        byDate: {
-          activated: false,
-          currentDate: undefined
-        },
-        byType: {
-          activated: false,
-          currentType: undefined
-        }
-      }
+      selectedCategory: null,
+      selectedDate: new Date()
     };
   }
 
@@ -578,7 +566,7 @@ class Quota extends React.Component {
       <div className="daily-quota-tracker">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-6">
+            <div className="col">
               <div className="row">
                 <div className="col px-0">
                   <h3>Data:</h3>
@@ -595,10 +583,17 @@ class Quota extends React.Component {
                   />
                 </div>
                 <div className="col px-0">
-                  <h3>Setor:</h3>
+                  <h3>Tipo:</h3>
                   <FilterByType
                     handleChange={this.filterByType}
                     selectedOption={this.state.selectedType}
+                  />
+                </div>
+                <div className="col px-0">
+                  <h3>Categoria:</h3>
+                  <FilterByCategory
+                    handleChange={this.filterByCategory}
+                    selectedOption={this.state.selectedCategory}
                   />
                 </div>
               </div>
