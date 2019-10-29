@@ -12,12 +12,14 @@
     "chart.js": "^1.1.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "lodash": "^4.17.15",
     "mongoose": "^5.7.3",
     "node-sass": "^4.12.0",
     "react": "^16.10.2",
     "react-bootstrap": "^1.0.0-beta.13",
     "react-chartjs": "^1.2.0",
     "react-chartjs-2": "^2.8.0",
+    "react-data-table-component": "^3.6.0",
     "react-datepicker": "^2.9.6",
     "react-dom": "^16.10.2",
     "react-metismenu": "^1.4.0",
@@ -25,8 +27,10 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "react-select": "^3.0.8",
+    "react-table": "^6.10.3",
     "sass": "^1.23.0",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "styled-components": "^4.4.0"
   },
   "scripts": {
     "start": "react-scripts start",

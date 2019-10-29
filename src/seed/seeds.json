@@ -1,96 +1,19 @@
 [
   {
-    "funcionario": "Rinaldo",
-    "metaDiaria": 0,
-    "setor": [
-      {
-        "nome": "CQ1",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      }
-    ],
-    "horas": [112, 53, 45, 34, 23, 40, 63, 17, 40, 33, 53],
-    "totalDiario": 0,
-    "data": "00/00/2019"
-  },
-  {
     "funcionario": "Maria",
     "metaDiaria": 400,
     "setor": [
       {
         "nome": "Transbordo",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
+        "horaVolume": [1, 90, 30, 20, 10, 15, 30, 50, 30, 12, 70],
+        "horaPeca": [12, 30, 50, 80, 100, 125, 10, 20, 70, 52, 40]
       },
       {
         "nome": "Recebimento",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
+        "horaVolume": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        "horaPeca": [12, 30, 50, 80, 100, 125, 10, 20, 70, 52, 40]
       }
     ],
-    "horas": [50, 90, 30, 20, 10, 15, 30, 50, 30, 12, 70],
-    "totalDiario": 0,
-    "data": "00/00/2019"
-  },
-  {
-    "funcionario": "Alejandro",
-    "metaDiaria": 400,
-    "setor": [
-      {
-        "nome": "Entrega",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      },
-      {
-        "nome": "CQ2",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      }
-    ],
-    "horas": [112, 53, 45, 34, 23, 40, 63, 17, 40, 33, 53],
-    "totalDiario": 0,
-    "data": "00/00/2019"
-  },
-  {
-    "funcionario": "Elba",
-    "metaDiaria": 400,
-    "setor": [
-      {
-        "nome": "Pesagem",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      },
-      {
-        "nome": "Separação",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      },
-      {
-        "nome": "CQ2",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      }
-    ],
-    "horas": [112, 53, 45, 34, 23, 40, 63, 17, 40, 33, 53],
-    "totalDiario": 0,
-    "data": "00/00/2019"
-  },
-  {
-    "funcionario": "Julie",
-    "metaDiaria": 400,
-    "setor": [
-      {
-        "nome": "Pesagem",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      },
-      {
-        "nome": "Recebimento",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      }
-    ],
-    "horas": [12, 93, 55, 34, 32, 60, 73, 47, 40, 33, 53],
     "totalDiario": 0,
     "data": "00/00/2019"
   },
@@ -99,74 +22,16 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "nome": "Entrega",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
+        "nome": "CQ1",
+        "horaVolume": [143, 23, 65, 43, 55, 67, 79, 100, 123, 140, 11],
+        "horaPeca": [143, 23, 65, 43, 55, 67, 79, 100, 123, 140, 11]
       },
       {
-        "nome": "Recebimento",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
+        "nome": "Pesagem",
+        "horaVolume": [143, 23, 65, 43, 55, 67, 79, 100, 123, 140, 11],
+        "horaPeca": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110]
       }
     ],
-    "horas": [30, 100, 20, 43, 12, 12, 23, 27, 40, 33, 123],
-    "totalDiario": 0,
-    "data": "00/00/2019"
-  },
-  {
-    "funcionario": "Nick",
-    "metaDiaria": 400,
-    "setor": [
-      {
-        "nome": "Entrega",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      },
-      {
-        "nome": "Recebimento",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      }
-    ],
-    "horas": [100, 19, 20, 43, 35, 12, 23, 27, 40, 33, 29],
-    "totalDiario": 0,
-    "data": "00/00/2019"
-  },
-  {
-    "funcionario": "Junior",
-    "metaDiaria": 400,
-    "setor": [
-      {
-        "nome": "Entrega",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      },
-      {
-        "nome": "Recebimento",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      }
-    ],
-    "horas": [10, 30, 20, 43, 80, 12, 23, 27, 40, 33, 29],
-    "totalDiario": 0,
-    "data": "00/00/2019"
-  },
-  {
-    "funcionario": "Qiwei",
-    "metaDiaria": 400,
-    "setor": [
-      {
-        "nome": "Entrega",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      },
-      {
-        "nome": "Recebimento",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
-      }
-    ],
-    "horas": [21, 22, 35, 65, 56, 70, 30, 22, 11, 24, 29],
     "totalDiario": 0,
     "data": "00/00/2019"
   },
@@ -175,36 +40,34 @@
     "metaDiaria": 400,
     "setor": [
       {
-        "nome": "Entrega",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
+        "nome": "CQ2",
+        "horaVolume": [1, 90, 30, 20, 10, 15, 30, 50, 30, 12, 70],
+        "horaPeca": [100, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110]
       },
       {
         "nome": "Recebimento",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
+        "horaVolume": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        "horaPeca": [12, 30, 50, 80, 100, 125, 10, 20, 70, 52, 40]
       }
     ],
-    "horas": [70, 96, 25, 17, 70, 25, 17, 4, 25, 17, 29],
     "totalDiario": 0,
     "data": "00/00/2019"
   },
   {
-    "funcionario": "Angela",
+    "funcionario": "Nissandro",
     "metaDiaria": 400,
     "setor": [
       {
-        "nome": "Entrega",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
+        "nome": "Separação",
+        "horaVolume": [12, 30, 50, 80, 100, 125, 10, 20, 70, 52, 40],
+        "horaPeca": [100, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110]
       },
       {
-        "nome": "Recebimento",
-        "tipo": ["Calçados", "Peças"],
-        "quantidade": 0
+        "nome": "Entrega",
+        "horaVolume": [143, 23, 65, 43, 55, 67, 79, 100, 123, 140, 11],
+        "horaPeca": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
       }
     ],
-    "horas": [56, 67, 30, 65, 56, 30, 65, 22, 30, 65, 29],
     "totalDiario": 0,
     "data": "00/00/2019"
   }
