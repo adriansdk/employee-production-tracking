@@ -191,9 +191,13 @@ class Quota extends React.Component {
   filterHours = eachEmployee => {
     let hours = [];
     if (this.state.selectedType.value === "peça") {
-      hours = eachEmployee.setor[0].horaPeca;
+      for (let index = 0; index < eachEmployee.setor.length; index++) {
+        hours = eachEmployee.setor[index].horaPeca;
+      }
     } else if (this.state.selectedType.value === "volume") {
-      hours = eachEmployee.setor[0].horaVolume;
+      for (let index = 0; index < eachEmployee.setor.length; index++) {
+        hours = eachEmployee.setor[index].horaVolume;
+      }
     }
     if (
       this.state.selectedSector.value === "todos" &&
@@ -203,7 +207,7 @@ class Quota extends React.Component {
       let sumOfAllSectorsPiece = [];
       for (let index = 0; index < eachEmployee.setor.length; index++) {
         if (eachEmployee.setor[index + 1]) {
-          nextSector = eachEmployee.setor[index + 1].horaPeca;
+          nextSector = eachEmployee.setor[index].horaPeca;
         }
         sumOfAllSectorsPiece = eachEmployee.setor[index].horaPeca.map(
           (eachPieceHour, x) => {
@@ -220,7 +224,7 @@ class Quota extends React.Component {
       let sumOfAllSectorsVolume = [];
       for (let index = 0; index < eachEmployee.setor.length; index++) {
         if (eachEmployee.setor[index + 1]) {
-          nextSector = eachEmployee.setor[index + 1].horaVolume;
+          nextSector = eachEmployee.setor[index].horaVolume;
         }
         sumOfAllSectorsVolume = eachEmployee.setor[index].horaVolume.map(
           (eachPieceHour, x) => {
@@ -355,11 +359,15 @@ class Quota extends React.Component {
   renderDeviation = index => {
     let teamTotal = [];
     let specificHour = index;
-    for (let x = 0; x < this.state.filteredData.length; x++) {
-      teamTotal.push(
-        this.state.filteredData[x].setor[0].horaPeca[specificHour]
-      );
-    }
+    this.state.filteredData.map((eachEmployee, x) => {
+      for (let i = 0; i < eachEmployee.setor.length; i++) {
+        console.log(specificHour)
+        teamTotal.push(
+          this.state.filteredData[x].setor[i].horaPeca[specificHour]
+        );
+      }
+    });
+    console.log(teamTotal);
     const n = teamTotal.length;
     const mean = teamTotal.reduce((a, b) => a + b) / n;
     const s = Math.sqrt(
