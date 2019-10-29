@@ -15,6 +15,7 @@ class FilterByType extends React.Component {
           value={this.props.selectedOption}
           onChange={this.props.handleChange}
           options={options}
+          defaultValue ={{ label: "Peça", value: "Peça" }}
         />
       </div>
     );

@@ -2,6 +2,7 @@ import React from "react";
 import Select from "react-select";
 
 const options = [
+  { value: "todos", label: "Todos" },
   { value: "recebimento", label: "Recebimento" },
   { value: "cq1", label: "CQ1" },
   { value: "cq2", label: "CQ2" },
@@ -20,6 +21,8 @@ class FilterSelector extends React.Component {
           value={this.props.selectedOption}
           onChange={this.props.handleChange}
           options={options}
+          defaultValue ={{ label: "Todos", value: "todos" }}
+
         />
       </div>
     );

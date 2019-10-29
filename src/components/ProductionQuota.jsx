@@ -12,6 +12,7 @@ import TableLegend from "./TableLegend.jsx";
 import FilterSelector from "./FilterSelector.jsx";
 import FilterByType from "./FilterByType.jsx";
 import FilterByCategory from "./FilterByCategory.jsx";
+import _ from "lodash";
 
 class Quota extends React.Component {
   constructor() {
@@ -42,8 +43,8 @@ class Quota extends React.Component {
       totalDeviationMin: undefined,
       data: Data,
       filteredData: Data,
-      selectedSector: null,
-      selectedType: null,
+      selectedSector: { label: "Todos", value: "todos" },
+      selectedType: { label: "Peça", value: "peça" },
       selectedCategory: null,
       selectedDate: new Date()
     };
@@ -61,8 +62,31 @@ class Quota extends React.Component {
         }
       }
     });
-    this.setState({ filteredData: filteredArray });
+    if (selectedSector.label === "Todos") {
+      this.setState({ filteredData: this.state.data });
+    } else {
+      this.setState({ filteredData: filteredArray });
+    }
   };
+
+  filterByType = selectedType => {
+    this.setState({ selectedType });
+  };
+
+  // filterByCategoy = selectedSector => {
+  //   this.setState({ selectedSector }, () =>
+  //     console.log(`Option selected:`, this.state.selectedSector)
+  //   );
+  //   let filteredArray = [];
+  //   this.state.data.map(eachEmployee => {
+  //     for (let i = 0; i < eachEmployee.setor.length; i++) {
+  //       if (eachEmployee.setor[i].nome === selectedSector.label) {
+  //         filteredArray.push(eachEmployee);
+  //       }
+  //     }
+  //   });
+  //   this.setState({ filteredData: filteredArray });
+  // };
 
   filterByDate = selectedDate => {
     this.setState({ selectedDate }, () =>
@@ -85,10 +109,11 @@ class Quota extends React.Component {
       this.employeeNames.push(eachEmployee.funcionario);
       this.averagesColArray.push(
         Math.round(
-          eachEmployee.horas.reduce(this.reducer) / eachEmployee.horas.length
+          _.sum(eachEmployee.setor[0].horaPeca) /
+            eachEmployee.setor[0].horaPeca.length
         )
       );
-      this.colTotalsArray.push(eachEmployee.horas.reduce(this.reducer));
+      this.colTotalsArray.push(_.sum(eachEmployee.setor[0].horaPeca));
       return (
         <tr key={key}>
           <th onMouseOver={this.getEmployeeData}>{eachEmployee.funcionario}</th>
@@ -96,15 +121,21 @@ class Quota extends React.Component {
         </tr>
       );
     });
-    let deviationRow = this.state.filteredData[0].horas.map((eachHour, key) => {
-      return <td>{this.renderDeviation(key)}</td>;
-    });
-    let maximumRow = this.state.filteredData[0].horas.map((eachHour, key) => {
-      return <td>{this.renderMax(key)}</td>;
-    });
-    let minimumRow = this.state.filteredData[0].horas.map((eachHour, key) => {
-      return <td>{this.renderMin(key)}</td>;
-    });
+    let deviationRow = this.state.filteredData[0].setor[0].horaPeca.map(
+      (eachHour, key) => {
+        return <td>{this.renderDeviation(key)}</td>;
+      }
+    );
+    let maximumRow = this.state.filteredData[0].setor[0].horaPeca.map(
+      (eachHour, key) => {
+        return <td>{this.renderMax(key)}</td>;
+      }
+    );
+    let minimumRow = this.state.filteredData[0].setor[0].horaPeca.map(
+      (eachHour, key) => {
+        return <td>{this.renderMin(key)}</td>;
+      }
+    );
     rows.push(
       <tr>
         <th style={{ backgroundColor: "rgba(11,11,11,0.1)" }}>Total:</th>
@@ -157,8 +188,56 @@ class Quota extends React.Component {
     );
   };
 
+  filterHours = eachEmployee => {
+    let hours = [];
+    if (this.state.selectedType.value === "peça") {
+      hours = eachEmployee.setor[0].horaPeca;
+    } else if (this.state.selectedType.value === "volume") {
+      hours = eachEmployee.setor[0].horaVolume;
+    }
+    if (
+      this.state.selectedSector.value === "todos" &&
+      this.state.selectedType.value === "peça"
+    ) {
+      let nextSector = [];
+      let sumOfAllSectorsPiece = [];
+      for (let index = 0; index < eachEmployee.setor.length; index++) {
+        if (eachEmployee.setor[index + 1]) {
+          nextSector = eachEmployee.setor[index + 1].horaPeca;
+        }
+        sumOfAllSectorsPiece = eachEmployee.setor[index].horaPeca.map(
+          (eachPieceHour, x) => {
+            return eachPieceHour + nextSector[x];
+          }
+        );
+      }
+      hours = sumOfAllSectorsPiece;
+    } else if (
+      this.state.selectedSector.value === "todos" &&
+      this.state.selectedType.value === "volume"
+    ) {
+      let nextSector = [];
+      let sumOfAllSectorsVolume = [];
+      for (let index = 0; index < eachEmployee.setor.length; index++) {
+        if (eachEmployee.setor[index + 1]) {
+          nextSector = eachEmployee.setor[index + 1].horaVolume;
+        }
+        sumOfAllSectorsVolume = eachEmployee.setor[index].horaVolume.map(
+          (eachPieceHour, x) => {
+            return eachPieceHour + nextSector[x];
+          }
+        );
+      }
+      hours = sumOfAllSectorsVolume;
+    }
+    return hours;
+  };
+
   renderHourlyTotal = eachEmployee => {
-    let hours = eachEmployee.horas;
+    let sectorIndex = eachEmployee.setor
+      .map(e => e.nome)
+      .indexOf(this.state.selectedSector.label);
+    let hours = this.filterHours(eachEmployee);
     let total = 0;
     let sums = this.rowTotalsArray;
     let columns = hours.map((eachHour, key) => {
@@ -277,7 +356,9 @@ class Quota extends React.Component {
     let teamTotal = [];
     let specificHour = index;
     for (let x = 0; x < this.state.filteredData.length; x++) {
-      teamTotal.push(this.state.filteredData[x].horas[specificHour]);
+      teamTotal.push(
+        this.state.filteredData[x].setor[0].horaPeca[specificHour]
+      );
     }
     const n = teamTotal.length;
     const mean = teamTotal.reduce((a, b) => a + b) / n;
@@ -313,10 +394,6 @@ class Quota extends React.Component {
     return Math.round(s);
   };
 
-  reducer = (total, num) => {
-    return total + num;
-  };
-
   renderMax = index => {
     let teamTotal = this.rowTotalsArray[index];
     this.rowAveragesArray.push(
@@ -339,7 +416,7 @@ class Quota extends React.Component {
   };
 
   renderTotalDeviationMax = () => {
-    let max = this.totalDeviation + this.rowAveragesArray.reduce(this.reducer);
+    let max = this.totalDeviation + _.sum(this.rowAveragesArray);
     this.totalDeviationMax = max;
     return max;
   };
@@ -351,7 +428,7 @@ class Quota extends React.Component {
   };
 
   renderTotalDeviationMin = () => {
-    let min = this.rowAveragesArray.reduce(this.reducer) - this.totalDeviation;
+    let min = _.sum(this.rowAveragesArray) - this.totalDeviation;
     this.totalDeviationMin = min;
     // this.setState({ totalDeviationMin: min });
     return min;
@@ -371,7 +448,7 @@ class Quota extends React.Component {
 
   renderHours = () => {
     let index = 0;
-    let hours = this.state.filteredData[index].horas;
+    let hours = this.state.filteredData[index].setor[0].horaPeca;
     return hours.map((eachHour, key) => {
       index++;
       return (
@@ -397,25 +474,10 @@ class Quota extends React.Component {
           style={{ width: "30%", display: "inline", height: "20px" }}
           type="text"
           onChange={e => this.editCell(e, key)}
-          value={this.state.funcionario.horas[key]}
+          value={this.state.funcionario.setor[0].horaPeca[key]}
         ></input>
       </td>
     );
-  };
-
-  editCell = (e, index) => {
-    let newArray = this.state.funcionario.horas;
-    newArray[index] = e.target.value;
-    this.setState({
-      funcionario: {
-        nome: this.state.funcionario.nome,
-        setor: this.state.funcionario.setor,
-        tipo: this.state.funcionario.tipo,
-        horas: newArray,
-        metaDiaria: this.state.funcionario.metaDiaria,
-        totalDiario: this.state.funcionario.totalDiario
-      }
-    });
   };
 
   setHourlyQuota = (index, e) => {
@@ -455,12 +517,12 @@ class Quota extends React.Component {
   };
 
   getTotalQuota = () => {
-    this.totalQuota = this.state.quotas.reduce(this.reducer);
+    this.totalQuota = _.sum(this.state.quotas);
     return this.totalQuota;
   };
 
   getAverageQuota = () => {
-    this.totalQuota = this.state.quotas.reduce(this.reducer);
+    this.totalQuota = _.sum(this.state.quotas);
     let averageQuota = this.totalQuota / 10;
     return averageQuota;
   };
@@ -498,7 +560,7 @@ class Quota extends React.Component {
 
   renderProductionTotal = () => {
     let total = this.teamDailyTotal;
-    let quotasTotal = this.state.quotas.reduce(this.reducer);
+    let quotasTotal = _.sum(this.state.quotas);
     let percentage = (total / quotasTotal) * 100;
     let totalProductionPercentage = Math.round(percentage * 10) / 10;
     this.totalProductionPercentage = totalProductionPercentage;
@@ -522,18 +584,18 @@ class Quota extends React.Component {
   };
   componentDidMount = () => {
     this.getState();
-    let deviationsArray = this.state.filteredData[0].horas.map(
+    let deviationsArray = this.state.filteredData[0].setor[0].horaPeca.map(
       (eachHour, key) => {
         return this.renderDeviation(key);
       }
     );
 
-    let maximumDeviationRow = this.state.filteredData[0].horas.map(
+    let maximumDeviationRow = this.state.filteredData[0].setor[0].horaPeca.map(
       (eachHour, key) => {
         return this.renderMax(key);
       }
     );
-    let minimumDeviationRow = this.state.filteredData[0].horas.map(
+    let minimumDeviationRow = this.state.filteredData[0].setor[0].horaPeca.map(
       (eachHour, key) => {
         return this.renderMin(key);
       }
@@ -590,11 +652,11 @@ class Quota extends React.Component {
                   />
                 </div>
                 <div className="col px-0">
-                  <h3>Categoria:</h3>
+                  {/* <h3>Categoria:</h3>
                   <FilterByCategory
                     handleChange={this.filterByCategory}
                     selectedOption={this.state.selectedCategory}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
@@ -652,9 +714,7 @@ class Quota extends React.Component {
             </div>
             <div className="col">
               <MissingQuota
-                missingQuota={
-                  this.totalQuota - this.rowTotalsArray.reduce(this.reducer)
-                }
+                missingQuota={this.totalQuota - _.sum(this.rowTotalsArray)}
               />
             </div>
             <div className="col">
