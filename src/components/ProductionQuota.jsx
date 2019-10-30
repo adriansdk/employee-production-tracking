@@ -34,15 +34,11 @@ class Quota extends React.Component {
     this.rowTotalsArray = [];
     this.rowAveragesArray = [];
     this.colTotalsArray = [];
-    this.maximumDeviationRow = [];
-    this.minimumDeviationRow = [];
     this.allColAverages = [];
     this.employeeHours = [];
     this.state = {
       quotas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      test: "",
       colHours: [],
-      maximumDeviationRow: [],
       totalDeviationMax: undefined,
       totalDeviationMin: undefined,
       data: Data,
@@ -55,7 +51,7 @@ class Quota extends React.Component {
   }
 
   filterBySector = selectedSector => {
-    this.setState({ selectedSector, test:123 });
+    this.setState({ selectedSector });
     let filteredArray = [];
     this.state.data.map(eachEmployee => {
       for (let i = 0; i < eachEmployee.setor.length; i++) {
@@ -104,8 +100,6 @@ class Quota extends React.Component {
   };
 
   renderTable = () => {
-    this.getDeviation();
-
     let rows = [];
     rows = this.state.filteredData.map((eachEmployee, key) => {
       this.employeeNames.push(eachEmployee.funcionario);
@@ -133,6 +127,7 @@ class Quota extends React.Component {
     );
     let maximumRow = this.state.filteredData[0].setor[0].horaPeca.map(
       (eachHour, key) => {
+        console.log(key)
         return <td>{this.renderMax(key)}</td>;
       }
     );
@@ -258,16 +253,23 @@ class Quota extends React.Component {
     this.colTotalsArray.push(_.sum(hours));
     this.averagesColArray.push(_.sum(hours) / hours.length);
     this.getColHours();
+
+    let deviation = hours.map((eachHour, key) => {
+      // this.renderMax(key)
+    });
     let columns = hours.map((eachHour, key) => {
+      let average = _.sum(this.colHours[key]) / this.colHours[key].length;
+      let maxDeviation = deviation[key] + average;
+      let minDeviation = average - deviation[key];
       total += eachHour;
       sums[key] ? (sums[key] += eachHour) : (sums[key] = eachHour);
-      if (eachHour > this.state.maximumDeviationRow[key]) {
+      if (eachHour > maxDeviation) {
         return (
           <td key={key} style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>
             {eachHour}
           </td>
         );
-      } else if (eachHour < this.minimumDeviationRow[key]) {
+      } else if (eachHour < minDeviation) {
         return (
           <td key={key} style={{ backgroundColor: "rgba(255,0,0,0.3)" }}>
             {eachHour}
@@ -310,9 +312,15 @@ class Quota extends React.Component {
     return columns;
   };
 
-  getDeviation = () => {
-    console.log("ran")
-    this.setState({test:"123"})
+  getDeviation = index => {
+    const n = this.colHours[index].length;
+    const mean = this.colHours[index].reduce((a, b) => a + b) / n;
+    const s = Math.sqrt(
+      this.colHours[index]
+        .map(x => Math.pow(x - mean, 2))
+        .reduce((a, b) => a + b) / n
+    );
+    return Math.round(s);
   };
 
   renderSums = () => {
@@ -419,6 +427,7 @@ class Quota extends React.Component {
     this.rowAveragesArray.push(
       Math.round(teamTotal / this.state.filteredData.length)
     );
+    console.log(this.rowAveragesArray)
     return Math.round(
       this.colDeviationArray[index] + this.rowAveragesArray[index]
     );
@@ -602,38 +611,11 @@ class Quota extends React.Component {
     }
   };
 
-  componentWillUpdate = () => {
-    let deviationsArray = this.state.filteredData[0].setor[0].horaPeca.map(
-      (eachHour, key) => {
-        return this.renderDeviation(key);
-      }
-    );
-  };
+  componentWillUpdate = () => {};
+
   componentDidMount = () => {
     this.getState();
-    let deviationsArray = this.state.filteredData[0].setor[0].horaPeca.map(
-      (eachHour, key) => {
-        return this.renderDeviation(key);
-      }
-    );
-
-    let maximumDeviationRow = this.state.filteredData[0].setor[0].horaPeca.map(
-      (eachHour, key) => {
-        return this.renderMax(key);
-      }
-    );
-    let minimumDeviationRow = this.state.filteredData[0].setor[0].horaPeca.map(
-      (eachHour, key) => {
-        return this.renderMin(key);
-      }
-    );
-
-    this.setState({
-      deviationsArray: deviationsArray,
-      minimumDeviationRow: minimumDeviationRow
-    });
   };
-
   render() {
     this.teamDailyTotal = undefined;
     this.totalColAverage = undefined;
@@ -652,9 +634,6 @@ class Quota extends React.Component {
     this.employeeHours = [];
     this.colHours = [];
     this.allColAverages = [];
-    this.maximumDeviationRow = [];
-    this.minimumDeviationRow = [];
-
     return (
       <div className="daily-quota-tracker">
         <div className="container-fluid">

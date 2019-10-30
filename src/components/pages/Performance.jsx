@@ -2,6 +2,7 @@ import React from "react";
 import ProductionQuota from "../ProductionQuota";
 import "../styles/Performance.scss"
 import Testing from "../Testing"
+import DailyQuota from "../DailyQuota";
 class Performance extends React.Component {
   state = { someKey: "someValue" };
 
