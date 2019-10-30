@@ -26,6 +26,7 @@ class Quota extends React.Component {
     this.totalQuota = undefined;
     this.teamDailyTotal = undefined;
     this.totalProductionPercentage = undefined;
+    this.colHours = [];
     this.employeeNames = [];
     this.productionsArray = [];
     this.colDeviationArray = [];
@@ -39,6 +40,7 @@ class Quota extends React.Component {
       quotas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       maximumDeviationRow: [],
       minimumDeviationRow: [],
+      colHours: [],
       totalDeviationMax: undefined,
       totalDeviationMin: undefined,
       data: Data,
@@ -117,7 +119,7 @@ class Quota extends React.Component {
       return (
         <tr key={key}>
           <th onMouseOver={this.getEmployeeData}>{eachEmployee.funcionario}</th>
-          {this.renderHourlyTotal(eachEmployee)}
+          {this.renderHourlyTotal(eachEmployee, key)}
         </tr>
       );
     });
@@ -188,12 +190,16 @@ class Quota extends React.Component {
     );
   };
 
-  filterHours = eachEmployee => {
+  filterHours = (eachEmployee, index) => {
     let hours = [];
     if (this.state.selectedType.value === "peça") {
-      hours = eachEmployee.setor[0].horaPeca;
+      for (let index = 0; index < eachEmployee.setor.length; index++) {
+        hours = eachEmployee.setor[index].horaPeca;
+      }
     } else if (this.state.selectedType.value === "volume") {
-      hours = eachEmployee.setor[0].horaVolume;
+      for (let index = 0; index < eachEmployee.setor.length; index++) {
+        hours = eachEmployee.setor[index].horaVolume;
+      }
     }
     if (
       this.state.selectedSector.value === "todos" &&
@@ -203,7 +209,7 @@ class Quota extends React.Component {
       let sumOfAllSectorsPiece = [];
       for (let index = 0; index < eachEmployee.setor.length; index++) {
         if (eachEmployee.setor[index + 1]) {
-          nextSector = eachEmployee.setor[index + 1].horaPeca;
+          nextSector = eachEmployee.setor[index].horaPeca;
         }
         sumOfAllSectorsPiece = eachEmployee.setor[index].horaPeca.map(
           (eachPieceHour, x) => {
@@ -220,7 +226,7 @@ class Quota extends React.Component {
       let sumOfAllSectorsVolume = [];
       for (let index = 0; index < eachEmployee.setor.length; index++) {
         if (eachEmployee.setor[index + 1]) {
-          nextSector = eachEmployee.setor[index + 1].horaVolume;
+          nextSector = eachEmployee.setor[index].horaVolume;
         }
         sumOfAllSectorsVolume = eachEmployee.setor[index].horaVolume.map(
           (eachPieceHour, x) => {
@@ -233,13 +239,30 @@ class Quota extends React.Component {
     return hours;
   };
 
-  renderHourlyTotal = eachEmployee => {
+  getDeviation = index => {
+    const newContent = [];
+    for (let i = 0; i < this.employeeHours[0].length; i++) {
+      this.employeeHours.forEach(hours => {
+        if (!Array.isArray(newContent[i])) {
+          newContent[i] = [];
+        }
+        newContent[i].push(hours[i]);
+      });
+    }
+    this.colHours = newContent;
+  };
+
+  renderHourlyTotal = (eachEmployee, index) => {
     let sectorIndex = eachEmployee.setor
       .map(e => e.nome)
       .indexOf(this.state.selectedSector.label);
-    let hours = this.filterHours(eachEmployee);
+    let hours = this.filterHours(eachEmployee, index);
     let total = 0;
     let sums = this.rowTotalsArray;
+    this.employeeHours.push(hours);
+    this.employeeHours.map((eachHour, i) => {
+      this.getDeviation(i);
+    });
     let columns = hours.map((eachHour, key) => {
       total += eachHour;
       sums[key] ? (sums[key] += eachHour) : (sums[key] = eachHour);
@@ -353,17 +376,10 @@ class Quota extends React.Component {
   };
 
   renderDeviation = index => {
-    let teamTotal = [];
-    let specificHour = index;
-    for (let x = 0; x < this.state.filteredData.length; x++) {
-      teamTotal.push(
-        this.state.filteredData[x].setor[0].horaPeca[specificHour]
-      );
-    }
-    const n = teamTotal.length;
-    const mean = teamTotal.reduce((a, b) => a + b) / n;
+    const n = this.colHours[index].length;
+    const mean = this.colHours[index].reduce((a, b) => a + b) / n;
     const s = Math.sqrt(
-      teamTotal.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+      this.colHours[index].map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
     );
     this.colDeviationArray.push(Math.round(s));
     return Math.round(s);
@@ -390,7 +406,6 @@ class Quota extends React.Component {
         .reduce((a, b) => a + b) / n
     );
     this.averageDeviation = Math.round(s);
-
     return Math.round(s);
   };
 
@@ -430,7 +445,6 @@ class Quota extends React.Component {
   renderTotalDeviationMin = () => {
     let min = _.sum(this.rowAveragesArray) - this.totalDeviation;
     this.totalDeviationMin = min;
-    // this.setState({ totalDeviationMin: min });
     return min;
   };
 
@@ -624,6 +638,8 @@ class Quota extends React.Component {
     this.rowAveragesArray = [];
     this.colTotalsArray = [];
     this.employeeHours = [];
+    this.colHours = [];
+
     return (
       <div className="daily-quota-tracker">
         <div className="container-fluid">
