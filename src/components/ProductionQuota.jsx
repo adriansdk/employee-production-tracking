@@ -234,7 +234,21 @@ class Quota extends React.Component {
       }
       hours = sumOfAllSectorsVolume;
     }
+    for (let o = 0; o < this.state.filteredData.length; o++) {
+      this.getDeviation();
+    }
     return hours;
+  };
+
+  getDeviation = () => {
+    let array = []
+    let result = this.employeeHours.reduce(function(r, a) {
+      a.forEach(function(b, i) {
+        array[i] = (r[i] || 0) + b;
+      });
+      return r;
+    }, []);
+    console.log(array)
   };
 
   renderHourlyTotal = eachEmployee => {
@@ -244,6 +258,8 @@ class Quota extends React.Component {
     let hours = this.filterHours(eachEmployee);
     let total = 0;
     let sums = this.rowTotalsArray;
+    this.employeeHours.push(hours);
+    this.getDeviation();
     let columns = hours.map((eachHour, key) => {
       total += eachHour;
       sums[key] ? (sums[key] += eachHour) : (sums[key] = eachHour);
@@ -359,15 +375,18 @@ class Quota extends React.Component {
   renderDeviation = index => {
     let teamTotal = [];
     let specificHour = index;
-    this.state.filteredData.map((eachEmployee, x) => {
-      for (let i = 0; i < eachEmployee.setor.length; i++) {
-        console.log(specificHour)
-        teamTotal.push(
-          this.state.filteredData[x].setor[i].horaPeca[specificHour]
-        );
-      }
-    });
-    console.log(teamTotal);
+    // this.state.filteredData.map((eachData, inx) => {
+    //   for (let x = 0; x < eachData.setor.length; x++) {
+    //     teamTotal.push(
+    //       this.employeeHours[inx].setor[x].horaPeca[specificHour]
+    //     );
+    //   }
+    // });
+    for (let x = 0; x < this.state.filteredData.length; x++) {
+      teamTotal.push(
+        this.state.filteredData[x].setor[0].horaPeca[specificHour]
+      );
+    }
     const n = teamTotal.length;
     const mean = teamTotal.reduce((a, b) => a + b) / n;
     const s = Math.sqrt(
@@ -398,7 +417,6 @@ class Quota extends React.Component {
         .reduce((a, b) => a + b) / n
     );
     this.averageDeviation = Math.round(s);
-
     return Math.round(s);
   };
 
@@ -438,7 +456,6 @@ class Quota extends React.Component {
   renderTotalDeviationMin = () => {
     let min = _.sum(this.rowAveragesArray) - this.totalDeviation;
     this.totalDeviationMin = min;
-    // this.setState({ totalDeviationMin: min });
     return min;
   };
 
