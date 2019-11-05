@@ -9,7 +9,7 @@ const options = [
 class FilterByType extends React.Component {
   render() {
     return (
-      <div className="selector" style={{ width: "50%" }}>
+      <div className="selector" style={{ width: "100%", display:"inline-block" }}>
         <Select
           placeholder="Escolha um tipo de peça:"
           value={this.props.selectedOption}

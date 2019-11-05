@@ -3,7 +3,6 @@ import Data from "../seed/seeds.json";
 import ProductionTotal from "./ProductionTotal";
 import BarChart from "./BarChart.jsx";
 import DateFilter from "./DateFilter.jsx";
-import FilterActivator from "./FilterActivator.jsx";
 import "./styles/ProductionQuota.scss";
 import TotalQuota from "./TotalQuota.jsx";
 import MissingQuota from "./MissingQuota.jsx";
@@ -11,7 +10,6 @@ import ProductionPercentage from "./ProductionPercentage.jsx";
 import TableLegend from "./TableLegend.jsx";
 import FilterSelector from "./FilterSelector.jsx";
 import FilterByType from "./FilterByType.jsx";
-import FilterByCategory from "./FilterByCategory.jsx";
 import _ from "lodash";
 
 class Quota extends React.Component {
@@ -22,11 +20,13 @@ class Quota extends React.Component {
     this.hourlyAverageMaximum = undefined;
     this.averageDeviationMax = undefined;
     this.averageDeviationMin = undefined;
+    this.currentHours = [];
     this.averageQuota = undefined;
     this.totalQuota = undefined;
     this.teamDailyTotal = undefined;
     this.totalProductionPercentage = undefined;
     this.colHours = [];
+    this.maxDeviation = [];
     this.employeeNames = [];
     this.productionsArray = [];
     this.colDeviationArray = [];
@@ -39,6 +39,7 @@ class Quota extends React.Component {
     this.state = {
       quotas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       colHours: [],
+      colDeviationArray: [],
       totalDeviationMax: undefined,
       totalDeviationMin: undefined,
       data: Data,
@@ -71,21 +72,6 @@ class Quota extends React.Component {
     this.setState({ selectedType });
   };
 
-  // filterByCategoy = selectedSector => {
-  //   this.setState({ selectedSector }, () =>
-  //     console.log(`Option selected:`, this.state.selectedSector)
-  //   );
-  //   let filteredArray = [];
-  //   this.state.data.map(eachEmployee => {
-  //     for (let i = 0; i < eachEmployee.setor.length; i++) {
-  //       if (eachEmployee.setor[i].nome === selectedSector.label) {
-  //         filteredArray.push(eachEmployee);
-  //       }
-  //     }
-  //   });
-  //   this.setState({ filteredData: filteredArray });
-  // };
-
   filterByDate = selectedDate => {
     this.setState({ selectedDate });
     let filteredArray = [];
@@ -96,7 +82,6 @@ class Quota extends React.Component {
         }
       }
     });
-    // this.setState({ filteredData: filteredArray });
   };
 
   renderTable = () => {
@@ -127,7 +112,6 @@ class Quota extends React.Component {
     );
     let maximumRow = this.state.filteredData[0].setor[0].horaPeca.map(
       (eachHour, key) => {
-        console.log(key)
         return <td>{this.renderMax(key)}</td>;
       }
     );
@@ -166,7 +150,7 @@ class Quota extends React.Component {
         </td>
       </tr>,
       <tr>
-        <th style={{ borderBottom: "0px" }}>% Atingimento:</th>
+        <th>% Atingimento:</th>
         {this.renderProduction()}
         {this.renderProductionTotal()}
       </tr>
@@ -226,6 +210,7 @@ class Quota extends React.Component {
       }
       hours = sumOfAllSectorsVolume;
     }
+    this.currentHours.push(hours);
     return hours;
   };
 
@@ -243,22 +228,22 @@ class Quota extends React.Component {
   };
 
   renderHourlyTotal = (eachEmployee, index) => {
-    let sectorIndex = eachEmployee.setor
-      .map(e => e.nome)
-      .indexOf(this.state.selectedSector.label);
+    let columns = [];
     let hours = this.filterHours(eachEmployee, index);
+    console.log(hours);
     let total = 0;
+    let average = 0;
     let sums = this.rowTotalsArray;
     this.employeeHours.push(hours);
     this.colTotalsArray.push(_.sum(hours));
     this.averagesColArray.push(_.sum(hours) / hours.length);
     this.getColHours();
-
+    console.log(this.colHours, index);
     let deviation = hours.map((eachHour, key) => {
-      // this.renderMax(key)
+      average = _.sum(this.colHours[key]) / this.colHours[key].length;
+      return this.getDeviation(key);
     });
-    let columns = hours.map((eachHour, key) => {
-      let average = _.sum(this.colHours[key]) / this.colHours[key].length;
+    columns = hours.map((eachHour, key) => {
       let maxDeviation = deviation[key] + average;
       let minDeviation = average - deviation[key];
       total += eachHour;
@@ -279,7 +264,7 @@ class Quota extends React.Component {
         return <td key={key}>{eachHour}</td>;
       }
     });
-    if (total > this.state.totalDeviationMax) {
+    if (total > this.totalDeviationMax) {
       columns.push(
         <td style={{ backgroundColor: "rgba(0,0,255, 0.3)" }}>
           {Math.round(total)}
@@ -310,17 +295,6 @@ class Quota extends React.Component {
       columns.push(<td>{Math.round(total / hours.length)}</td>);
     }
     return columns;
-  };
-
-  getDeviation = index => {
-    const n = this.colHours[index].length;
-    const mean = this.colHours[index].reduce((a, b) => a + b) / n;
-    const s = Math.sqrt(
-      this.colHours[index]
-        .map(x => Math.pow(x - mean, 2))
-        .reduce((a, b) => a + b) / n
-    );
-    return Math.round(s);
   };
 
   renderSums = () => {
@@ -386,6 +360,19 @@ class Quota extends React.Component {
     return averagesTd;
   };
 
+  getDeviation = index => {
+    if (this.colHours[index]) {
+      const n = this.colHours[index].length;
+      const mean = this.colHours[index].reduce((a, b) => a + b) / n;
+      const s = Math.sqrt(
+        this.colHours[index]
+          .map(x => Math.pow(x - mean, 2))
+          .reduce((a, b) => a + b) / n
+      );
+      return s;
+    }
+  };
+
   renderDeviation = index => {
     const n = this.colHours[index].length;
     const mean = this.colHours[index].reduce((a, b) => a + b) / n;
@@ -427,7 +414,9 @@ class Quota extends React.Component {
     this.rowAveragesArray.push(
       Math.round(teamTotal / this.state.filteredData.length)
     );
-    console.log(this.rowAveragesArray)
+    this.maxDeviation.push(
+      this.colDeviationArray[index] + this.rowAveragesArray[index]
+    );
     return Math.round(
       this.colDeviationArray[index] + this.rowAveragesArray[index]
     );
@@ -611,15 +600,16 @@ class Quota extends React.Component {
     }
   };
 
-  componentWillUpdate = () => {};
-
   componentDidMount = () => {
     this.getState();
   };
+
   render() {
     this.teamDailyTotal = undefined;
     this.totalColAverage = undefined;
     this.averageArrayAverage = undefined;
+    this.maxDeviation = [];
+    this.currentHours = [];
     this.hourlyAverageMaximum = undefined;
     this.averageQuota = undefined;
     this.totalQuota = undefined;
@@ -640,6 +630,27 @@ class Quota extends React.Component {
           <div className="row">
             <div className="col">
               <div className="row">
+                <div className="col pl-0">
+                  <h3>Setor:</h3>
+                  <FilterSelector
+                    handleChange={this.filterBySector}
+                    selectedOption={this.state.selectedOption}
+                  />
+                </div>
+                <div className="col">
+                  <h3>Tipo:</h3>
+                  <FilterByType
+                    handleChange={this.filterByType}
+                    selectedOption={this.state.selectedType}
+                  />
+                </div>
+                {/* <div className="col px-0"> */}
+                {/* <h3>Categoria:</h3>
+                  <FilterByCategory
+                  handleChange={this.filterByCategory}
+                  selectedOption={this.state.selectedCategory}
+                /> */}
+                {/* </div> */}
                 <div className="col px-0">
                   <h3>Data:</h3>
                   <DateFilter
@@ -647,33 +658,12 @@ class Quota extends React.Component {
                     selectedDate={this.state.selectedDate}
                   />
                 </div>
-                <div className="col px-0">
-                  <h3>Setor:</h3>
-                  <FilterSelector
-                    handleChange={this.filterBySector}
-                    selectedOption={this.state.selectedOption}
-                  />
-                </div>
-                <div className="col px-0">
-                  <h3>Tipo:</h3>
-                  <FilterByType
-                    handleChange={this.filterByType}
-                    selectedOption={this.state.selectedType}
-                  />
-                </div>
-                <div className="col px-0">
-                  {/* <h3>Categoria:</h3>
-                  <FilterByCategory
-                    handleChange={this.filterByCategory}
-                    selectedOption={this.state.selectedCategory}
-                  /> */}
-                </div>
               </div>
             </div>
           </div>
           <div className="row">
             <table
-              style={{ textAlign: "center", marginTop: "3px" }}
+              style={{ textAlign: "center", margin: "15px 0px" }}
               className="my-table"
             >
               <thead>
@@ -716,25 +706,29 @@ class Quota extends React.Component {
             <TableLegend />
           </div>
           <div className="row">
-            <div className="col">
+            <div className="col pl-0 pr-1">
               <ProductionTotal total={this.rowTotalsArray} />
             </div>
-            <div className="col">
+            <div className="col px-1">
               <TotalQuota quota={this.totalQuota} />
             </div>
-            <div className="col">
+            <div className="col px-1">
               <MissingQuota
                 missingQuota={this.totalQuota - _.sum(this.rowTotalsArray)}
               />
             </div>
-            <div className="col">
+            <div className="col pr-0 pl-1">
               <ProductionPercentage
                 productionPercentage={this.totalProductionPercentage}
               />
             </div>
           </div>
           <div className="row">
-            <BarChart name={this.employeeNames} total={this.colTotalsArray} />
+            <BarChart
+              name={this.employeeNames}
+              total={this.colTotalsArray}
+              allHours={this.colHours}
+            />
           </div>
         </div>
       </div>

@@ -14,15 +14,15 @@ const options = [
 
 class FilterSelector extends React.Component {
   render() {
+    console.log(this.props.selectedOption)
     return (
-      <div className="selector" style={{ width: "50%" }}>
+      <div className="selector" style={{ width: "100%" }}>
         <Select
           placeholder="Escolha um setor:"
           value={this.props.selectedOption}
           onChange={this.props.handleChange}
           options={options}
           defaultValue ={{ label: "Todos", value: "todos" }}
-
         />
       </div>
     );

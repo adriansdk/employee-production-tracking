@@ -7,10 +7,10 @@ class DateFilter extends React.Component {
 
   render() {
     return (
-      <DatePicker
-        selected={this.props.selectedDate}
-        onChange={this.props.filterByDate}
-      />
+        <DatePicker
+          selected={this.props.selectedDate}
+          onChange={this.props.filterByDate}
+        />
     );
   }
 }
